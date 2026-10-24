@@ -1,4 +1,4 @@
-import type { Access } from 'payload'
+import type { Access, Where } from 'payload'
 
 import { isStaff } from './roles'
 
@@ -15,7 +15,7 @@ export const publiclyListedOrStaff: Access = ({ req: { user } }) => {
     return true
   }
 
-  return {
+  const publicWhere: Where = {
     and: [
       {
         applicationStatus: {
@@ -29,4 +29,6 @@ export const publiclyListedOrStaff: Access = ({ req: { user } }) => {
       },
     ],
   }
+
+  return publicWhere
 }

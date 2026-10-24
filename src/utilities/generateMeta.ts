@@ -33,13 +33,16 @@ export const generateMeta = async (args: {
 }): Promise<Metadata> => {
   const { doc, canonicalPath } = args
 
+  // Page and Post meta tabs differ (only pages carry canonical/noindex).
+  const meta = doc?.meta as Partial<Page['meta']> | undefined
+
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title ? `${doc.meta.title} | Eparv` : 'Eparv — Electric Cycles for India'
 
   const base = getServerSideURL()
   const selfCanonical = canonicalPath ? `${base}${canonicalPath}` : undefined
-  const canonical = doc?.meta?.canonicalUrl || selfCanonical
+  const canonical = meta?.canonicalUrl || selfCanonical
 
   return {
     description: doc?.meta?.description,
@@ -50,7 +53,7 @@ export const generateMeta = async (args: {
           },
         }
       : {}),
-    ...(doc?.meta?.noindex
+    ...(meta?.noindex
       ? {
           robots: {
             index: false,

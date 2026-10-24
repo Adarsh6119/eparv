@@ -140,8 +140,11 @@ export const Products: CollectionConfig<'products'> = {
               name: 'promotionalPrice',
               type: 'number',
               min: 0,
-              validate: (value, { siblingData }) => {
-                if (value === undefined || value === null || value === '') {
+              validate: (
+                value: number | null | undefined,
+                { siblingData }: { siblingData?: Record<string, unknown> },
+              ) => {
+                if (value === undefined || value === null) {
                   return true
                 }
                 const price = siblingData?.price
@@ -149,8 +152,7 @@ export const Products: CollectionConfig<'products'> = {
                   return 'Promotional price must be lower than the regular price.'
                 }
                 return true
-              },
-              admin: {
+              },              admin: {
                 description: 'Optional promotional price in INR. Must be lower than the regular price.',
               },
             },

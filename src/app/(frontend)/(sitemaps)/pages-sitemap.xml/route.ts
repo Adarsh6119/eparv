@@ -26,7 +26,9 @@ const getPagesSitemap = unstable_cache(
       select: {
         slug: true,
         updatedAt: true,
-        noindex: true,
+        meta: {
+          noindex: true,
+        },
       },
     })
 
@@ -36,7 +38,7 @@ const getPagesSitemap = unstable_cache(
     // explicitly marked noindex are excluded from the sitemap.
     const sitemap = results.docs
       ? results.docs
-          .filter((page) => Boolean(page?.slug) && !page?.noindex)
+          .filter((page) => Boolean(page?.slug) && !page?.meta?.noindex)
           .map((page) => {
             return {
               loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,

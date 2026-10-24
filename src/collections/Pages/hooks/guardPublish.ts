@@ -1,6 +1,8 @@
 import type { CollectionBeforeChangeHook } from 'payload'
 import { ValidationError } from 'payload'
 
+import type { Page } from '@/payload-types'
+
 /**
  * Server-side publishing gate for pages.
  *
@@ -12,7 +14,7 @@ import { ValidationError } from 'payload'
  * These rules apply to every role, including Super Admins — the approval
  * workflow cannot be bypassed from the UI.
  */
-export const guardPublish: CollectionBeforeChangeHook<'pages'> = ({ data }) => {
+export const guardPublish: CollectionBeforeChangeHook<Page> = ({ data }) => {
   if (data?._status === 'published') {
     if (data.importBatch && data.approvalStatus !== 'approved') {
       throw new ValidationError({
@@ -20,7 +22,7 @@ export const guardPublish: CollectionBeforeChangeHook<'pages'> = ({ data }) => {
           {
             message:
               'This page was created by a CSV import. Review it and set the Approval Status to "Approved" before publishing.',
-            field: 'approvalStatus',
+            path: 'approvalStatus',
           },
         ],
       })
@@ -31,7 +33,7 @@ export const guardPublish: CollectionBeforeChangeHook<'pages'> = ({ data }) => {
         errors: [
           {
             message: 'City landing pages must specify their city before they can be published.',
-            field: 'city',
+            path: 'city',
           },
         ],
       })
@@ -42,7 +44,7 @@ export const guardPublish: CollectionBeforeChangeHook<'pages'> = ({ data }) => {
         errors: [
           {
             message: 'State landing pages must specify their state before they can be published.',
-            field: 'state',
+            path: 'state',
           },
         ],
       })

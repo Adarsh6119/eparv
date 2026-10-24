@@ -34,7 +34,7 @@ export const RESERVED_SLUGS: string[] = [
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 
 export const isReservedSlug = (slug: string | null | undefined): boolean =>
-  Boolean(slug) && RESERVED_SLUGS.includes(slug.toLowerCase())
+  typeof slug === 'string' && RESERVED_SLUGS.includes(slug.toLowerCase())
 
 export const isValidSlugFormat = (slug: string | null | undefined): boolean =>
-  Boolean(slug) && SLUG_PATTERN.test(slug)
+  typeof slug === 'string' && SLUG_PATTERN.test(slug)

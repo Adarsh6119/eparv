@@ -173,10 +173,14 @@ export const Pages: CollectionConfig<'pages'> = {
                   'Absolute URL (https://…) when this page canonicalises elsewhere. Leave empty for self-referencing canonicals.',
               },
               validate: (value: string | null | undefined) => {
-                if (!value) return true
+                if (!value) {
+                  return true
+                }
                 try {
                   const url = new URL(value)
                   return url.protocol === 'http:' || url.protocol === 'https:'
+                    ? true
+                    : 'Canonical URLs must use http:// or https://'
                 } catch {
                   return 'Enter an absolute URL including https://'
                 }

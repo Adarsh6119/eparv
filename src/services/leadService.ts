@@ -143,7 +143,7 @@ export const submitLead = async (input: unknown, ctx: { ip: string }): Promise<S
   }
 
   // Resolve the product reference (published products only).
-  let productId: number | string | undefined
+  let productId: number | undefined
   if (data.productSlug) {
     const product = await payload.find({
       collection: 'products',

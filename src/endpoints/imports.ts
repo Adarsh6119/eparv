@@ -1,6 +1,7 @@
-import type { Endpoint, PayloadRequest } from 'payload'
+import type { Endpoint, PayloadRequest, Where } from 'payload'
 
 import { isAdminOrEditor, isAdminOrSales } from '@/access/roles'
+import type { ImportBatch, Page } from '@/payload-types'
 import {
   CSV_MAX_FILE_SIZE_BYTES,
   CSV_MAX_ROWS,
@@ -11,7 +12,6 @@ import {
   type ParsedRow,
 } from '@/services/csvImport'
 import { checkRateLimit } from '@/services/rateLimiter'
-import type { ImportBatch } from '@/payload-types'
 
 const json = (data: unknown, status = 200): Response =>
   Response.json(data, {
@@ -19,7 +19,8 @@ const json = (data: unknown, status = 200): Response =>
     headers: { 'cache-control': 'no-store' },
   })
 
-const forbidden = () => json({ error: 'You do not have permission to manage CSV imports.' }, 403)
+const forbidden = (): Response =>
+  json({ error: 'You do not have permission to manage CSV imports.' }, 403)
 
 /** Maximum number of CSV uploads per user per hour. */
 const UPLOAD_HOURLY_LIMIT = 10
@@ -31,8 +32,6 @@ const serializeBatch = (batch: ImportBatch) => ({
   rowCount: batch.rowCount,
   validRowCount: batch.validRowCount,
   errorRowCount: batch.errorRowCount,
-  report: batch.report,
-  events: batch.events,
   createdAt: batch.createdAt,
 })
 
@@ -48,11 +47,13 @@ type ImportRecord = {
  * nothing is imported yet.
  */
 const uploadImport: Endpoint['handler'] = async (req: PayloadRequest) => {
-  if (!isAdminOrEditor(req.user)) {
+  const user = req.user
+  const payload = req.payload
+  if (!user || !payload || !isAdminOrEditor(user)) {
     return forbidden()
   }
 
-  if (!checkRateLimit(`import-upload:${req.user.id}`, UPLOAD_HOURLY_LIMIT, 3_600_000)) {
+  if (!checkRateLimit(`import-upload:${user.id}`, UPLOAD_HOURLY_LIMIT, 3_600_000)) {
     return json(
       { error: `Upload limit reached (${UPLOAD_HOURLY_LIMIT} files per hour). Try again later.` },
       429,
@@ -66,6 +67,9 @@ const uploadImport: Endpoint['handler'] = async (req: PayloadRequest) => {
 
   let form: FormData
   try {
+    if (!req.formData) {
+      return json({ error: 'This server cannot process file uploads.' }, 500)
+    }
     form = await req.formData()
   } catch {
     return json({ error: 'Could not read the uploaded form data.' }, 400)
@@ -95,20 +99,20 @@ const uploadImport: Endpoint['handler'] = async (req: PayloadRequest) => {
 
   let parsed: ParsedImport
   try {
-    parsed = await parseAndValidateCsv(text, req.payload)
+    parsed = await parseAndValidateCsv(text, payload)
   } catch (error) {
-    req.payload.logger.error({ err: error, msg: 'CSV parse failure' })
+    payload.logger.error({ err: error, msg: 'CSV parse failure' })
     return json({ error: 'The file could not be parsed as CSV. Check for unclosed quotes.' }, 400)
   }
 
   const hasFileErrors = parsed.fileIssues.some((issue) => issue.severity === 'error')
 
-  const batch = await req.payload.create({
+  const batch = await payload.create({
     collection: 'import-batches',
     overrideAccess: true,
     data: {
       filename: file.name.slice(0, 200),
-      uploadedBy: req.user.id,
+      uploadedBy: user.id,
       status: hasFileErrors || parsed.errorRowCount === parsed.rows.length ? 'failed' : 'validated',
       rowCount: parsed.rows.length,
       validRowCount: parsed.validRowCount,
@@ -120,7 +124,7 @@ const uploadImport: Endpoint['handler'] = async (req: PayloadRequest) => {
       events: [
         {
           at: new Date().toISOString(),
-          actor: req.user.id,
+          actor: user.id,
           action: 'uploaded',
           detail: `${parsed.rows.length} rows, ${parsed.validRowCount} valid, ${parsed.errorRowCount} with errors, file size ${(file.size / 1024).toFixed(1)} KB`,
         },
@@ -143,16 +147,18 @@ const uploadImport: Endpoint['handler'] = async (req: PayloadRequest) => {
  * (safe upsert). Each page is created with approvalStatus "pending".
  */
 const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
-  if (!isAdminOrEditor(req.user)) {
+  const user = req.user
+  const payload = req.payload
+  if (!user || !payload || !isAdminOrEditor(user)) {
     return forbidden()
   }
 
-  const { id } = req.routeParams ?? {}
+  const id = req.routeParams?.id
   if (!id) {
     return json({ error: 'Missing batch id.' }, 400)
   }
 
-  const batch = await req.payload.findByID({
+  const batch = await payload.findByID({
     collection: 'import-batches',
     id: id as string,
     overrideAccess: true,
@@ -174,7 +180,7 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
   let invalidCount = 0
   let failedCount = 0
 
-  const createdPageIds: (number | string)[] = []
+  const createdPageIds: number[] = []
   const failures: { row: number; slug: string; error: string }[] = []
 
   for (const row of rows) {
@@ -185,37 +191,41 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
     }
 
     // Resolve related product (validated earlier, re-checked defensively).
-    let relatedProduct
+    let relatedProductId: number | undefined
     if (row.productSlug) {
-      const product = await req.payload.find({
+      const product = await payload.find({
         collection: 'products',
         where: { slug: { equals: row.productSlug } },
         limit: 1,
         pagination: false,
         overrideAccess: true,
         draft: true,
-        select: { id: true },
       })
       if (product.docs.length === 0) {
         failedCount++
-        failures.push({ row: row.rowNumber, slug: row.slug, error: `Product ${row.productSlug} no longer exists` })
+        failures.push({
+          row: row.rowNumber,
+          slug: row.slug,
+          error: `Product ${row.productSlug} no longer exists`,
+        })
         continue
       }
-      relatedProduct = product.docs[0].id
+      relatedProductId = product.docs[0].id
     }
 
     const pageData = {
       title: row.pageTitle,
       slug: row.slug,
-      pageType: row.pageType || 'standard',
+      pageType: (row.pageType || 'standard') as Page['pageType'],
       city: row.city || undefined,
       state: row.state || undefined,
-      relatedProducts: relatedProduct ? [relatedProduct] : undefined,
+      relatedProducts: relatedProductId ? [relatedProductId] : undefined,
       layout: [
         {
           blockType: 'content' as const,
           columns: [
             {
+              size: 'full' as const,
               richText: plainTextToLexical(row.content),
             },
           ],
@@ -232,14 +242,13 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
     }
 
     try {
-      const existing = await req.payload.find({
+      const existing = await payload.find({
         collection: 'pages',
         where: { slug: { equals: row.slug } },
         limit: 1,
         pagination: false,
         overrideAccess: true,
         draft: true,
-        select: { id: true, _status: true },
       })
 
       if (existing.docs.length > 0) {
@@ -250,7 +259,7 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
           continue
         }
 
-        await req.payload.update({
+        await payload.update({
           collection: 'pages',
           id: existingDoc.id,
           draft: true,
@@ -260,7 +269,7 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
         updatedCount++
         createdPageIds.push(existingDoc.id)
       } else {
-        const created = await req.payload.create({
+        const created = await payload.create({
           collection: 'pages',
           draft: true,
           overrideAccess: true,
@@ -276,13 +285,13 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
         slug: row.slug,
         error: error instanceof Error ? error.message : 'Unknown error',
       })
-      req.payload.logger.error({ err: error, msg: `Import row failed: ${row.slug}` })
+      payload.logger.error({ err: error, msg: `Import row failed: ${row.slug}` })
     }
   }
 
   const status = createdCount + updatedCount > 0 ? 'imported' : 'failed'
 
-  const updatedBatch = await req.payload.update({
+  const updatedBatch = await payload.update({
     collection: 'import-batches',
     id: batch.id,
     overrideAccess: true,
@@ -300,7 +309,7 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
         ...(batch.events ?? []),
         {
           at: new Date().toISOString(),
-          actor: req.user.id,
+          actor: user.id,
           action: 'imported',
           detail: `created ${createdCount}, updated ${updatedCount}, skipped published ${skippedCount}, invalid ${invalidCount}, failed ${failedCount}`,
         },
@@ -323,29 +332,33 @@ const runImport: Endpoint['handler'] = async (req: PayloadRequest) => {
  * happened after the import ran.
  */
 const importReport: Endpoint['handler'] = async (req: PayloadRequest) => {
-  if (!isAdminOrEditor(req.user)) {
+  const payload = req.payload
+  if (!payload || !isAdminOrEditor(req.user)) {
     return forbidden()
   }
 
-  const { id } = req.routeParams ?? {}
+  const id = req.routeParams?.id
   if (!id) {
     return json({ error: 'Missing batch id.' }, 400)
   }
 
-  const batch = await req.payload.findByID({
+  const batch = await payload.findByID({
     collection: 'import-batches',
     id: id as string,
     overrideAccess: true,
   })
 
-  const pages = await req.payload.find({
+  const pages = await payload.find({
     collection: 'pages',
     where: { importBatch: { equals: batch.id } },
     limit: CSV_MAX_ROWS,
     pagination: false,
     overrideAccess: true,
     draft: true,
-    select: { _status: true, approvalStatus: true, slug: true },
+    select: {
+      _status: true,
+      approvalStatus: true,
+    },
   })
 
   const live = {
@@ -376,41 +389,42 @@ const importTemplate: Endpoint['handler'] = async () => {
 
 /**
  * GET /api/leads/export
- * CSV export of leads for admin/sales. Supports the same filters as the
- * admin list view plus a date range. Capped at 10,000 rows per export.
+ * CSV export of leads for admin/sales. Supports status, type, assignee and
+ * date-range filters. Capped at 10,000 rows per export.
  */
 const exportLeads: Endpoint['handler'] = async (req: PayloadRequest) => {
-  if (!isAdminOrSales(req.user)) {
+  const payload = req.payload
+  if (!payload || !isAdminOrSales(req.user)) {
     return json({ error: 'You do not have permission to export leads.' }, 403)
   }
 
-  const url = new URL(req.url)
-  const where: Record<string, unknown> = {}
+  const url = new URL(req.url ?? 'http://localhost')
 
+  const conditions: Where[] = []
   const status = url.searchParams.get('status')
   if (status) {
-    where['status'] = { equals: status }
+    conditions.push({ status: { equals: status } })
   }
   const leadType = url.searchParams.get('leadType')
   if (leadType) {
-    where['leadType'] = { equals: leadType }
+    conditions.push({ leadType: { equals: leadType } })
   }
   const assignedTo = url.searchParams.get('assignedTo')
   if (assignedTo) {
-    where['assignedTo'] = { equals: assignedTo }
+    conditions.push({ assignedTo: { equals: assignedTo } })
   }
   const createdAfter = url.searchParams.get('createdAfter')
   const createdBefore = url.searchParams.get('createdBefore')
-  if (createdAfter || createdBefore) {
-    where['createdAt'] = {
-      ...(createdAfter ? { greater_than: createdAfter } : {}),
-      ...(createdBefore ? { less_than: createdBefore } : {}),
-    }
+  if (createdAfter) {
+    conditions.push({ createdAt: { greater_than: createdAfter } })
+  }
+  if (createdBefore) {
+    conditions.push({ createdAt: { less_than: createdBefore } })
   }
 
-  const leads = await req.payload.find({
+  const leads = await payload.find({
     collection: 'leads',
-    where,
+    where: conditions.length > 0 ? { and: conditions } : undefined,
     sort: '-createdAt',
     limit: 10_000,
     pagination: false,
@@ -431,8 +445,7 @@ const exportLeads: Endpoint['handler'] = async (req: PayloadRequest) => {
     organization: lead.organization ?? '',
     quantity: lead.quantity ?? '',
     status: lead.status,
-    assignedTo:
-      typeof lead.assignedTo === 'object' && lead.assignedTo ? lead.assignedTo.name : '',
+    assignedTo: typeof lead.assignedTo === 'object' && lead.assignedTo ? lead.assignedTo.name : '',
     nextFollowUpDate: lead.nextFollowUpDate ?? '',
     sourceUrl: lead.source?.sourceUrl ?? '',
     utmSource: lead.source?.utmSource ?? '',
@@ -447,7 +460,10 @@ const exportLeads: Endpoint['handler'] = async (req: PayloadRequest) => {
     const str = String(value ?? '')
     return /[",\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str
   }
-  const csv = [headers.join(','), ...rows.map((row) => headers.map((h) => escape(row[h])).join(','))].join('\n')
+  const csv = [
+    headers.join(','),
+    ...rows.map((row) => headers.map((header) => escape((row as Record<string, unknown>)[header])).join(',')),
+  ].join('\n')
 
   return new Response(csv, {
     headers: {

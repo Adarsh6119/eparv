@@ -66,8 +66,12 @@ export const Dealers: CollectionConfig<'dealers'> = {
           type: 'text',
           label: 'Business phone (verified)',
           validate: (value: string | null | undefined) => {
-            if (!value) return true
-            return /^(\+91[\s-]?)?[6-9]\d{9}$/.test(value.trim()) || 'Enter a valid Indian mobile number.'
+            if (!value) {
+              return true
+            }
+            return /^(\+91[\s-]?)?[6-9]\d{9}$/.test(value.trim())
+              ? true
+              : 'Enter a valid Indian mobile number.'
           },
         },
         {

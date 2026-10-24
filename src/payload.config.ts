@@ -80,7 +80,7 @@ export default buildConfig({
   // submission service simply skips notifications.
   email: process.env.SMTP_HOST
     ? nodemailerAdapter({
-        defaultFromAddress: process.env.LEAD_NOTIFICATION_FROM,
+        defaultFromAddress: process.env.LEAD_NOTIFICATION_FROM || 'notifications@eparv.example',
         defaultFromName: 'Eparv',
         transportOptions: {
           host: process.env.SMTP_HOST,

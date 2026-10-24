@@ -10,7 +10,7 @@ import { DemoNotice } from '@/components/DemoNotice'
 import { JsonLd } from '@/components/JsonLd'
 import { LeadForm } from '@/components/LeadForm'
 import { Media } from '@/components/Media'
-import { RichText } from '@/components/RichText'
+import RichText from '@/components/RichText'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import type { Product } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
@@ -339,7 +339,6 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const description = product.meta?.description ?? product.shortDescription ?? undefined
   const base = getServerSideURL()
   const canonical = `${base}/electric-cycles/${product.slug}`
-
   const ogImage =
     product.meta?.image && typeof product.meta.image === 'object' && 'url' in product.meta.image
       ? product.meta.image
@@ -349,7 +348,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     title,
     description,
     alternates: {
-      canonical: product.meta?.canonicalUrl || canonical,
+      canonical,
     },
     openGraph: mergeOpenGraph({
       title,

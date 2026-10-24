@@ -9,9 +9,11 @@ export type Role = 'admin' | 'editor' | 'sales'
  * server, never only in the admin UI.
  */
 export const hasRole = (user: User | null | undefined, ...roles: Role[]): boolean => {
-  if (!user) return false
-  if (!Array.isArray(user.roles) || user.roles.length === 0) return false
-  return roles.some((role) => user.roles.includes(role))
+  const userRoles = user?.roles
+  if (!userRoles || !Array.isArray(userRoles) || userRoles.length === 0) {
+    return false
+  }
+  return roles.some((role) => userRoles.includes(role))
 }
 
 export const isAdmin = (user: User | null | undefined): boolean => hasRole(user, 'admin')

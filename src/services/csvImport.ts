@@ -2,7 +2,11 @@ import Papa from 'papaparse'
 
 import type { Payload } from 'payload'
 
+import type { ContentBlock } from '@/payload-types'
 import { isValidSlugFormat, isReservedSlug } from '@/utilities/reservedSlugs'
+
+/** The JSON shape Payload expects in a richText field (from the generated Content block type). */
+type RichTextData = NonNullable<NonNullable<ContentBlock['columns']>[number]['richText']>
 
 /**
  * CSV bulk page import: shared constants, parsing and row-level validation.
@@ -94,55 +98,58 @@ const checkCanonicalUrl = (value: string): boolean => {
   }
 }
 
-/** Converts plain text (paragraphs separated by blank lines, optional "## " headings) into Lexical nodes. */
-export const plainTextToLexical = (text: string) => {
+/**
+ * Converts plain text (paragraphs separated by blank lines, optional "## "
+ * headings) into serialized Lexical nodes matching the editor's expected
+ * shape. Imported content becomes structured nodes — never raw HTML — which
+ * sanitizes it by construction.
+ */
+export const plainTextToLexical = (text: string): RichTextData => {
   const blocks = text
     .split(/\n{2,}/)
     .map((block) => block.trim())
     .filter(Boolean)
 
+  const textNode = (value: string) => ({
+    type: 'text' as const,
+    detail: 0,
+    format: 0,
+    mode: 'normal' as const,
+    style: '',
+    text: value,
+    version: 1,
+  })
+
   const children = blocks.map((block) => {
     if (block.startsWith('## ')) {
       return {
-        type: 'heading',
-        direction: null,
-        format: '',
+        type: 'heading' as const,
+        children: [textNode(block.slice(3).trim())],
+        direction: 'ltr' as const,
+        format: '' as const,
         indent: 0,
-        version: 0,
-        tag: 'h2',
-        children: [
-          {
-            text: block.slice(3).trim(),
-            type: 'extended-text',
-            version: 0,
-          },
-        ],
+        tag: 'h2' as const,
+        version: 1,
       }
     }
     return {
-      type: 'paragraph',
-      direction: null,
-      format: '',
+      type: 'paragraph' as const,
+      children: [textNode(block)],
+      direction: 'ltr' as const,
+      format: '' as const,
       indent: 0,
-      version: 0,
-      children: [
-        {
-          text: block,
-          type: 'extended-text',
-          version: 0,
-        },
-      ],
+      version: 1,
     }
   })
 
   return {
     root: {
-      type: 'root',
-      direction: null,
-      format: '',
-      indent: 0,
-      version: 0,
+      type: 'root' as const,
       children,
+      direction: 'ltr' as const,
+      format: '' as const,
+      indent: 0,
+      version: 1,
     },
   }
 }

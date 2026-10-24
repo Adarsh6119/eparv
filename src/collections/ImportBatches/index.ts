@@ -23,10 +23,8 @@ export const ImportBatches: CollectionConfig<'import-batches'> = {
       'CSV Page Import Manager. Upload a CSV, preview row-level validation, import valid rows as draft pages, then review and approve each page before publishing.',
     components: {
       views: {
-        List: {
-          default: {
-            path: '@/collections/ImportBatches/views/List',
-          },
+        list: {
+          Component: '@/collections/ImportBatches/views/List',
         },
       },
     },
