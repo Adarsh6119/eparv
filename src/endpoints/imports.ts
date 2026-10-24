@@ -388,9 +388,10 @@ const importTemplate: Endpoint['handler'] = async () => {
 }
 
 /**
- * GET /api/leads/export
+ * GET /api/exports/leads
  * CSV export of leads for admin/sales. Supports status, type, assignee and
- * date-range filters. Capped at 10,000 rows per export.
+ * date-range filters. Capped at 10,000 rows per export. The path avoids
+ * /api/leads/* which is reserved for the collection REST routes.
  */
 const exportLeads: Endpoint['handler'] = async (req: PayloadRequest) => {
   const payload = req.payload
@@ -496,7 +497,7 @@ export const importEndpoints: Endpoint[] = [
     handler: importTemplate,
   },
   {
-    path: '/leads/export',
+    path: '/exports/leads',
     method: 'get',
     handler: exportLeads,
   },

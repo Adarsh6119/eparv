@@ -2,14 +2,16 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { adminOnly } from '../../access/adminOnly'
+import { adminOnlyOrCreateFirstUser } from '../../access/adminOnlyOrCreateFirstUser'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
     // User management is a Super Admin privilege — editors and sales
-    // executives must not be able to create or escalate accounts.
-    create: adminOnly,
+    // executives must not be able to create or escalate accounts. The
+    // create exception covers Payload's first-run setup flow only.
+    create: adminOnlyOrCreateFirstUser,
     delete: adminOnly,
     read: authenticated,
     update: adminOnly,

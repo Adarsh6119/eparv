@@ -102,6 +102,7 @@ export const seed = async ({
   const productDefs = [
     {
       name: 'Eparv Sparx City',
+      slug: 'eparv-sparx-city',
       category: 'city-commuter' as const,
       tagline: 'Lightweight daily commuter for city rides',
       shortDescription:
@@ -114,6 +115,7 @@ export const seed = async ({
     },
     {
       name: 'Eparv FoldGo',
+      slug: 'eparv-foldgo',
       category: 'foldable' as const,
       tagline: 'Folds flat for metro rides and boot storage',
       shortDescription:
@@ -126,6 +128,7 @@ export const seed = async ({
     },
     {
       name: 'Eparv TrailRider',
+      slug: 'eparv-trailrider',
       category: 'off-road' as const,
       tagline: 'Built for trails, fireroads and weekend adventures',
       shortDescription:
@@ -138,6 +141,7 @@ export const seed = async ({
     },
     {
       name: 'Eparv LoadHauler',
+      slug: 'eparv-loadhauler',
       category: 'cargo' as const,
       tagline: 'Utility platform for deliveries and loads',
       shortDescription:
@@ -155,9 +159,9 @@ export const seed = async ({
     const def = productDefs[i]
     const doc = await payload.create({
       collection: 'products',
-      draft: true,
       data: {
         name: def.name,
+        slug: def.slug,
         category: def.category,
         tagline: def.tagline,
         shortDescription: def.shortDescription,
@@ -279,7 +283,6 @@ export const seed = async ({
   for (const def of postDefs) {
     await payload.create({
       collection: 'posts',
-      draft: true,
       data: {
         title: def.title,
         slug: def.slug,
@@ -320,7 +323,6 @@ export const seed = async ({
 
   await payload.create({
     collection: 'pages',
-    draft: true,
     data: legalPage(
       'Privacy Policy',
       'privacy-policy',
@@ -336,7 +338,6 @@ export const seed = async ({
 
   await payload.create({
     collection: 'pages',
-    draft: true,
     data: legalPage(
       'Terms of Use',
       'terms',
@@ -387,7 +388,6 @@ export const seed = async ({
 
   await payload.create({
     collection: 'pages',
-    draft: true,
     data: locationPage(
       'Electric Cycles in Delhi',
       'electric-cycle-in-delhi',
@@ -404,7 +404,6 @@ export const seed = async ({
 
   await payload.create({
     collection: 'pages',
-    draft: true,
     data: locationPage(
       'Electric Cycles in Mumbai',
       'electric-cycle-in-mumbai',
@@ -421,7 +420,6 @@ export const seed = async ({
 
   await payload.create({
     collection: 'pages',
-    draft: true,
     data: locationPage(
       'Electric Cycles in Bengaluru',
       'electric-cycle-in-bengaluru',
@@ -438,7 +436,6 @@ export const seed = async ({
 
   await payload.create({
     collection: 'pages',
-    draft: true,
     data: locationPage(
       'Electric Cycles in Maharashtra',
       'electric-cycles-in-maharashtra',

@@ -1025,7 +1025,7 @@ export interface ImportBatch {
   createdAt: string;
 }
 /**
- * Lead inbox. Retail enquiries, test rides, dealer applications and bulk orders arrive here. Export to CSV is available via the API at /api/leads/export.
+ * Lead inbox. Retail enquiries, test rides, dealer applications and bulk orders arrive here. Use the Export CSV button to download filtered leads.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "leads".

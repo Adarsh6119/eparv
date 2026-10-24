@@ -41,7 +41,14 @@ export const Leads: CollectionConfig<'leads'> = {
     defaultColumns: ['leadId', 'name', 'leadType', 'city', 'status', 'assignedTo', 'createdAt'],
     useAsTitle: 'leadId',
     description:
-      'Lead inbox. Retail enquiries, test rides, dealer applications and bulk orders arrive here. Export to CSV is available via the API at /api/leads/export.',
+      'Lead inbox. Retail enquiries, test rides, dealer applications and bulk orders arrive here. Use the Export CSV button to download filtered leads.',
+    components: {
+      views: {
+        list: {
+          actions: ['@/collections/Leads/components/ExportLeadsButton'],
+        },
+      },
+    },
   },
   fields: [
     {

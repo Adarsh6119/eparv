@@ -200,7 +200,7 @@ export const Dealers: CollectionConfig<'dealers'> = {
         position: 'sidebar',
       },
     },
-    slugField(),
+    slugField({ useAsSlug: 'businessName' }),
   ],
   hooks: {
     afterChange: [revalidateDealer],

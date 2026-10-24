@@ -286,7 +286,7 @@ export const Products: CollectionConfig<'products'> = {
         position: 'sidebar',
       },
     },
-    slugField(),
+    slugField({ useAsSlug: 'name' }),
   ],
   hooks: {
     afterChange: [revalidateProduct],

@@ -8,6 +8,7 @@ import React, { cache } from 'react'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -68,6 +69,10 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
 
       {draft && <LivePreviewListener />}
+
+      <div className="container">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: page.title }]} />
+      </div>
 
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />

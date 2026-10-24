@@ -13,10 +13,12 @@ export type SubmitLeadResult =
       fieldErrors?: Record<string, string>
     }
 
-/** Requests per hour from one IP address. */
-const IP_HOURLY_LIMIT = 5
+/** Requests per hour from one IP address (shared NATs such as offices send
+ *  many legitimate enquiries, so this is configurable and deliberately
+ *  roomier than the per-phone limit). */
+const IP_HOURLY_LIMIT = Number(process.env.LEAD_RATE_LIMIT_IP_PER_HOUR ?? 10)
 /** Submissions per hour for one phone number (across IPs). */
-const PHONE_HOURLY_LIMIT = 3
+const PHONE_HOURLY_LIMIT = Number(process.env.LEAD_RATE_LIMIT_PHONE_PER_HOUR ?? 3)
 /** A repeat submission with the same phone/type/product inside this window is treated as the same lead. */
 const DUPLICATE_WINDOW_MS = 15 * 60 * 1000
 /** Submissions faster than this after render are almost certainly bots. */
