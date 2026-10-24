@@ -20,7 +20,7 @@ const collections: CollectionSlug[] = [
   'search',
 ]
 
-const globals = ['header', 'footer'] as const satisfies GlobalSlug[]
+const globals: GlobalSlug[] = ['header', 'footer']
 
 const categories = ['Technology', 'News', 'Finance', 'Design', 'Software', 'Engineering']
 
@@ -55,7 +55,6 @@ export const seed = async ({
         context: {
           disableRevalidate: true,
         },
-        overrideAccess: true,
       }),
     ),
   )
@@ -80,23 +79,22 @@ export const seed = async ({
         equals: 'demo-author@example.com',
       },
     },
-    overrideAccess: true,
   })
 
   payload.logger.info(`— Seeding media...`)
 
   const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
     fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
+      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/3.x/templates/website/src/endpoints/seed/image-post1.webp',
     ),
     fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post2.webp',
+      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/3.x/templates/website/src/endpoints/seed/image-post2.webp',
     ),
     fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
+      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/3.x/templates/website/src/endpoints/seed/image-post3.webp',
     ),
     fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
+      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/3.x/templates/website/src/endpoints/seed/image-hero1.webp',
     ),
   ])
 
@@ -108,31 +106,26 @@ export const seed = async ({
         email: 'demo-author@example.com',
         password: 'password',
       },
-      overrideAccess: true,
     }),
     payload.create({
       collection: 'media',
       data: image1,
       file: image1Buffer,
-      overrideAccess: true,
     }),
     payload.create({
       collection: 'media',
       data: image2,
       file: image2Buffer,
-      overrideAccess: true,
     }),
     payload.create({
       collection: 'media',
       data: image2,
       file: image3Buffer,
-      overrideAccess: true,
     }),
     payload.create({
       collection: 'media',
       data: imageHero1,
       file: hero1Buffer,
-      overrideAccess: true,
     }),
     categories.map((category) =>
       payload.create({
@@ -141,7 +134,6 @@ export const seed = async ({
           title: category,
           slug: category,
         },
-        overrideAccess: true,
       }),
     ),
   ])
@@ -157,7 +149,6 @@ export const seed = async ({
       disableRevalidate: true,
     },
     data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
-    overrideAccess: true,
   })
 
   const post2Doc = await payload.create({
@@ -167,7 +158,6 @@ export const seed = async ({
       disableRevalidate: true,
     },
     data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
-    overrideAccess: true,
   })
 
   const post3Doc = await payload.create({
@@ -177,7 +167,6 @@ export const seed = async ({
       disableRevalidate: true,
     },
     data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
-    overrideAccess: true,
   })
 
   // update each post with related posts
@@ -187,7 +176,6 @@ export const seed = async ({
     data: {
       relatedPosts: [post2Doc.id, post3Doc.id],
     },
-    overrideAccess: true,
   })
   await payload.update({
     id: post2Doc.id,
@@ -195,7 +183,6 @@ export const seed = async ({
     data: {
       relatedPosts: [post1Doc.id, post3Doc.id],
     },
-    overrideAccess: true,
   })
   await payload.update({
     id: post3Doc.id,
@@ -203,7 +190,6 @@ export const seed = async ({
     data: {
       relatedPosts: [post1Doc.id, post2Doc.id],
     },
-    overrideAccess: true,
   })
 
   payload.logger.info(`— Seeding contact form...`)
@@ -212,7 +198,6 @@ export const seed = async ({
     collection: 'forms',
     depth: 0,
     data: contactFormData,
-    overrideAccess: true,
   })
 
   payload.logger.info(`— Seeding pages...`)
@@ -222,13 +207,11 @@ export const seed = async ({
       collection: 'pages',
       depth: 0,
       data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
-      overrideAccess: true,
     }),
     payload.create({
       collection: 'pages',
       depth: 0,
       data: contactPageData({ contactForm: contactForm }),
-      overrideAccess: true,
     }),
   ])
 
@@ -243,7 +226,7 @@ export const seed = async ({
             link: {
               type: 'custom',
               label: 'Posts',
-              url: '/posts',
+              url: '/blog',
             },
           },
           {
@@ -258,7 +241,6 @@ export const seed = async ({
           },
         ],
       },
-      overrideAccess: true,
     }),
     payload.updateGlobal({
       slug: 'footer',
@@ -276,7 +258,7 @@ export const seed = async ({
               type: 'custom',
               label: 'Source Code',
               newTab: true,
-              url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
+              url: 'https://github.com/payloadcms/payload/tree/3.x/templates/website',
             },
           },
           {
@@ -289,7 +271,6 @@ export const seed = async ({
           },
         ],
       },
-      overrideAccess: true,
     }),
   ])
 

@@ -26,25 +26,17 @@ const getPagesSitemap = unstable_cache(
       select: {
         slug: true,
         updatedAt: true,
+        noindex: true,
       },
     })
 
     const dateFallback = new Date().toISOString()
 
-    const defaultSitemap = [
-      {
-        loc: `${SITE_URL}/search`,
-        lastmod: dateFallback,
-      },
-      {
-        loc: `${SITE_URL}/posts`,
-        lastmod: dateFallback,
-      },
-    ]
-
+    // Indexation safeguards: drafts never appear (query above), and pages
+    // explicitly marked noindex are excluded from the sitemap.
     const sitemap = results.docs
       ? results.docs
-          .filter((page) => Boolean(page?.slug))
+          .filter((page) => Boolean(page?.slug) && !page?.noindex)
           .map((page) => {
             return {
               loc: page?.slug === 'home' ? `${SITE_URL}/` : `${SITE_URL}/${page?.slug}`,
@@ -53,7 +45,7 @@ const getPagesSitemap = unstable_cache(
           })
       : []
 
-    return [...defaultSitemap, ...sitemap]
+    return sitemap
   },
   ['pages-sitemap'],
   {

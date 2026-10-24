@@ -60,55 +60,6 @@ export type SupportedTimezones =
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
   | 'Pacific/Fiji';
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LexicalNodes_106E6C8F".
- */
-export type LexicalNodes_106E6C8F =
-  | SerializedTextNode
-  | SerializedTabNode
-  | SerializedLineBreakNode
-  | SerializedParagraphNode<LexicalNodes_106E6C8F>
-  | SerializedHeadingNode<LexicalNodes_106E6C8F, 'h1' | 'h2' | 'h3' | 'h4'>
-  | SerializedAutoLinkNode<LexicalNodes_106E6C8F, LexicalLinkFields>
-  | SerializedLinkNode<LexicalNodes_106E6C8F, LexicalLinkFields>;
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LexicalNodes_D0F9AE76".
- */
-export type LexicalNodes_D0F9AE76 =
-  | SerializedTextNode
-  | SerializedTabNode
-  | SerializedLineBreakNode
-  | SerializedParagraphNode<LexicalNodes_D0F9AE76>
-  | SerializedHeadingNode<LexicalNodes_D0F9AE76, 'h2' | 'h3' | 'h4'>
-  | SerializedAutoLinkNode<LexicalNodes_D0F9AE76, LexicalLinkFields>
-  | SerializedLinkNode<LexicalNodes_D0F9AE76, LexicalLinkFields>;
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LexicalNodes_744BEF80".
- */
-export type LexicalNodes_744BEF80 =
-  | SerializedTextNode
-  | SerializedTabNode
-  | SerializedLineBreakNode
-  | SerializedParagraphNode<LexicalNodes_744BEF80>
-  | SerializedAutoLinkNode<LexicalNodes_744BEF80, LexicalLinkFields>
-  | SerializedLinkNode<LexicalNodes_744BEF80, LexicalLinkFields>;
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "LexicalNodes_658A03C4".
- */
-export type LexicalNodes_658A03C4 =
-  | SerializedTextNode
-  | SerializedTabNode
-  | SerializedLineBreakNode
-  | SerializedParagraphNode<LexicalNodes_658A03C4>
-  | SerializedHorizontalRuleNode
-  | SerializedBlockNode<BannerBlock | CodeBlock | MediaBlock_7426DDFC>
-  | SerializedHeadingNode<LexicalNodes_658A03C4, 'h1' | 'h2' | 'h3' | 'h4'>
-  | SerializedAutoLinkNode<LexicalNodes_658A03C4, LexicalLinkFields>
-  | SerializedLinkNode<LexicalNodes_658A03C4, LexicalLinkFields>;
 
 export interface Config {
   auth: {
@@ -116,9 +67,12 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    folders: Folder;
     pages: Page;
     posts: Post;
+    products: Product;
+    dealers: Dealer;
+    leads: Lead;
+    'import-batches': ImportBatch;
     media: Media;
     categories: Category;
     users: User;
@@ -128,15 +82,23 @@ export interface Config {
     search: Search;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
+    'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    'payload-folders': {
+      documentsAndFolders: 'payload-folders' | 'media';
+    };
+  };
   collectionsSelect: {
-    folders: FoldersSelect<false> | FoldersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    dealers: DealersSelect<false> | DealersSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
+    'import-batches': ImportBatchesSelect<false> | ImportBatchesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -146,12 +108,13 @@ export interface Config {
     search: SearchSelect<false> | SearchSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
+    'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {
@@ -198,27 +161,28 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "folders".
- */
-export interface Folder {
-  id: string;
-  _h_folders?: (string | null) | Folder;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-  _h_slugPath?: string | null;
-  _h_titlePath?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "pages".
  */
 export interface Page {
-  id: string;
+  id: number;
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
-    richText?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+    richText?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     links?:
       | {
           link: {
@@ -227,11 +191,11 @@ export interface Page {
             reference?:
               | ({
                   relationTo: 'pages';
-                  value: string | Page;
+                  value: number | Page;
                 } | null)
               | ({
                   relationTo: 'posts';
-                  value: string | Post;
+                  value: number | Post;
                 } | null);
             url?: string | null;
             label: string;
@@ -243,18 +207,52 @@ export interface Page {
           id?: string | null;
         }[]
       | null;
-    media?: (string | null) | Media;
+    media?: (number | null) | Media;
   };
   layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  /**
+   * City and state landing pages power programmatic SEO (e.g. slugs like electric-cycle-in-delhi) and must pass the approval workflow before publishing.
+   */
+  pageType: 'standard' | 'city' | 'state' | 'legal' | 'landing';
+  city?: string | null;
+  state?: string | null;
+  /**
+   * Products shown as available in this location.
+   */
+  relatedProducts?: (number | Product)[] | null;
+  relatedDealers?: (number | Dealer)[] | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
   meta?: {
     title?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
     description?: string | null;
+    /**
+     * Absolute URL (https://…) when this page canonicalises elsewhere. Leave empty for self-referencing canonicals.
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Removes the page from the XML sitemap and adds a noindex directive. Use for thin or unverified pages.
+     */
+    noindex?: boolean | null;
   };
   publishedAt?: string | null;
+  /**
+   * Pages created by CSV imports start as Pending and must be set to Approved by a reviewer before they can be published.
+   */
+  approvalStatus?: ('pending' | 'approved' | 'rejected') | null;
+  /**
+   * Set automatically when this page was created by a CSV import.
+   */
+  importBatch?: (number | null) | ImportBatch;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
@@ -269,22 +267,36 @@ export interface Page {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: string;
+  id: number;
   title: string;
-  heroImage?: (string | null) | Media;
-  content: LexicalRichText<LexicalNodes_658A03C4>;
-  relatedPosts?: (string | Post)[] | null;
-  categories?: (string | Category)[] | null;
+  heroImage?: (number | null) | Media;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
   meta?: {
     title?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
-  authors?: (string | User)[] | null;
+  authors?: (number | User)[] | null;
   populatedAuthors?:
     | {
         id?: string | null;
@@ -305,10 +317,24 @@ export interface Post {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt?: string | null;
-  _h_folders?: (string | null) | Folder;
-  caption?: LexicalRichText<LexicalNodes_744BEF80> | null;
+  caption?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  folder?: (number | null) | FolderInterface;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -320,7 +346,7 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-  variants?: {
+  sizes?: {
     thumbnail?: {
       url?: string | null;
       width?: number | null;
@@ -381,20 +407,46 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders".
+ */
+export interface FolderInterface {
+  id: number;
+  name: string;
+  folder?: (number | null) | FolderInterface;
+  documentsAndFolders?: {
+    docs?: (
+      | {
+          relationTo?: 'payload-folders';
+          value: number | FolderInterface;
+        }
+      | {
+          relationTo?: 'media';
+          value: number | Media;
+        }
+    )[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  folderType?: 'media'[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
 export interface Category {
-  id: string;
+  id: number;
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
-  parent?: (string | null) | Category;
+  parent?: (number | null) | Category;
   breadcrumbs?:
     | {
-        doc?: (string | null) | Category;
+        doc?: (number | null) | Category;
         url?: string | null;
         label?: string | null;
         id?: string | null;
@@ -408,8 +460,12 @@ export interface Category {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   name?: string | null;
+  /**
+   * Super Admin: full access. Content Editor: content, products, dealers, imports. Sales Executive: leads only.
+   */
+  roles?: ('admin' | 'editor' | 'sales')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -417,6 +473,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -434,7 +491,21 @@ export interface User {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  richText?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+  richText?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   links?:
     | {
         link: {
@@ -443,11 +514,11 @@ export interface CallToActionBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -471,7 +542,21 @@ export interface ContentBlock {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
-        richText?: LexicalRichText<LexicalNodes_D0F9AE76> | null;
+        richText?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
         enableLink?: boolean | null;
         link?: {
           type?: ('reference' | 'custom') | null;
@@ -479,11 +564,11 @@ export interface ContentBlock {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -504,7 +589,7 @@ export interface ContentBlock {
  * via the `definition` "MediaBlock".
  */
 export interface MediaBlock {
-  media: string | Media;
+  media: number | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -514,15 +599,29 @@ export interface MediaBlock {
  * via the `definition` "ArchiveBlock".
  */
 export interface ArchiveBlock {
-  introContent?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   populateBy?: ('collection' | 'selection') | null;
   relationTo?: 'posts' | null;
-  categories?: (string | Category)[] | null;
+  categories?: (number | Category)[] | null;
   limit?: number | null;
   selectedDocs?:
     | {
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       }[]
     | null;
   id?: string | null;
@@ -534,9 +633,23 @@ export interface ArchiveBlock {
  * via the `definition` "FormBlock".
  */
 export interface FormBlock {
-  form: string | Form;
+  form: number | Form;
   enableIntro?: boolean | null;
-  introContent?: LexicalRichText<LexicalNodes_106E6C8F> | null;
+  introContent?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'formBlock';
@@ -546,21 +659,137 @@ export interface FormBlock {
  * via the `definition` "forms".
  */
 export interface Form {
-  id: string;
+  id: number;
   title: string;
-  fields?: (Checkbox | Country | Email | Message | Number | Select | State | Text | Textarea)[] | null;
+  fields?:
+    | (
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            defaultValue?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'checkbox';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'country';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'email';
+          }
+        | {
+            message?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'message';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'number';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            placeholder?: string | null;
+            options?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'state';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textarea';
+          }
+      )[]
+    | null;
   submitButtonLabel?: string | null;
-  /**
-   * Choose whether to display an on-page message or redirect to a different page after they submit the form.
-   */
   confirmationType?: ('message' | 'redirect') | null;
-  confirmationMessage?: LexicalRichText<LexicalNodes_106E6C8F>;
+  confirmationMessage?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   redirect?: {
     url: string;
   };
-  /**
-   * Send custom emails when the form submits. Use comma separated lists to send the same email to multiple recipients. To reference a value from this form, wrap that field's name with double curly brackets, i.e. {{firstName}}. You can use a wildcard {{*}} to output all data and {{*:table}} to format it as an HTML table in the email.
-   */
   emails?:
     | {
         emailTo?: string | null;
@@ -569,10 +798,21 @@ export interface Form {
         replyTo?: string | null;
         emailFrom?: string | null;
         subject: string;
-        /**
-         * Enter the message that should be sent in this email.
-         */
-        message?: LexicalRichText<LexicalNodes_744BEF80> | null;
+        message?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
         id?: string | null;
       }[]
     | null;
@@ -581,137 +821,282 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Checkbox".
+ * via the `definition` "products".
  */
-export interface Checkbox {
+export interface Product {
+  id: number;
+  /**
+   * Product name, e.g. "Eparv Sparx City"
+   */
   name: string;
-  label?: string | null;
-  width?: number | null;
-  required?: boolean | null;
-  defaultValue?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'checkbox';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Country".
- */
-export interface Country {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'country';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Email".
- */
-export interface Email {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'email';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Message".
- */
-export interface Message {
-  message?: LexicalRichText<LexicalNodes_744BEF80> | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'message';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Number".
- */
-export interface Number {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  defaultValue?: number | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'number';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Select".
- */
-export interface Select {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  defaultValue?: string | null;
-  placeholder?: string | null;
-  options?:
+  category: 'city-commuter' | 'foldable' | 'off-road' | 'cargo' | 'kids';
+  /**
+   * Short marketing line shown on cards and hero sections.
+   */
+  tagline?: string | null;
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  featuredImage: number | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        /**
+         * Descriptive alt text for accessibility and SEO.
+         */
+        altText: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Price in INR (ex-showroom, before state subsidies).
+   */
+  price: number;
+  /**
+   * Optional promotional price in INR. Must be lower than the regular price.
+   */
+  promotionalPrice?: number | null;
+  availability?: ('in-stock' | 'pre-order' | 'out-of-stock' | 'discontinued') | null;
+  deliveryLocations?:
+    | {
+        city: string;
+        state: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Kept as free text so different battery chemistries and configurations can be expressed.
+   */
+  batteryCapacity?: string | null;
+  motorPower?: string | null;
+  claimedRangeKm?: number | null;
+  chargingTimeHours?: number | null;
+  topSpeedKmh?: number | null;
+  weightKg?: number | null;
+  warrantyMonths?: number | null;
+  /**
+   * Products differ — add any further verified specifications as label/value pairs.
+   */
+  additionalSpecifications?:
     | {
         label: string;
         value: string;
         id?: string | null;
       }[]
     | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'select';
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  isFeatured?: boolean | null;
+  /**
+   * Marks every specification and price on this record as unverified placeholder data. The website shows a visible demo-data notice and omits structured-data claims until this is unchecked and real data is supplied.
+   */
+  isDemoData?: boolean | null;
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "State".
+ * via the `definition` "dealers".
  */
-export interface State {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'state';
+export interface Dealer {
+  id: number;
+  businessName: string;
+  contactPerson?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address: string;
+  city: string;
+  state: string;
+  /**
+   * Cities and towns this dealer can deliver or service cycles in.
+   */
+  serviceableLocations?:
+    | {
+        city: string;
+        state: string;
+        id?: string | null;
+      }[]
+    | null;
+  geoCoordinates?: {
+    latitude?: number | null;
+    longitude?: number | null;
+  };
+  /**
+   * e.g. Mon–Sat 10:00–20:00, Sun closed
+   */
+  openingHours?: string | null;
+  about?: string | null;
+  applicationStatus: 'pending' | 'under-review' | 'verified' | 'rejected';
+  /**
+   * A dealer page becomes publicly visible only when this is checked AND the application status is Verified.
+   */
+  publicListing?: boolean | null;
+  /**
+   * Marks this dealership as unverified placeholder data. The website shows a visible demo-data notice and omits LocalBusiness structured data.
+   */
+  isDemoData?: boolean | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
+ * CSV Page Import Manager. Upload a CSV, preview row-level validation, import valid rows as draft pages, then review and approve each page before publishing.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Text".
+ * via the `definition` "import-batches".
  */
-export interface Text {
-  name: string;
-  label?: string | null;
-  width?: number | null;
-  defaultValue?: string | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'text';
+export interface ImportBatch {
+  id: number;
+  filename: string;
+  uploadedBy?: (number | null) | User;
+  status: 'uploaded' | 'validated' | 'imported' | 'failed';
+  rowCount?: number | null;
+  validRowCount?: number | null;
+  errorRowCount?: number | null;
+  report?: {
+    createdCount?: number | null;
+    updatedCount?: number | null;
+    skippedCount?: number | null;
+    invalidCount?: number | null;
+    failedCount?: number | null;
+  };
+  /**
+   * Parsed rows with row-level validation results — the import preview.
+   */
+  records?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  createdPages?: (number | Page)[] | null;
+  events?:
+    | {
+        at: string;
+        actor?: (number | null) | User;
+        action: string;
+        detail?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
+ * Lead inbox. Retail enquiries, test rides, dealer applications and bulk orders arrive here. Export to CSV is available via the API at /api/leads/export.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Textarea".
+ * via the `definition` "leads".
  */
-export interface Textarea {
+export interface Lead {
+  id: number;
+  /**
+   * Human-readable lead reference, generated automatically.
+   */
+  leadId?: string | null;
   name: string;
-  label?: string | null;
-  width?: number | null;
-  defaultValue?: string | null;
-  required?: boolean | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'textarea';
+  /**
+   * 10-digit Indian mobile number.
+   */
+  phone: string;
+  email?: string | null;
+  leadType: 'retail' | 'test-ride' | 'dealer' | 'bulk-order' | 'contact';
+  city: string;
+  state?: string | null;
+  product?: (number | null) | Product;
+  preferredDate?: string | null;
+  preferredTimeSlot?: ('morning' | 'afternoon' | 'evening') | null;
+  /**
+   * Business name for dealer applications, organisation for bulk orders.
+   */
+  organization?: string | null;
+  /**
+   * Unit count for bulk orders.
+   */
+  quantity?: number | null;
+  investmentRange?: ('under-5-lakh' | '5-15-lakh' | '15-30-lakh' | 'over-30-lakh') | null;
+  message?: string | null;
+  source?: {
+    /**
+     * Page URL the lead came from.
+     */
+    sourceUrl?: string | null;
+    utmSource?: string | null;
+    utmMedium?: string | null;
+    utmCampaign?: string | null;
+    utmTerm?: string | null;
+    utmContent?: string | null;
+  };
+  consent: {
+    accepted: boolean;
+    marketingUpdates?: boolean | null;
+    at?: string | null;
+  };
+  /**
+   * Assigned salesperson.
+   */
+  assignedTo?: (number | null) | User;
+  status?: ('new' | 'contacted' | 'qualified' | 'negotiation' | 'won' | 'lost' | 'spam') | null;
+  nextFollowUpDate?: string | null;
+  notes?:
+    | {
+        note: string;
+        addedBy?: (number | null) | User;
+        addedAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
-  id: string;
+  id: number;
   /**
    * You will need to rebuild the website when changing this field.
    */
@@ -721,11 +1106,11 @@ export interface Redirect {
     reference?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
         } | null);
     url?: string | null;
   };
@@ -737,8 +1122,8 @@ export interface Redirect {
  * via the `definition` "form-submissions".
  */
 export interface FormSubmission {
-  id: string;
-  form: string | Form;
+  id: number;
+  form: number | Form;
   submissionData?:
     | {
         field: string;
@@ -756,18 +1141,18 @@ export interface FormSubmission {
  * via the `definition` "search".
  */
 export interface Search {
-  id: string;
+  id: number;
   title?: string | null;
   priority?: number | null;
   doc: {
     relationTo: 'posts';
-    value: string | Post;
+    value: number | Post;
   };
   slug?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
-    image?: (string | null) | Media;
+    image?: (number | null) | Media;
   };
   categories?:
     | {
@@ -785,7 +1170,7 @@ export interface Search {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -802,7 +1187,7 @@ export interface PayloadKv {
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
-  id: string;
+  id: number;
   /**
    * Input data provided to the job
    */
@@ -894,52 +1279,68 @@ export interface PayloadJob {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
-        relationTo: 'folders';
-        value: string | Folder;
-      } | null)
-    | ({
         relationTo: 'pages';
-        value: string | Page;
+        value: number | Page;
       } | null)
     | ({
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'dealers';
+        value: number | Dealer;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: number | Lead;
+      } | null)
+    | ({
+        relationTo: 'import-batches';
+        value: number | ImportBatch;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'categories';
-        value: string | Category;
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'redirects';
-        value: string | Redirect;
+        value: number | Redirect;
       } | null)
     | ({
         relationTo: 'forms';
-        value: string | Form;
+        value: number | Form;
       } | null)
     | ({
         relationTo: 'form-submissions';
-        value: string | FormSubmission;
+        value: number | FormSubmission;
       } | null)
     | ({
         relationTo: 'search';
-        value: string | Search;
+        value: number | Search;
+      } | null)
+    | ({
+        relationTo: 'payload-folders';
+        value: number | FolderInterface;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -949,10 +1350,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -972,23 +1373,11 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "folders_select".
- */
-export interface FoldersSelect<T extends boolean = true> {
-  _h_folders?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _h_slugPath?: T;
-  _h_titlePath?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1027,14 +1416,30 @@ export interface PagesSelect<T extends boolean = true> {
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
       };
+  pageType?: T;
+  city?: T;
+  state?: T;
+  relatedProducts?: T;
+  relatedDealers?: T;
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
   meta?:
     | T
     | {
         title?: T;
         image?: T;
         description?: T;
+        canonicalUrl?: T;
+        noindex?: T;
       };
   publishedAt?: T;
+  approvalStatus?: T;
+  importBatch?: T;
   generateSlug?: T;
   slug?: T;
   updatedAt?: T;
@@ -1158,12 +1563,197 @@ export interface PostsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  tagline?: T;
+  shortDescription?: T;
+  description?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        altText?: T;
+        id?: T;
+      };
+  price?: T;
+  promotionalPrice?: T;
+  availability?: T;
+  deliveryLocations?:
+    | T
+    | {
+        city?: T;
+        state?: T;
+        id?: T;
+      };
+  batteryCapacity?: T;
+  motorPower?: T;
+  claimedRangeKm?: T;
+  chargingTimeHours?: T;
+  topSpeedKmh?: T;
+  weightKg?: T;
+  warrantyMonths?: T;
+  additionalSpecifications?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  isFeatured?: T;
+  isDemoData?: T;
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "dealers_select".
+ */
+export interface DealersSelect<T extends boolean = true> {
+  businessName?: T;
+  contactPerson?: T;
+  phone?: T;
+  email?: T;
+  address?: T;
+  city?: T;
+  state?: T;
+  serviceableLocations?:
+    | T
+    | {
+        city?: T;
+        state?: T;
+        id?: T;
+      };
+  geoCoordinates?:
+    | T
+    | {
+        latitude?: T;
+        longitude?: T;
+      };
+  openingHours?: T;
+  about?: T;
+  applicationStatus?: T;
+  publicListing?: T;
+  isDemoData?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  leadId?: T;
+  name?: T;
+  phone?: T;
+  email?: T;
+  leadType?: T;
+  city?: T;
+  state?: T;
+  product?: T;
+  preferredDate?: T;
+  preferredTimeSlot?: T;
+  organization?: T;
+  quantity?: T;
+  investmentRange?: T;
+  message?: T;
+  source?:
+    | T
+    | {
+        sourceUrl?: T;
+        utmSource?: T;
+        utmMedium?: T;
+        utmCampaign?: T;
+        utmTerm?: T;
+        utmContent?: T;
+      };
+  consent?:
+    | T
+    | {
+        accepted?: T;
+        marketingUpdates?: T;
+        at?: T;
+      };
+  assignedTo?: T;
+  status?: T;
+  nextFollowUpDate?: T;
+  notes?:
+    | T
+    | {
+        note?: T;
+        addedBy?: T;
+        addedAt?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "import-batches_select".
+ */
+export interface ImportBatchesSelect<T extends boolean = true> {
+  filename?: T;
+  uploadedBy?: T;
+  status?: T;
+  rowCount?: T;
+  validRowCount?: T;
+  errorRowCount?: T;
+  report?:
+    | T
+    | {
+        createdCount?: T;
+        updatedCount?: T;
+        skippedCount?: T;
+        invalidCount?: T;
+        failedCount?: T;
+      };
+  records?: T;
+  createdPages?: T;
+  events?:
+    | T
+    | {
+        at?: T;
+        actor?: T;
+        action?: T;
+        detail?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  _h_folders?: T;
   caption?: T;
+  folder?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1175,7 +1765,7 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-  variants?:
+  sizes?:
     | T
     | {
         thumbnail?:
@@ -1276,6 +1866,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -1283,6 +1874,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -1526,6 +2118,18 @@ export interface PayloadJobsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-folders_select".
+ */
+export interface PayloadFoldersSelect<T extends boolean = true> {
+  name?: T;
+  folder?: T;
+  documentsAndFolders?: T;
+  folderType?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -1561,7 +2165,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "header".
  */
 export interface Header {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1570,11 +2174,11 @@ export interface Header {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1590,7 +2194,7 @@ export interface Header {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: string;
+  id: number;
   navItems?:
     | {
         link: {
@@ -1599,11 +2203,11 @@ export interface Footer {
           reference?:
             | ({
                 relationTo: 'pages';
-                value: string | Page;
+                value: number | Page;
               } | null)
             | ({
                 relationTo: 'posts';
-                value: string | Post;
+                value: number | Post;
               } | null);
           url?: string | null;
           label: string;
@@ -1681,14 +2285,21 @@ export interface TaskSchedulePublish {
     doc?:
       | ({
           relationTo: 'pages';
-          value: string | Page;
+          value: number | Page;
         } | null)
       | ({
           relationTo: 'posts';
-          value: string | Post;
+          value: number | Post;
+        } | null)
+      | ({
+          relationTo: 'products';
+          value: number | Product;
         } | null);
     global?: string | null;
-    user?: (string | null) | User;
+    user?: {
+      relationTo: 'users';
+      value: number | User;
+    } | null;
   };
   output?: unknown;
 }
@@ -1697,34 +2308,36 @@ export interface TaskSchedulePublish {
  * via the `definition` "BannerBlock".
  */
 export interface BannerBlock {
-  id: string;
-  blockType: 'banner';
   style: 'info' | 'warning' | 'error' | 'success';
-  content: LexicalRichText<LexicalNodes_744BEF80>;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
   blockName?: string | null;
+  blockType: 'banner';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CodeBlock".
  */
 export interface CodeBlock {
-  id: string;
-  blockType: 'code';
   language?: ('typescript' | 'javascript' | 'css') | null;
   code: string;
+  id?: string | null;
   blockName?: string | null;
-}
-/**
- * Multiple blocks resolve to the `MediaBlock` interface with different fields, so a content hash is appended to keep the generated types stable and unambiguous. Set a unique `interfaceName` on the block to choose the name yourself. See https://payloadcms.com/docs/typescript/generating-types#block-interface-name-collisions
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "MediaBlock_7426DDFC".
- */
-export interface MediaBlock_7426DDFC {
-  id: string;
-  blockType: 'mediaBlock';
-  media: string | Media;
-  blockName?: string | null;
+  blockType: 'code';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1733,110 +2346,6 @@ export interface MediaBlock_7426DDFC {
 export interface Auth {
   [k: string]: unknown;
 }
-
-/** @internal Core Lexical types — see @payloadcms/richtext-lexical. */
-export type LexicalElementFormat = 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-export type LexicalElementDirection = ('ltr' | 'rtl') | null;
-
-export interface SerializedLexicalElementBase<TChildren> {
-  children: TChildren[];
-  direction: LexicalElementDirection;
-  format: LexicalElementFormat;
-  indent: number;
-  textFormat?: number;
-  textStyle?: string;
-  version: number;
-}
-
-export type LexicalTextMode = 'normal' | 'token' | 'segmented';
-
-export interface SerializedTextNode {
-  type: 'text';
-  detail: number;
-  format: number;
-  mode: LexicalTextMode;
-  style: string;
-  text: string;
-  version: number;
-}
-
-export interface SerializedTabNode {
-  type: 'tab';
-  detail: number;
-  format: number;
-  mode: LexicalTextMode;
-  style: string;
-  text: string;
-  version: number;
-}
-
-export interface SerializedLineBreakNode {
-  type: 'linebreak';
-  version: number;
-}
-
-export interface SerializedParagraphNode<TChildren> extends SerializedLexicalElementBase<TChildren> {
-  type: 'paragraph';
-  textFormat: number;
-  textStyle: string;
-}
-
-export interface SerializedHeadingNode<
-  TChildren,
-  TTag extends 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
-> extends SerializedLexicalElementBase<TChildren> {
-  type: 'heading';
-  tag: TTag;
-}
-
-export interface LexicalLinkFields {
-  [k: string]: unknown;
-  doc?: {
-    relationTo: string;
-    value: Config['db']['defaultIDType'] | { [k: string]: unknown; id: Config['db']['defaultIDType'] };
-  } | null;
-  linkType: 'custom' | 'internal';
-  newTab: boolean;
-  url?: string;
-}
-export interface SerializedLinkNode<TChildren, TFields = LexicalLinkFields> extends SerializedLexicalElementBase<TChildren> {
-  type: 'link';
-  fields: TFields;
-  id?: string;
-}
-export interface SerializedAutoLinkNode<TChildren, TFields = LexicalLinkFields> extends SerializedLexicalElementBase<TChildren> {
-  type: 'autolink';
-  fields: TFields;
-}
-
-/** Shape of a Lexical `richText` field. */
-export interface LexicalRichText<TNode> {
-  root: {
-    children: TNode[];
-    direction: LexicalElementDirection;
-    format: LexicalElementFormat;
-    indent: number;
-    type: 'root';
-    version: number;
-  };
-}
-
-export interface SerializedHorizontalRuleNode {
-  type: 'horizontalrule';
-  version: number;
-}
-
-export type SerializedBlockNode<TFields extends { blockType: string }> = TFields extends unknown ? {
-  type: 'block';
-  format: LexicalElementFormat;
-  version: number;
-  fields: { id: string; blockName?: string | null } & Omit<TFields, 'id' | 'blockName'>;
-} : never;
-export type SerializedInlineBlockNode<TFields extends { blockType: string }> = TFields extends unknown ? {
-  type: 'inlineBlock';
-  version: number;
-  fields: { id: string } & Omit<TFields, 'id'>;
-} : never;
 
 
 declare module 'payload' {

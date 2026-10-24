@@ -1,10 +1,10 @@
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
+  DefaultNodeTypes,
   SerializedBlockNode,
   SerializedLinkNode,
-  WithDefaultNodes,
+  type DefaultTypedEditorState,
 } from '@payloadcms/richtext-lexical'
-import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import {
   JSXConvertersFunction,
   LinkJSXConverter,
@@ -22,12 +22,9 @@ import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
 
-type NodeTypes = WithDefaultNodes<
-  | SerializedBlockNode<BannerBlockProps>
-  | SerializedBlockNode<CTABlockProps>
-  | SerializedBlockNode<CodeBlockProps>
-  | SerializedBlockNode<MediaBlockProps>
->
+type NodeTypes =
+  | DefaultNodeTypes
+  | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps>
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
@@ -35,7 +32,7 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
     throw new Error('Expected value to be an object')
   }
   const slug = value.slug
-  return relationTo === 'posts' ? `/posts/${slug}` : `/${slug}`
+  return relationTo === 'posts' ? `/blog/${slug}` : `/${slug}`
 }
 
 const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) => ({
@@ -59,7 +56,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
 })
 
 type Props = {
-  data: SerializedEditorState
+  data: DefaultTypedEditorState
   enableGutter?: boolean
   enableProse?: boolean
 } & React.HTMLAttributes<HTMLDivElement>

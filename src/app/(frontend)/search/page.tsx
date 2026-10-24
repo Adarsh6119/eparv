@@ -28,7 +28,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       meta: true,
     },
     // pagination: false reduces overhead if you don't need totalDocs
-    overrideAccess: true,
     pagination: false,
     ...(query
       ? {
@@ -84,6 +83,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Search`,
+    title: `Search | Eparv`,
   }
 }

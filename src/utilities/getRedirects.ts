@@ -10,7 +10,6 @@ export async function getRedirects(depth = 1) {
     depth,
     limit: 0,
     pagination: false,
-    overrideAccess: true,
   })
 
   return redirects

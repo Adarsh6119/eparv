@@ -7,14 +7,21 @@ const SITE_URL =
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
-  exclude: ['/posts-sitemap.xml', '/pages-sitemap.xml', '/*', '/posts/*'],
+  // Exclude the dynamic route catch-alls from the static sitemap — content
+  // URLs come from the dedicated collection sitemaps below.
+  exclude: ['/*', '/electric-cycles/*', '/dealers/*', '/blog/*', '/compare/*'],
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
-        disallow: '/admin/*',
+        disallow: ['/admin/*', '/api/*'],
       },
     ],
-    additionalSitemaps: [`${SITE_URL}/pages-sitemap.xml`, `${SITE_URL}/posts-sitemap.xml`],
+    additionalSitemaps: [
+      `${SITE_URL}/pages-sitemap.xml`,
+      `${SITE_URL}/blog-sitemap.xml`,
+      `${SITE_URL}/products-sitemap.xml`,
+      `${SITE_URL}/dealers-sitemap.xml`,
+    ],
   },
 }

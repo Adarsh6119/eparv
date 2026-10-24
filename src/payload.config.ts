@@ -1,17 +1,23 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
-import { sharpTransformer } from '@payloadcms/transformer-sharp'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
+import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
-import { Media, mediaSharpOptions } from './collections/Media'
+import { Dealers } from './collections/Dealers'
+import { ImportBatches } from './collections/ImportBatches'
+import { Leads } from './collections/Leads'
+import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { Products } from './collections/Products'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
+import { importEndpoints } from './endpoints/imports'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -68,37 +74,31 @@ export default buildConfig({
       : sqliteAdapter({
           client: { url: process.env.DATABASE_URL || 'file:./eparv.db' },
         }),
-  collections: [
-    {
-      slug: 'folders',
-      folders: true,
-      admin: {
-        useAsTitle: 'name',
-      },
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-          label: 'Folder Name',
+  collections: [Pages, Posts, Products, Dealers, Leads, ImportBatches, Media, Categories, Users],
+  endpoints: importEndpoints,
+  // Lead-notification email. Optional — when SMTP is not configured the
+  // submission service simply skips notifications.
+  email: process.env.SMTP_HOST
+    ? nodemailerAdapter({
+        defaultFromAddress: process.env.LEAD_NOTIFICATION_FROM,
+        defaultFromName: 'Eparv',
+        transportOptions: {
+          host: process.env.SMTP_HOST,
+          port: Number(process.env.SMTP_PORT ?? 587),
+          secure: Number(process.env.SMTP_PORT ?? 587) === 465,
+          auth: process.env.SMTP_USER
+            ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+            : undefined,
         },
-      ],
-    },
-    Pages,
-    Posts,
-    Media,
-    Categories,
-    Users,
-  ],
+      })
+    : undefined,
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
+  sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
-  },
-  upload: {
-    transformers: [sharpTransformer({ collections: { media: mediaSharpOptions } })],
   },
   jobs: {
     access: {

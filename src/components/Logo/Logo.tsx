@@ -7,23 +7,29 @@ interface Props {
   priority?: 'auto' | 'high' | 'low'
 }
 
-export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
-
-  const loading = loadingFromProps || 'lazy'
-  const priority = priorityFromProps || 'low'
-
+/**
+ * Eparv wordmark — a lightning bolt inside a rounded mark plus the brand
+ * name. Rendered as inline SVG with currentColor so it adapts to light and
+ * dark themes.
+ */
+export const Logo = ({ className }: Props) => {
   return (
-    /* eslint-disable @next/next/no-img-element */
-    <img
-      alt="Payload Logo"
-      width={193}
-      height={34}
-      loading={loading}
-      fetchPriority={priority}
-      decoding="async"
-      className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
-      src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-logo-light.svg"
-    />
+    <span className={clsx('inline-flex items-center gap-2', className)}>
+      <svg
+        aria-hidden="true"
+        width="30"
+        height="30"
+        viewBox="0 0 32 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="32" height="32" rx="8" fill="var(--primary)" />
+        <path
+          d="M17.8 6 10 18h5l-1.6 8L22 14h-5l.8-8Z"
+          fill="var(--primary-foreground)"
+        />
+      </svg>
+      <span className="text-[1.35rem] font-semibold tracking-tight">Eparv</span>
+    </span>
   )
 }

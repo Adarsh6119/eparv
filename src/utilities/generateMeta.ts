@@ -11,7 +11,7 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   let url = serverUrl + '/website-template-OG.webp'
 
   if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.variants?.og?.url
+    const ogUrl = image.sizes?.og?.url
 
     url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
   }
@@ -19,19 +19,45 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   return url
 }
 
+type MetaDoc = Partial<Page> | Partial<Post> | null
+
+/**
+ * Builds page metadata for CMS documents with canonical URL and noindex
+ * support. `canonicalPath` is the document's own URL path (e.g. /blog/my-post);
+ * an explicit meta.canonicalUrl overrides it for pages that canonicalise
+ * elsewhere.
+ */
 export const generateMeta = async (args: {
-  doc: Partial<Page> | Partial<Post> | null
+  doc: MetaDoc
+  canonicalPath?: string
 }): Promise<Metadata> => {
-  const { doc } = args
+  const { doc, canonicalPath } = args
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Payload Website Template'
-    : 'Payload Website Template'
+  const title = doc?.meta?.title ? `${doc.meta.title} | Eparv` : 'Eparv — Electric Cycles for India'
+
+  const base = getServerSideURL()
+  const selfCanonical = canonicalPath ? `${base}${canonicalPath}` : undefined
+  const canonical = doc?.meta?.canonicalUrl || selfCanonical
 
   return {
     description: doc?.meta?.description,
+    ...(canonical
+      ? {
+          alternates: {
+            canonical,
+          },
+        }
+      : {}),
+    ...(doc?.meta?.noindex
+      ? {
+          robots: {
+            index: false,
+            follow: true,
+          },
+        }
+      : {}),
     openGraph: mergeOpenGraph({
       description: doc?.meta?.description || '',
       images: ogImage
@@ -42,7 +68,7 @@ export const generateMeta = async (args: {
           ]
         : undefined,
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url: canonicalPath ?? '/',
     }),
     title,
   }

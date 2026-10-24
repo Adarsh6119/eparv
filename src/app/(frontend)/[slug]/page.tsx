@@ -5,13 +5,13 @@ import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { PageFaqs } from '@/components/PageFaqs'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -55,16 +55,11 @@ export default async function Page({ params: paramsPromise }: Args) {
     slug: decodedSlug,
   })
 
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStatic
-  }
-
   if (!page) {
     return <PayloadRedirects url={url} />
   }
 
-  const { hero, layout } = page
+  const { hero, layout, faqs } = page
 
   return (
     <article className="pt-16 pb-24">
@@ -76,6 +71,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
+      <PageFaqs faqs={faqs} />
     </article>
   )
 }
@@ -88,7 +84,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     slug: decodedSlug,
   })
 
-  return generateMeta({ doc: page })
+  return generateMeta({ doc: page, canonicalPath: `/${decodedSlug}` })
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
@@ -98,7 +94,6 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
 
   const result = await payload.find({
     collection: 'pages',
-    depth: 2,
     draft,
     limit: 1,
     pagination: false,

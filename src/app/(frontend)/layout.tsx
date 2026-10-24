@@ -19,6 +19,9 @@ import { getServerSideURL } from '@/utilities/getURL'
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
+  const siteUrl = getServerSideURL()
+  const gscToken = process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN
+
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
@@ -38,6 +41,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
         </Providers>
+        {/* Organization structured data — factual site identity only, no
+            fabricated addresses, ratings or contact points. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'Eparv',
+              url: siteUrl,
+              description:
+                'Eparv builds dependable electric cycles for daily commutes, weekend rides and delivery fleets across India.',
+            }).replace(/</g, '\\u003c'),
+          }}
+        />
       </body>
     </html>
   )
@@ -45,9 +63,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN,
+        },
+      }
+    : {}),
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
   },
 }
