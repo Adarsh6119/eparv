@@ -19,6 +19,22 @@ const BASE_URL = process.env.SMOKE_BASE_URL || 'http://localhost:3000'
 const ADMIN_EMAIL = process.env.SMOKE_ADMIN_EMAIL || 'admin@eparv.local'
 const ADMIN_PASSWORD = process.env.SMOKE_ADMIN_PASSWORD || 'EparvAdmin!2026'
 
+// Every request simulates a distinct client IP via X-Forwarded-For (as Nginx
+// would in production), so re-running the suite never exhausts the server's
+// in-memory per-IP lead rate limit.
+const runIp = `10.${(Date.now() >> 8) & 255}.${Date.now() & 255}.42`
+
+// Unique valid 10-digit mobile numbers per run — the server's per-phone
+// rate limit is in-memory, so reusing numbers across runs would trip it.
+const runStamp = Date.now().toString().slice(-8)
+const PHONES = {
+  retail: `98${runStamp}`,
+  noConsent: `97${runStamp}`,
+  honeypot: `96${runStamp}`,
+  dealer: `95${runStamp}`,
+  bulk: `94${runStamp}`,
+}
+
 let passed = 0
 let failed = 0
 const failures = []
@@ -35,7 +51,9 @@ const log = (ok, name, detail = '') => {
 }
 
 const api = async (path, { method = 'GET', body, token, form } = {}) => {
-  const headers = {}
+  const headers = {
+    'x-forwarded-for': runIp,
+  }
   if (token) {
     headers['Authorization'] = `JWT ${token}`
   }
@@ -123,7 +141,7 @@ async function main() {
   await cleanup('pages', { slug: { equals: 'electric-cycle-in-hyderabad' } })
   await cleanup('import-batches', { filename: { equals: 'smoke-import.csv' } })
   await cleanup('leads', {
-    phone: { in: ['9876543210', '9876500001', '9876500002', '9876500003', '9876500004', '9812345670'] },
+    phone: { in: [PHONES.retail, PHONES.noConsent, PHONES.honeypot, PHONES.dealer, PHONES.bulk] },
   })
 
   // Sales must NOT create users (privilege escalation check)
@@ -382,7 +400,7 @@ async function main() {
       body: {
         leadType: 'retail',
         name: 'Smoke Customer',
-        phone: '9876543210',
+        phone: PHONES.retail,
         city: 'Delhi',
         productSlug,
         consentAccepted: true,
@@ -396,7 +414,7 @@ async function main() {
       body: {
         leadType: 'retail',
         name: 'Smoke Customer',
-        phone: '9876543210',
+        phone: PHONES.retail,
         city: 'Delhi',
         consentAccepted: true,
         startedAt: Date.now() - 5000,
@@ -425,7 +443,7 @@ async function main() {
       body: {
         leadType: 'retail',
         name: 'No Consent',
-        phone: '9876500001',
+        phone: PHONES.noConsent,
         city: 'Delhi',
         consentAccepted: false,
         startedAt: Date.now() - 5000,
@@ -438,7 +456,7 @@ async function main() {
       body: {
         leadType: 'retail',
         name: 'Bot',
-        phone: '9876500002',
+        phone: PHONES.honeypot,
         city: 'Delhi',
         consentAccepted: true,
         companyWebsite: 'http://spam.example',
@@ -455,7 +473,7 @@ async function main() {
       body: {
         leadType: 'dealer',
         name: 'Dealer Applicant',
-        phone: '9876500003',
+        phone: PHONES.dealer,
         city: 'Pune',
         state: 'Maharashtra',
         organization: 'Smoke Motors',
@@ -470,7 +488,7 @@ async function main() {
       body: {
         leadType: 'bulk-order',
         name: 'Bulk Buyer',
-        phone: '9876500004',
+        phone: PHONES.bulk,
         city: 'Mumbai',
         organization: 'Smoke Corp',
         consentAccepted: true,
