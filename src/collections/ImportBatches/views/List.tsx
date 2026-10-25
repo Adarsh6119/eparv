@@ -93,6 +93,9 @@ const ImportManagerView = () => {
   }, [])
 
   useEffect(() => {
+    // Initial data load — showing the loading state synchronously is the
+    // intended behaviour here.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadHistory()
   }, [loadHistory])
 
@@ -189,6 +192,8 @@ const ImportManagerView = () => {
             <b>How it works</b>
             <br />
             1. Upload a CSV (max 5 MB, 500 rows) — download the{' '}
+            {/* API download route, not an internal page */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a href="/api/imports/template">CSV template</a> for the required columns.
             <br />
             2. Review the validation preview — fix row errors and re-upload if needed.

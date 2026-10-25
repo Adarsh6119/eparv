@@ -2,7 +2,6 @@
 
 import { Media } from '@/components/Media'
 import { cn } from '@/utilities/ui'
-import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
 import React from 'react'
 
@@ -48,7 +47,6 @@ export const ProductCard: React.FC<{
   className?: string
   product?: CardProductData
 }> = (props) => {
-  const { card, link } = useClickableCard({})
   const { className, product } = props
 
   if (!product) {
@@ -63,10 +61,9 @@ export const ProductCard: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer flex flex-col',
+        'border border-border rounded-lg overflow-hidden bg-card flex flex-col',
         className,
       )}
-      ref={card.ref}
     >
       <div className="relative w-full aspect-[4/3] bg-muted">
         {image ? (
@@ -94,7 +91,7 @@ export const ProductCard: React.FC<{
           )}
         </div>
         <h3 className="text-lg font-semibold leading-snug">
-          <Link className="hover:text-primary" href={href} ref={link.ref}>
+          <Link className="hover:text-primary" href={href}>
             {name}
           </Link>
         </h3>

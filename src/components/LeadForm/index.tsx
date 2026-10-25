@@ -1,6 +1,6 @@
 'use client'
 
-import { z } from 'zod'
+import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -84,10 +84,14 @@ export const LeadForm: React.FC<{
   const [success, setSuccess] = useState<{ leadId: string; duplicate: boolean } | null>(null)
   const [serverMessage, setServerMessage] = useState<string | null>(null)
 
-  const startedAt = useRef<number>(Date.now())
+  const startedAt = useRef<number>(0)
   const utm = useRef<Record<string, string>>({})
 
   useEffect(() => {
+    // Record when the form actually mounted — used server-side as a
+    // submission-speed bot check.
+    startedAt.current = Date.now()
+
     const params = new URLSearchParams(window.location.search)
     const keys = ['utmSource', 'utmMedium', 'utmCampaign', 'utmTerm', 'utmContent']
     const captured: Record<string, string> = {}
@@ -439,9 +443,9 @@ export const LeadForm: React.FC<{
           />
           <Label htmlFor="lead-consent" className="font-normal text-sm leading-snug">
             I agree to be contacted about my enquiry and accept the{' '}
-            <a href="/privacy-policy" className="underline underline-offset-2">
+            <Link href="/privacy-policy" className="underline underline-offset-2">
               privacy policy
-            </a>
+            </Link>
             . *
           </Label>
         </div>

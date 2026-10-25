@@ -48,6 +48,8 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     document.documentElement.setAttribute('data-theme', themeToSet)
+    // Initial sync from localStorage (an external system) into React state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(themeToSet)
   }, [])
 

@@ -30,6 +30,8 @@ export const ThemeSelector: React.FC = () => {
 
   React.useEffect(() => {
     const preference = window.localStorage.getItem(themeLocalStorageKey)
+    // Initial sync from localStorage (an external system) into React state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setValue(preference ?? 'auto')
   }, [])
 
