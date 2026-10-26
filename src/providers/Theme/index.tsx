@@ -34,17 +34,12 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }, [])
 
   useEffect(() => {
+    // Default to the brand's white look; Dark only when explicitly chosen.
     let themeToSet: Theme = defaultTheme
     const preference = window.localStorage.getItem(themeLocalStorageKey)
 
     if (themeIsValid(preference)) {
       themeToSet = preference
-    } else {
-      const implicitPreference = getImplicitPreference()
-
-      if (implicitPreference) {
-        themeToSet = implicitPreference
-      }
     }
 
     document.documentElement.setAttribute('data-theme', themeToSet)

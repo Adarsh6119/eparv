@@ -26,8 +26,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <link href="/favicon.ico" rel="icon" sizes="48x48" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <link href="/favicon.png" rel="icon" type="image/png" sizes="48x48" />
+        <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180" />
       </head>
       <body>
         <Providers>
@@ -38,6 +40,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           />
 
           <Header />
+          {/* Spacer for fixed header height */}
+          <div className="h-16 md:h-18" />
           {children}
           <Footer />
         </Providers>

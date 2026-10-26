@@ -89,78 +89,82 @@
 :root {
   --background: oklch(100% 0 0deg);
   --foreground: oklch(14.5% 0 0deg);
-  --card: oklch(96.5% 0.005 265deg);
+  --card: oklch(97% 0.008 230deg);
   --card-foreground: oklch(14.5% 0 0deg);
   --popover: oklch(100% 0 0deg);
   --popover-foreground: oklch(14.5% 0 0deg);
-  --primary: oklch(44% 0.095 172deg);
-  --primary-foreground: oklch(98.5% 0 0deg);
+  /* Brand: Eparv logo blue #13A5DE with the bolt orange #FAA435 as energy accent */
+  --primary: #13a5de;
+  --primary-foreground: #ffffff;
   --secondary: oklch(97% 0 0deg);
   --secondary-foreground: oklch(20.5% 0 0deg);
   --muted: oklch(97% 0 0deg);
   --muted-foreground: oklch(55.6% 0 0deg);
-  --accent: oklch(96.5% 0.015 172deg);
-  --accent-foreground: oklch(30% 0.06 172deg);
+  --accent: #e9f7fd;
+  --accent-foreground: #0a6e96;
   --destructive: oklch(57.7% 0.245 27.325deg);
   --destructive-foreground: oklch(57.7% 0.245 27.325deg);
   --border: oklch(92.2% 0 0deg);
   --input: oklch(92.2% 0 0deg);
-  --ring: oklch(70% 0.09 172deg);
-  --chart-1: oklch(64.6% 0.15 165deg);
-  --chart-2: oklch(60% 0.118 184.704deg);
+  --ring: #13a5de;
+  --chart-1: #13a5de;
+  --chart-2: #faa435;
   --chart-3: oklch(39.8% 0.07 227.392deg);
   --chart-4: oklch(82.8% 0.189 84.429deg);
   --chart-5: oklch(76.9% 0.188 70.08deg);
   --radius: 0.625rem;
   --sidebar: oklch(98.5% 0 0deg);
   --sidebar-foreground: oklch(14.5% 0 0deg);
-  --sidebar-primary: oklch(44% 0.095 172deg);
-  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-primary: #13a5de;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: oklch(97% 0 0deg);
   --sidebar-accent-foreground: oklch(20.5% 0 0deg);
   --sidebar-border: oklch(92.2% 0 0deg);
-  --sidebar-ring: oklch(70% 0.09 172deg);
+  --sidebar-ring: #13a5de;
   --success: oklch(78% 0.08 200deg);
   --warning: oklch(89% 0.1 75deg);
   --error: oklch(75% 0.15 25deg);
+  --energy: #faa435;
 }
 
 [data-theme='dark'] {
-  --background: oklch(14.5% 0 0deg);
+  /* Deep Eparv-blue night palette — same 230deg hue as the brand blue */
+  --background: oklch(15.5% 0.02 230deg);
   --foreground: oklch(98.5% 0 0deg);
-  --card: oklch(17% 0 0deg);
+  --card: oklch(18.5% 0.025 230deg);
   --card-foreground: oklch(98.5% 0 0deg);
-  --popover: oklch(14.5% 0 0deg);
+  --popover: oklch(15.5% 0.02 230deg);
   --popover-foreground: oklch(98.5% 0 0deg);
-  --primary: oklch(82% 0.14 165deg);
-  --primary-foreground: oklch(20.5% 0 0deg);
-  --secondary: oklch(26.9% 0 0deg);
+  --primary: #4ec1ef;
+  --primary-foreground: #062a3b;
+  --secondary: oklch(26.5% 0.03 230deg);
   --secondary-foreground: oklch(98.5% 0 0deg);
-  --muted: oklch(26.9% 0 0deg);
+  --muted: oklch(26.5% 0.03 230deg);
   --muted-foreground: oklch(70.8% 0 0deg);
-  --accent: oklch(26.9% 0 0deg);
+  --accent: oklch(26.5% 0.04 230deg);
   --accent-foreground: oklch(98.5% 0 0deg);
   --destructive: oklch(39.6% 0.141 25.723deg);
   --destructive-foreground: oklch(63.7% 0.237 25.331deg);
-  --border: oklch(26.9% 0 0deg);
-  --input: oklch(26.9% 0 0deg);
-  --ring: oklch(55% 0.09 170deg);
-  --chart-1: oklch(70% 0.15 165deg);
+  --border: oklch(27% 0.03 230deg);
+  --input: oklch(27% 0.03 230deg);
+  --ring: #4ec1ef;
+  --chart-1: #4ec1ef;
   --chart-2: oklch(69.6% 0.17 162.48deg);
   --chart-3: oklch(76.9% 0.188 70.08deg);
   --chart-4: oklch(62.7% 0.265 303.9deg);
   --chart-5: oklch(64.5% 0.246 16.439deg);
-  --sidebar: oklch(20.5% 0 0deg);
+  --sidebar: oklch(21% 0.025 230deg);
   --sidebar-foreground: oklch(98.5% 0 0deg);
-  --sidebar-primary: oklch(82% 0.14 165deg);
-  --sidebar-primary-foreground: oklch(20.5% 0 0deg);
-  --sidebar-accent: oklch(26.9% 0 0deg);
+  --sidebar-primary: #4ec1ef;
+  --sidebar-primary-foreground: #062a3b;
+  --sidebar-accent: oklch(26.5% 0.03 230deg);
   --sidebar-accent-foreground: oklch(98.5% 0 0deg);
-  --sidebar-border: oklch(26.9% 0 0deg);
+  --sidebar-border: oklch(27% 0.03 230deg);
   --sidebar-ring: oklch(43.9% 0 0deg);
   --success: oklch(28% 0.1 200deg);
   --warning: oklch(35% 0.08 70deg);
   --error: oklch(45% 0.1 25deg);
+  --energy: #fcb052;
 }
 
 @theme inline {
@@ -203,6 +207,7 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-error: var(--error);
+  --color-energy: var(--energy);
 }
 
 @layer base {

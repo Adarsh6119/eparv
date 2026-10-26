@@ -159,7 +159,7 @@ const ImportManagerView = () => {
         .eparv-im .steps { color: #555; font-size: 13px; margin-bottom: 18px; line-height: 1.7; }
         .eparv-im .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
         .eparv-im button { cursor: pointer; border-radius: 6px; border: 1px solid #ccc; background: #f6f6f6; padding: 8px 16px; font-size: 14px; }
-        .eparv-im button.primary { background: #0f766e; border-color: #0f766e; color: #fff; }
+        .eparv-im button.primary { background: #13a5de; border-color: #13a5de; color: #fff; }
         .eparv-im button:disabled { opacity: 0.5; cursor: not-allowed; }
         .eparv-im .error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 10px 14px; border-radius: 6px; margin-bottom: 14px; }
         .eparv-im .issue-error { color: #b91c1c; font-size: 12.5px; }
@@ -174,7 +174,7 @@ const ImportManagerView = () => {
         .eparv-im .counts { display: flex; gap: 20px; flex-wrap: wrap; margin: 8px 0; }
         .eparv-im .counts div { font-size: 13px; color: #444; }
         .eparv-im .counts b { display: block; font-size: 22px; color: #111; }
-        .eparv-im a { color: #0f766e; }
+        .eparv-im a { color: #13a5de; }
       `}</style>
 
       <h2>CSV Page Import Manager</h2>
