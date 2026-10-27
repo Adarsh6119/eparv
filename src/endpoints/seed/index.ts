@@ -91,10 +91,15 @@ export const seed = async ({
 
   const imageIds: number[] = []
   for (let i = 0; i < palettes.length; i++) {
-    const png = await buildPlaceholderPng(palettes[i][0], palettes[i][1], i)
-    imageIds.push(
-      await uploadImage(payload, png, `eparv-placeholder-${i + 1}.png`, 'Eparv placeholder image (demo)'),
-    )
+    try {
+      const png = await buildPlaceholderPng(palettes[i][0], palettes[i][1], i)
+      imageIds.push(
+        await uploadImage(payload, png, `eparv-placeholder-${i + 1}.png`, 'Eparv placeholder image (demo)'),
+      )
+    } catch {
+      // Media upload failed (no storage adapter on Vercel) — continue without image
+      imageIds.push(null as unknown as number)
+    }
   }
 
   // ── Products ─────────────────────────────────────────────────────────────
@@ -157,29 +162,32 @@ export const seed = async ({
   const productIds: Record<string, number> = {}
   for (let i = 0; i < productDefs.length; i++) {
     const def = productDefs[i]
+    const data: any = {
+      name: def.name,
+      slug: def.slug,
+      category: def.category,
+      tagline: def.tagline,
+      shortDescription: def.shortDescription,
+      description: plainTextToLexical(def.description),
+      price: def.price,
+      availability: 'in-stock',
+      ...def.specs,
+      additionalSpecifications: [{ label: 'Data status', value: DEMO_TAG }],
+      deliveryLocations: [
+        { city: 'New Delhi', state: 'Delhi' },
+        { city: 'Mumbai', state: 'Maharashtra' },
+        { city: 'Bengaluru', state: 'Karnataka' },
+      ],
+      isFeatured: def.isFeatured,
+      isDemoData: true,
+      _status: 'published',
+    }
+    if (imageIds[i] != null) {
+      data.featuredImage = imageIds[i]
+    }
     const doc = await payload.create({
       collection: 'products',
-      data: {
-        name: def.name,
-        slug: def.slug,
-        category: def.category,
-        tagline: def.tagline,
-        shortDescription: def.shortDescription,
-        description: plainTextToLexical(def.description),
-        featuredImage: imageIds[i],
-        price: def.price,
-        availability: 'in-stock',
-        ...def.specs,
-        additionalSpecifications: [{ label: 'Data status', value: DEMO_TAG }],
-        deliveryLocations: [
-          { city: 'New Delhi', state: 'Delhi' },
-          { city: 'Mumbai', state: 'Maharashtra' },
-          { city: 'Bengaluru', state: 'Karnataka' },
-        ],
-        isFeatured: def.isFeatured,
-        isDemoData: true,
-        _status: 'published',
-      },
+      data,
     })
     productIds[def.name] = doc.id
   }
@@ -281,20 +289,23 @@ export const seed = async ({
   ]
 
   for (const def of postDefs) {
+    const data: any = {
+      title: def.title,
+      slug: def.slug,
+      content: plainTextToLexical(def.content),
+      categories: [categoryIds[def.category]],
+      meta: {
+        title: def.title,
+        description: def.title,
+      },
+      _status: 'published',
+    }
+    if (def.heroImage != null) {
+      data.heroImage = def.heroImage
+    }
     await payload.create({
       collection: 'posts',
-      data: {
-        title: def.title,
-        slug: def.slug,
-        heroImage: def.heroImage,
-        content: plainTextToLexical(def.content),
-        categories: [categoryIds[def.category]],
-        meta: {
-          title: def.title,
-          description: def.title,
-        },
-        _status: 'published',
-      },
+      data,
     })
   }
 
