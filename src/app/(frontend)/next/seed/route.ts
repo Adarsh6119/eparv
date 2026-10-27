@@ -47,8 +47,8 @@ async function handleSeed(request: Request): Promise<Response> {
     await seed({ payload, req: payloadReq })
 
     return Response.json({ success: true })
-  } catch (e) {
+  } catch (e: any) {
     payload.logger.error({ err: e, message: 'Error seeding data' })
-    return new Response('Error seeding data.', { status: 500 })
+    return new Response(JSON.stringify({ error: e?.message || 'Error seeding data.' }), { status: 500 })
   }
 }
