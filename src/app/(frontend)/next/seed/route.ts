@@ -5,7 +5,15 @@ import { headers } from 'next/headers'
 
 export const maxDuration = 60 // This function can run for a maximum of 60 seconds
 
+export async function GET(request: Request): Promise<Response> {
+  return handleSeed(request)
+}
+
 export async function POST(request: Request): Promise<Response> {
+  return handleSeed(request)
+}
+
+async function handleSeed(request: Request): Promise<Response> {
   const payload = await getPayload({ config })
   const requestHeaders = await headers()
 
