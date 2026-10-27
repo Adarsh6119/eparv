@@ -100,7 +100,7 @@ export const Products: CollectionConfig<'products'> = {
               name: 'featuredImage',
               type: 'upload',
               relationTo: 'media',
-              required: true,
+              required: false,
             },
             {
               name: 'gallery',
