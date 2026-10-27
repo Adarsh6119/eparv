@@ -10,7 +10,13 @@ export async function POST(request: Request): Promise<Response> {
   const requestHeaders = await headers()
 
   // Authenticate via session (admin login) OR via SEED_SECRET
-  const { user } = await payload.auth({ headers: requestHeaders })
+  let user: any = null
+  try {
+    const authResult = await payload.auth({ headers: requestHeaders })
+    user = authResult.user
+  } catch {
+    // No valid session — user stays null
+  }
 
   const seedSecret = process.env.SEED_SECRET
   const url = new URL(request.url)
