@@ -5,14 +5,23 @@ import { headers } from 'next/headers'
 
 export const maxDuration = 60 // This function can run for a maximum of 60 seconds
 
-export async function POST(): Promise<Response> {
+export async function POST(request: Request): Promise<Response> {
   const payload = await getPayload({ config })
   const requestHeaders = await headers()
 
-  // Authenticate by passing request headers
+  // Authenticate via session (admin login) OR via SEED_SECRET
   const { user } = await payload.auth({ headers: requestHeaders })
 
-  if (!user) {
+  const seedSecret = process.env.SEED_SECRET
+  const url = new URL(request.url)
+  const querySecret = url.searchParams.get('secret')
+  const authHeader = requestHeaders.get('authorization')
+  const bearerSecret = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null
+
+  const secretValid =
+    seedSecret && (querySecret === seedSecret || bearerSecret === seedSecret)
+
+  if (!user && !secretValid) {
     return new Response('Action forbidden.', { status: 403 })
   }
 
