@@ -25,6 +25,19 @@ import { getServerSideURL } from './utilities/getURL'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// libsql/SQLite rejects PostgreSQL-only query params such as `sslmode`.
+// Detect Postgres by adapter flag or by a `postgres://`/`postgresql://` DATABASE_URL.
+const isPostgres =
+  process.env.DATABASE_ADAPTER === 'postgres' ||
+  /^postgres(?:ql)?:\/\//i.test(process.env.DATABASE_URL ?? '')
+
+const sqliteUrl = process.env.DATABASE_URL
+  ? process.env.DATABASE_URL.replace(
+      /[?&](?:sslmode|channel_binding)=[^&]*|(?:sslmode|channel_binding)=[^&]*&?/g,
+      '',
+    ) || 'file:./eparv.db'
+  : 'file:./eparv.db'
+
 export default buildConfig({
   admin: {
     components: {
@@ -66,14 +79,14 @@ export default buildConfig({
   editor: defaultLexical,
   // Local development defaults to SQLite (zero infrastructure on Windows).
   // Production sets DATABASE_ADAPTER=postgres with a PostgreSQL DATABASE_URL.
-  db:
-    process.env.DATABASE_ADAPTER === 'postgres'
-      ? postgresAdapter({
-          pool: { connectionString: process.env.DATABASE_URL },
-        })
-      : sqliteAdapter({
-          client: { url: process.env.DATABASE_URL || 'file:./eparv.db' },
-        }),
+  // A `postgres://`/`postgresql://` DATABASE_URL also selects the Postgres adapter.
+  db: isPostgres
+    ? postgresAdapter({
+        pool: { connectionString: process.env.DATABASE_URL },
+      })
+    : sqliteAdapter({
+        client: { url: sqliteUrl },
+      }),
   collections: [Pages, Posts, Products, Dealers, Leads, ImportBatches, Media, Categories, Users],
   endpoints: importEndpoints,
   // Lead-notification email. Optional — when SMTP is not configured the
