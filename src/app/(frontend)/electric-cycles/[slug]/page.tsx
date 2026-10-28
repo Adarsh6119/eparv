@@ -98,7 +98,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
     isDemoData,
     category,
     meta,
-  } = product
+  } = product as any
 
   const specs: { label: string; value: string }[] = []
   if (product.batteryCapacity) specs.push({ label: 'Battery capacity', value: product.batteryCapacity })
@@ -122,6 +122,10 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
   const hasPromo = typeof promotionalPrice === 'number' && promotionalPrice > 0
   const image =
     featuredImage && typeof featuredImage === 'object' ? featuredImage : null
+  const imageUrlValue =
+    (featuredImage && typeof featuredImage === 'object' && featuredImage.url) ||
+    (product as any).imageUrl ||
+    null
 
   return (
     <article className="pb-24 pt-16">
@@ -142,6 +146,12 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted">
               {image ? (
                 <Media resource={image} size="50vw" priority />
+              ) : imageUrlValue ? (
+                <img
+                  src={imageUrlValue}
+                  alt={name}
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <div className="flex h-full items-center justify-center text-muted-foreground">
                   Image coming soon
@@ -150,7 +160,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
             </div>
             {gallery && gallery.length > 0 && (
               <div className="grid grid-cols-4 gap-3">
-                {gallery.slice(0, 8).map((item, index) => {
+                {gallery.slice(0, 8).map((item: any, index: number) => {
                   const galleryImage =
                     item.image && typeof item.image === 'object' ? item.image : null
                   return (
@@ -304,7 +314,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
           ...(tagline ? { description: tagline } : {}),
           ...(shortDescription ? { disambiguatingDescription: shortDescription } : {}),
           category: category ?? undefined,
-          ...(image?.url ? { image: `${getServerSideURL()}${image.url}` } : {}),
+          ...(imageUrlValue ? { image: `${getServerSideURL()}${imageUrlValue}` } : {}),
           ...(meta?.description ? { description: meta.description } : {}),
           ...(!isDemoData && typeof price === 'number'
             ? {
