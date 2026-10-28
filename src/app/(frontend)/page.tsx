@@ -156,13 +156,22 @@ export default async function HomePage() {
   const posts = latestPosts?.docs ?? []
 
   // Use the Visakka product image for hero & showcase sections
-  const visakka = heroProduct?.docs?.[0] ?? null
-  const visakkaImg = visakka?.featuredImage && typeof visakka.featuredImage === 'object' ? visakka.featuredImage : null
+  const visakka = (heroProduct?.docs?.[0] ?? null) as any
+  const visakkaImg =
+    (visakka?.featuredImage && typeof visakka.featuredImage === 'object'
+      ? visakka.featuredImage
+      : null) ??
+    (visakka?.imageUrl ? { url: visakka.imageUrl } : null)
   const heroImages = visakkaImg?.url
     ? [{ url: visakkaImg.url, alt: visakka?.name ?? 'Eparv Electric Cycle', slug: visakka?.slug ?? '' }]
     : featuredProducts
         .map((p) => {
-          const img = p.featuredImage && typeof p.featuredImage === 'object' ? p.featuredImage : null
+          const pp = p as any
+          const img =
+            (pp.featuredImage && typeof pp.featuredImage === 'object'
+              ? pp.featuredImage
+              : null) ??
+            (pp.imageUrl ? { url: pp.imageUrl } : null)
           return img?.url ? { url: img.url, alt: p.name, slug: p.slug } : null
         })
         .filter(Boolean)
