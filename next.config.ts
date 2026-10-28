@@ -11,6 +11,8 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
 
+const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL
+
 const nextConfig: NextConfig = {
   // Temporarily required on Windows until Next.js fixes Turbopack Sass resolution.
   // See: https://github.com/vercel/next.js/issues/86431
@@ -33,6 +35,14 @@ const nextConfig: NextConfig = {
           protocol: url.protocol.replace(':', '') as 'http' | 'https',
         }
       }),
+      ...(R2_PUBLIC_URL
+        ? [
+            {
+              hostname: new URL(R2_PUBLIC_URL).hostname,
+              protocol: new URL(R2_PUBLIC_URL).protocol.replace(':', '') as 'http' | 'https',
+            },
+          ]
+        : []),
     ],
   },
   webpack: (webpackConfig) => {

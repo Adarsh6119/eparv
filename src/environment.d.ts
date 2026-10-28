@@ -6,6 +6,11 @@ declare global {
       NEXT_PUBLIC_SERVER_URL: string
       VERCEL_PROJECT_PRODUCTION_URL: string
       SEED_SECRET?: string
+      R2_ACCOUNT_ID: string
+      R2_ACCESS_KEY_ID: string
+      R2_SECRET_ACCESS_KEY: string
+      R2_BUCKET_NAME: string
+      R2_PUBLIC_URL: string
     }
   }
 }
