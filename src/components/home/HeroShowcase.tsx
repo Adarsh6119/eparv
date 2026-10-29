@@ -302,12 +302,12 @@ export const HeroShowcase: React.FC = () => {
                 </div>
 
                 {/* Central High-Definition Cycle Image */}
-                <div className="relative z-10 w-full max-w-[500px] aspect-[4/3] flex items-center justify-center">
+                <div className="relative z-10 w-full max-w-[580px] aspect-[16/10] flex items-center justify-center">
                   <img
                     key={activeModel.id}
                     src={activeModel.image}
                     alt={activeModel.alt}
-                    className="w-full h-full object-contain filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.6)] transition-all duration-500 transform hover:scale-105"
+                    className="w-full h-full object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] transition-all duration-500 transform hover:scale-105"
                   />
                 </div>
               </div>

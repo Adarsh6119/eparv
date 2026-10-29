@@ -251,39 +251,42 @@ export const CycleLineup: React.FC = () => {
 
         {/* ── VIEW 1: MODERN CARDS GRID ── */}
         {viewMode === 'cards' && (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
             {filteredCycles.map((cycle) => (
               <article
                 key={cycle.id}
                 className="group rounded-3xl border border-border bg-card shadow-lg hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden"
               >
                 <div>
-                  {/* Image Stage */}
-                  <div className="relative aspect-[4/3] bg-gradient-to-b from-muted/50 to-muted/20 p-5 flex items-center justify-center border-b border-border/80 overflow-hidden">
+                  {/* Image Stage - Expanded area with zero clipping and transparent blend */}
+                  <div className="relative w-full h-60 sm:h-64 lg:h-72 flex items-center justify-center p-3 sm:p-4 bg-gradient-to-b from-muted/40 via-muted/10 to-transparent border-b border-border/60 overflow-hidden">
+                    {/* Subtle spotlight glow behind cycle */}
+                    <div className="absolute inset-0 bg-radial from-primary/15 via-transparent to-transparent opacity-80 pointer-events-none" />
+
                     {/* Badge */}
                     <span
-                      className={`absolute top-3 left-3 text-[10px] font-extrabold px-2.5 py-1 rounded-full shadow-sm z-10 ${cycle.badgeColor}`}
+                      className={`absolute top-3.5 left-3.5 text-[11px] font-extrabold px-3 py-1 rounded-full shadow-md z-10 backdrop-blur-md ${cycle.badgeColor}`}
                     >
                       {cycle.badge}
                     </span>
 
                     {/* Price Pill */}
-                    <div className="absolute top-3 right-3 text-right z-10">
-                      <span className="text-xs font-black text-foreground block bg-card/90 px-2.5 py-0.5 rounded-full border border-border/80 shadow-sm">
+                    <div className="absolute top-3.5 right-3.5 text-right z-10">
+                      <span className="text-xs sm:text-sm font-black text-foreground block bg-card/95 px-3 py-1 rounded-full border border-border shadow-md backdrop-blur-md">
                         {cycle.price}
                       </span>
                       {cycle.originalPrice && (
-                        <span className="text-[10px] text-muted-foreground line-through block mt-0.5 pr-1">
+                        <span className="text-[10px] text-muted-foreground line-through block mt-0.5 pr-1 font-semibold">
                           {cycle.originalPrice}
                         </span>
                       )}
                     </div>
 
-                    {/* Cycle Photo with Hover Zoom */}
+                    {/* Cycle Photo with Hover Zoom - Expands to cover area without cutting */}
                     <img
                       src={cycle.image}
                       alt={cycle.name}
-                      className="w-full h-full object-contain filter drop-shadow-[0_10px_15px_rgba(0,0,0,0.15)] transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-contain filter drop-shadow-[0_12px_20px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                     />
                   </div>
@@ -293,7 +296,7 @@ export const CycleLineup: React.FC = () => {
                     <span className="text-[11px] font-bold uppercase tracking-wider text-primary">
                       {cycle.category}
                     </span>
-                    <h3 className="text-lg font-black text-foreground mt-0.5 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-black text-foreground mt-0.5 group-hover:text-primary transition-colors">
                       {cycle.name}
                     </h3>
                     <p className="text-xs text-muted-foreground line-clamp-2 mt-1 leading-relaxed">
@@ -303,18 +306,18 @@ export const CycleLineup: React.FC = () => {
 
                   {/* Specs Quick Pills */}
                   <div className="px-5 py-2 grid grid-cols-2 gap-2 text-xs">
-                    <div className="flex items-center gap-1.5 p-2 rounded-xl bg-muted/40 border border-border/60">
-                      <Gauge className="size-3.5 text-primary shrink-0" />
+                    <div className="flex items-center gap-2 p-2.5 rounded-xl bg-muted/40 border border-border/60">
+                      <Gauge className="size-4 text-primary shrink-0" />
                       <div className="min-w-0">
-                        <div className="text-[10px] text-muted-foreground">Range</div>
+                        <div className="text-[10px] text-muted-foreground font-medium">Max Range</div>
                         <div className="font-extrabold text-foreground truncate">{cycle.range}</div>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5 p-2 rounded-xl bg-muted/40 border border-border/60">
-                      <Zap className="size-3.5 text-energy shrink-0" />
+                    <div className="flex items-center gap-2 p-2.5 rounded-xl bg-muted/40 border border-border/60">
+                      <Zap className="size-4 text-energy shrink-0" />
                       <div className="min-w-0">
-                        <div className="text-[10px] text-muted-foreground">Motor</div>
+                        <div className="text-[10px] text-muted-foreground font-medium">Motor</div>
                         <div className="font-extrabold text-foreground truncate">250W BLDC</div>
                       </div>
                     </div>
@@ -323,8 +326,8 @@ export const CycleLineup: React.FC = () => {
                   {/* Highlight checklist */}
                   <div className="px-5 py-3 border-t border-border/40 space-y-1.5">
                     {cycle.highlights.map((h) => (
-                      <div key={h} className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
-                        <CheckCircle2 className="size-3 text-emerald-500 shrink-0" />
+                      <div key={h} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <CheckCircle2 className="size-3.5 text-emerald-500 shrink-0" />
                         <span className="truncate">{h}</span>
                       </div>
                     ))}
@@ -335,7 +338,7 @@ export const CycleLineup: React.FC = () => {
                 <div className="p-5 pt-3 space-y-2 border-t border-border/60 bg-muted/10">
                   <Link
                     href={`/electric-cycles/${cycle.slug}`}
-                    className="w-full inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-primary text-xs font-bold text-white shadow-sm hover:bg-primary/90 transition-all hover:-translate-y-0.5"
+                    className="w-full inline-flex h-11 items-center justify-center gap-1.5 rounded-xl bg-primary text-xs font-bold text-white shadow-sm hover:bg-primary/90 transition-all hover:-translate-y-0.5"
                   >
                     <span>View Specifications</span>
                     <ArrowRight className="size-3.5" />
@@ -343,9 +346,9 @@ export const CycleLineup: React.FC = () => {
 
                   <Link
                     href={`/book-test-ride?model=${cycle.slug}`}
-                    className="w-full inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-border bg-card text-[11px] font-bold text-foreground hover:bg-muted transition-colors"
+                    className="w-full inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-border bg-card text-xs font-bold text-foreground hover:bg-muted transition-colors"
                   >
-                    <Calendar className="size-3 text-energy" />
+                    <Calendar className="size-3.5 text-energy" />
                     <span>Book Free Test Ride</span>
                   </Link>
                 </div>
