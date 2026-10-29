@@ -15,16 +15,15 @@ import {
 } from 'lucide-react'
 
 import { Card } from '@/components/Card'
-import { ProductCard } from '@/components/ProductCard'
 import { Button } from '@/components/ui/button'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 import { HeroShowcase } from '@/components/home/HeroShowcase'
 import { TrustBadges } from '@/components/home/TrustBadges'
+import { CycleLineup } from '@/components/home/CycleLineup'
 import { SavingsCalculator } from '@/components/home/SavingsCalculator'
 import { RidingModes } from '@/components/home/RidingModes'
 import { TechAnatomy } from '@/components/home/TechAnatomy'
-import { ModelComparison } from '@/components/home/ModelComparison'
 import { OwnershipJourney } from '@/components/home/OwnershipJourney'
 import { TestimonialsSection } from '@/components/home/TestimonialsSection'
 import { TestRideBanner } from '@/components/home/TestRideBanner'
@@ -70,98 +69,33 @@ const FAQS = [
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
-  const [featured, latestPosts] = await Promise.all([
-    payload
-      .find({
-        collection: 'products',
-        depth: 1,
-        limit: 4,
-        overrideAccess: false,
-        draft: false,
-        pagination: false,
-        where: {
-          and: [{ _status: { equals: 'published' } }, { isFeatured: { equals: true } }],
-        },
-        sort: '-updatedAt',
-      })
-      .catch(() => null),
-    payload
-      .find({
-        collection: 'posts',
-        depth: 1,
-        limit: 3,
-        overrideAccess: false,
-        draft: false,
-        pagination: false,
-        where: {
-          _status: { equals: 'published' },
-        },
-        sort: '-publishedAt',
-      })
-      .catch(() => null),
-  ])
-
-  // Fallback to all published products if featured products list is empty
-  let featuredProducts = featured?.docs ?? []
-  if (featuredProducts.length === 0) {
-    const allPublished = await payload
-      .find({
-        collection: 'products',
-        depth: 1,
-        limit: 4,
-        overrideAccess: false,
-        draft: false,
-        pagination: false,
-        where: {
-          _status: { equals: 'published' },
-        },
-        sort: '-updatedAt',
-      })
-      .catch(() => null)
-    featuredProducts = allPublished?.docs ?? []
-  }
+  const latestPosts = await payload
+    .find({
+      collection: 'posts',
+      depth: 1,
+      limit: 3,
+      overrideAccess: false,
+      draft: false,
+      pagination: false,
+      where: {
+        _status: { equals: 'published' },
+      },
+      sort: '-publishedAt',
+    })
+    .catch(() => null)
 
   const posts = latestPosts?.docs ?? []
 
   return (
     <article className="pb-0 overflow-x-hidden">
-      {/* 1. HERO SHOWCASE WITH MODEL SWITCHER */}
+      {/* 1. HERO SHOWCASE WITH MODEL SWITCHER (100% REAL CYCLE PHOTOS) */}
       <HeroShowcase />
 
       {/* 2. STATS & TRUST PILLARS BAR */}
       <TrustBadges />
 
-      {/* 3. FEATURED PRODUCTS CATALOGUE HIGHLIGHT */}
-      {featuredProducts.length > 0 && (
-        <section className="container py-16" aria-labelledby="featured-heading">
-          <div className="mb-10 flex flex-col items-start gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-primary mb-2">
-                <Sparkles className="size-3 text-energy" />
-                <span>Our Flagship Range</span>
-              </div>
-              <h2 id="featured-heading" className="text-3xl font-bold tracking-tight md:text-4xl text-foreground">
-                Featured Electric Cycles
-              </h2>
-              <p className="mt-1 text-sm text-muted-foreground max-w-xl">
-                Explore our best-selling electric cycles built with high-torque hub motors and long-range lithium battery packs.
-              </p>
-            </div>
-            <Link
-              href="/electric-cycles"
-              className="group inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary/80 transition-colors"
-            >
-              <span>View all models</span>
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-            </Link>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
-      )}
+      {/* 3. UNIFIED ELECTRIC CYCLE LINEUP (REAL PHOTOS + FILTERS + COMPARISON TOGGLE) */}
+      <CycleLineup />
 
       {/* 4. INTERACTIVE FUEL SAVINGS CALCULATOR */}
       <SavingsCalculator />
@@ -172,19 +106,16 @@ export default async function HomePage() {
       {/* 6. TECHNOLOGY & ANATOMY DEEP DIVE */}
       <TechAnatomy />
 
-      {/* 7. FULL LINEUP COMPARISON MATRIX */}
-      <ModelComparison />
-
-      {/* 8. 4-STEP EFFORTLESS OWNERSHIP JOURNEY */}
+      {/* 7. 4-STEP EFFORTLESS OWNERSHIP JOURNEY */}
       <OwnershipJourney />
 
-      {/* 9. TEST RIDE & CITY ACTION BANNER */}
+      {/* 8. TEST RIDE & CITY ACTION BANNER */}
       <TestRideBanner />
 
-      {/* 10. SOCIAL PROOF & CUSTOMER REVIEWS */}
+      {/* 9. SOCIAL PROOF & CUSTOMER REVIEWS */}
       <TestimonialsSection />
 
-      {/* 11. PARTNERSHIP & NEXT STEPS CTA CARDS */}
+      {/* 10. PARTNERSHIP & NEXT STEPS CTA CARDS */}
       <section className="container grid gap-6 py-20 lg:grid-cols-3" aria-label="Next steps">
         <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-8 transition-all duration-300 hover:border-primary/40 hover:shadow-xl hover:-translate-y-1">
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/5 transition-transform duration-500 group-hover:scale-150" aria-hidden="true" />
@@ -192,7 +123,7 @@ export default async function HomePage() {
             <div className="mb-4 inline-flex rounded-xl bg-primary/10 p-3">
               <Gauge className="size-6 text-primary" aria-hidden="true" />
             </div>
-            <h3 className="mb-2 text-xl font-bold text-foreground">Compare All Models</h3>
+            <h3 className="mb-2 text-xl font-bold text-foreground">Explore All Models</h3>
             <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
               Compare motor power, battery capacity, range, and pricing side-by-side to find the right cycle for your daily commute.
             </p>
@@ -240,7 +171,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 12. FREQUENTLY ASKED QUESTIONS */}
+      {/* 11. FREQUENTLY ASKED QUESTIONS */}
       <section className="bg-card/40 py-20 border-t border-border" aria-labelledby="faq-heading">
         <div className="container">
           <div className="mb-12 text-center max-w-2xl mx-auto">
@@ -273,7 +204,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 13. BLOG & EV GUIDES HIGHLIGHTS */}
+      {/* 12. BLOG & EV GUIDES HIGHLIGHTS */}
       {posts.length > 0 && (
         <section className="container py-20 border-t border-border" aria-labelledby="blog-heading">
           <div className="mb-10 flex flex-col items-start gap-4 md:flex-row md:items-end md:justify-between">
@@ -301,7 +232,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* 14. FINAL CONTACT CTA */}
+      {/* 13. FINAL CONTACT CTA */}
       <section className="relative overflow-hidden bg-gradient-to-br from-primary/15 via-card to-energy/15 py-24 border-t border-border">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[500px] rounded-full bg-primary/10 blur-[120px] pointer-events-none" aria-hidden="true" />
         <div className="container relative text-center">

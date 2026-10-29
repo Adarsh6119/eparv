@@ -32,7 +32,9 @@ export const Products: CollectionConfig<'products'> = {
     tagline: true,
     shortDescription: true,
     price: true,
+    promotionalPrice: true,
     availability: true,
+    featuredImage: true,
   },
   admin: {
     defaultColumns: ['name', 'category', 'price', 'availability', '_status'],

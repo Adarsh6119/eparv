@@ -34,7 +34,7 @@ const TECH_FEATURES: TechFeature[] = [
     specs: ['250W Continuous Power', '45 Nm Peak Torque', 'Brushless & Maintenance-Free', '24-Month Warranty'],
     description:
       'Engineered specifically for Indian stop-and-go city traffic and steep flyover climbs. The high-efficiency brushless hub motor delivers instant power the moment you twist the throttle or turn the pedals.',
-    image: '/panther-images/01-panther-side-profile.png',
+    image: '/cycles/panther.png',
   },
   {
     id: 'battery',
@@ -56,7 +56,7 @@ const TECH_FEATURES: TechFeature[] = [
     specs: ['160mm Dual Rotor Discs', '0.1s Instant Motor Cut-off', 'High Heat Dissipation', 'All-Weather Pad Grip'],
     description:
       'Safety comes first on busy Indian streets. Tapping either brake lever instantly cuts off electrical power to the hub motor in 100 milliseconds, ensuring controlled, skid-free stopping even during heavy monsoon downpours.',
-    image: '/visakka-images/01-visakka-side-profile.png',
+    image: '/cycles/visakka.png',
   },
   {
     id: 'display',
@@ -78,7 +78,7 @@ const TECH_FEATURES: TechFeature[] = [
     specs: ['80mm Damping Travel', 'Preload Adjustability', 'Alloy Crown & Stanchions', 'Wrist Fatigue Relief'],
     description:
       'Say goodbye to shoulder and wrist aches. The front suspension fork absorbs shocks from potholes, speed breakers, and unpaved roads, ensuring every commute is silky smooth.',
-    image: '/lahari-images/01-lahari-side-profile.png',
+    image: '/cycles/lahari.png',
   },
   {
     id: 'frame',
@@ -89,7 +89,7 @@ const TECH_FEATURES: TechFeature[] = [
     specs: ['150 kg Load Tested', 'Multi-Coat Anti-Rust Finish', 'Robotically Welded Joints', 'Rear Carrier Ready'],
     description:
       'Built to last decades. The frame is structurally tested to carry rider plus heavy cargo up to 150 kg with zero frame flexing. Protected by a premium corrosion-resistant powder coating.',
-    image: '/savitri-images/01-savitri-side-profile.png',
+    image: '/cycles/savitri.png',
   },
 ]
 
