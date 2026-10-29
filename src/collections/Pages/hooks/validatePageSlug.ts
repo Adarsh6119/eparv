@@ -2,11 +2,13 @@ import type { CollectionBeforeValidateHook } from 'payload'
 import { ValidationError } from 'payload'
 
 import type { Page } from '@/payload-types'
+import { isRegistrySlug } from '@/cities'
 import { RESERVED_SLUGS, SLUG_PATTERN } from '@/utilities/reservedSlugs'
 
 /**
- * Blocks page slugs that would collide with application routes and rejects
- * malformed slugs. Runs server-side for every create and update.
+ * Blocks page slugs that would collide with application routes or the
+ * code-defined city/state pages (src/cities) and rejects malformed slugs.
+ * Runs server-side for every create and update.
  */
 export const validatePageSlug: CollectionBeforeValidateHook<Page> = ({ data }) => {
   const slug = typeof data?.slug === 'string' ? data.slug.toLowerCase() : undefined
@@ -28,6 +30,17 @@ export const validatePageSlug: CollectionBeforeValidateHook<Page> = ({ data }) =
       errors: [
         {
           message: `"${slug}" is reserved for an application route. Please choose a different slug.`,
+          path: 'slug',
+        },
+      ],
+    })
+  }
+
+  if (slug && isRegistrySlug(slug)) {
+    throw new ValidationError({
+      errors: [
+        {
+          message: `"${slug}" is already served by the built-in city page template (src/cities). Add or edit the city there instead of creating a CMS page.`,
           path: 'slug',
         },
       ],

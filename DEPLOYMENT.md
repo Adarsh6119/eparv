@@ -4,6 +4,29 @@ Production deployment for a low-cost Linux VPS (₹1,000–₹5,000/month budget
 Two supported paths: **Docker** (recommended, fewer moving parts) or **bare Node**.
 Either way the app sits behind **Nginx with HTTPS** and talks to **PostgreSQL**.
 
+## Vercel deployment
+
+Payload is initialized while Next.js collects static page parameters during the
+build, so the build environment must have a `PAYLOAD_SECRET`. Do not add a
+fallback secret to the source code.
+
+In **Vercel → Project → Settings → Environment Variables**, add these values
+for every environment you deploy (Production and Preview):
+
+```env
+PAYLOAD_SECRET=<a unique random secret>
+DATABASE_ADAPTER=postgres
+DATABASE_URL=<your reachable PostgreSQL connection string>
+NEXT_PUBLIC_SERVER_URL=https://<your-domain>
+```
+
+Generate a secret locally with
+`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`,
+then paste its output as the `PAYLOAD_SECRET` value in Vercel. Keep this value
+stable across deployments and do not commit it. After saving the variables,
+redeploy so they are available during the build. The database must be reachable
+from Vercel during build because dynamic page paths are loaded from Payload.
+
 ---
 
 ## 1. Server requirements

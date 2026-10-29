@@ -90,20 +90,19 @@ async function main() {
     ]
 
     for (let i = 0; i < imageFiles.length; i++) {
-      const filePath = path.join(imagesDir, imageFiles[i])
-      const alt = altTexts[i] || `Eparv Panther electric cycle - image ${i + 1}`
-      const mediaId = await uploadMedia(token, filePath, alt)
-      if (i === 0) {
-        featuredImageId = mediaId
-      } else {
-        galleryItems.push({ image: mediaId, altText: alt })
+      try {
+        const filePath = path.join(imagesDir, imageFiles[i])
+        const alt = altTexts[i] || `Eparv Panther electric cycle - image ${i + 1}`
+        const mediaId = await uploadMedia(token, filePath, alt)
+        if (i === 0) {
+          featuredImageId = mediaId
+        } else {
+          galleryItems.push({ image: mediaId, altText: alt })
+        }
+      } catch (e) {
+        console.log(`  ⚠  Skipping ${imageFiles[i]}: upload failed`)
       }
     }
-  }
-
-  if (!featuredImageId) {
-    const media = await api('/api/media?limit=1', { token })
-    featuredImageId = media.json?.docs?.[0]?.id || 1
   }
 
   console.log('\nCreating Eparv Panther product…')
@@ -117,7 +116,7 @@ async function main() {
       'The Eparv Panther is a sleek 26T MTB electric cycle in stealth black with a 250W BLDC hub motor, ' +
       'internal 36V Li-Ion NMC battery (6.6/7.8Ah), up to 55 km PAS range, dual disc brakes, ' +
       'UV 3D stickers, and key ignition anti-theft.',
-    featuredImage: featuredImageId,
+    ...(featuredImageId ? { featuredImage: featuredImageId } : {}),
     ...(galleryItems.length > 0 ? { gallery: galleryItems } : {}),
     price: 21000,
     availability: 'in-stock',

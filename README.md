@@ -63,7 +63,8 @@ Copy `.env.example` → `.env` and fill in. Highlights:
 
 - `DATABASE_ADAPTER` — `sqlite` (dev default) or `postgres` (production)
 - `DATABASE_URL` — `file:./eparv.db` or `postgresql://user:pass@host:5432/eparv`
-- `PAYLOAD_SECRET` — long random string (JWT signing)
+- `PAYLOAD_SECRET` — required long random string (JWT signing); configure it in
+  the Vercel build environment as well as at runtime
 - `NEXT_PUBLIC_SERVER_URL` — public origin, no trailing slash
 - `PREVIEW_SECRET` / `CRON_SECRET` — random strings for draft preview / cron auth
 - `SMTP_*`, `LEAD_NOTIFICATION_FROM`, `LEAD_NOTIFICATION_TO` — optional lead emails
@@ -75,9 +76,21 @@ Never commit real secrets — `.env` is gitignored.
 ## Routes
 
 **Public:** `/` · `/electric-cycles` · `/electric-cycles/[slug]` · `/compare/[slug]`
-· `/electric-cycle-in-[city]` + `/electric-cycles-in-[state]` (CMS-driven landing pages)
+· `/electric-cycle-in-[city]` + `/electric-cycle-in-[state]` (city/state landing pages)
 · `/dealers` · `/dealers/[slug]` · `/become-a-dealer` · `/book-test-ride` · `/bulk-orders`
 · `/blog` · `/blog/[slug]` · `/contact` · `/privacy-policy` · `/terms`
+
+**City & state landing pages** are code-defined in `src/cities` (99 pages: 66 UP cities,
+12 Bihar, 15 MP, Delhi, Delhi NCR, Hyderabad). Each page is built from hand-written, city-specific content —
+local routes, delivery areas, FAQs, unique meta — so no two pages share body copy.
+They are served by the `[slug]` catch-all, which gives registry pages precedence over
+CMS pages; admin/CSV imports are blocked from creating colliding slugs.
+
+To add a city: append an entry to the relevant file in `src/cities/` (e.g.
+`uttar-pradesh.ts`) following `src/cities/types.ts`, add a nearby-slug link, and
+register a new state file in `src/cities/index.ts` if needed. Route, static
+generation, metadata, sitemap entry (`/cities-sitemap.xml`) and internal links are
+derived automatically.
 
 **Admin:** `/admin` — content, products, dealers, leads CRM, CSV import manager.
 
@@ -86,7 +99,8 @@ staff only), `/api/imports/*` (CSV upload / run / report, staff only),
 `/api/imports/template` (CSV template download), plus standard Payload REST/GraphQL.
 
 URL collision safety: page slugs are validated server-side against a reserved list
-(`src/utilities/reservedSlugs.ts`) so CMS content can never shadow an app route.
+(`src/utilities/reservedSlugs.ts`) and the city-page registry (`src/cities`), so CMS
+content can never shadow an app route or a built-in city page.
 
 ## Roles
 
@@ -124,7 +138,7 @@ Leads are never exposed through public APIs; CSV export is staff-only.
 ## SEO
 
 Per-page metadata + canonical URLs + noindex control, dynamic XML sitemaps
-(pages / blog / products / dealers) that exclude drafts and noindex pages,
+(cities / pages / blog / products / dealers) that exclude drafts and noindex pages,
 robots.txt, breadcrumbs + BreadcrumbList JSON-LD, Organization / Product /
 LocalBusiness / Article structured data — offers, ratings and addresses only
 render for verified, non-demo data. 301 redirects: `/posts/* → /blog/*`, `/ → /home`.
@@ -169,4 +183,3 @@ scripts/smoke-test.mjs # 61-check end-to-end suite (npm run smoke)
 ## License
 
 MIT (inherited from the Payload template base).
-

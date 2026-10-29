@@ -138,7 +138,7 @@ async function main() {
   }
   await cleanup('products', { slug: { equals: 'smoke-test-cycle' } })
   await cleanup('posts', { slug: { equals: 'smoke-test-post' } })
-  await cleanup('pages', { slug: { equals: 'electric-cycle-in-hyderabad' } })
+  await cleanup('pages', { slug: { equals: 'electric-cycle-in-smokecity' } })
   await cleanup('import-batches', { filename: { equals: 'smoke-import.csv' } })
   await cleanup('leads', {
     phone: { in: [PHONES.retail, PHONES.noConsent, PHONES.honeypot, PHONES.dealer, PHONES.bulk] },
@@ -265,10 +265,10 @@ async function main() {
   {
     const csv = [
       'slug,pageTitle,pageType,city,state,productSlug,content,metaTitle,metaDescription,canonicalUrl,status',
-      `"electric-cycle-in-hyderabad","Electric Cycles in Hyderabad","city","Hyderabad","Telangana","","## Riding in Hyderabad\n\nHyderabad riders cover long distances across wide roads and expanding tech corridors, and an electric cycle keeps those commutes affordable and pleasant. This is a smoke-test page with genuinely unique body copy used to validate the import pipeline.","Electric Cycles in Hyderabad | Eparv","Eparv electric cycles in Hyderabad.","",draft`,
+      `"electric-cycle-in-smokecity","Electric Cycles in Hyderabad","city","Hyderabad","Telangana","","## Riding in Hyderabad\n\nHyderabad riders cover long distances across wide roads and expanding tech corridors, and an electric cycle keeps those commutes affordable and pleasant. This is a smoke-test page with genuinely unique body copy used to validate the import pipeline.","Electric Cycles in Hyderabad | Eparv","Eparv electric cycles in Hyderabad.","",draft`,
       `"BAD SLUG!","Invalid slug row","standard","","","","This row has an invalid slug on purpose and must be blocked with a row-level error.","","","",draft`,
       `"electric-cycle-in-chennai","Thin","city","Chennai","Tamil Nadu","","too short","x","","",draft`,
-      `"electric-cycle-in-hyderabad","Duplicate slug","standard","","","","This row duplicates the first row slug and must be reported as a duplicate within the file.","","","",draft`,
+      `"electric-cycle-in-smokecity","Duplicate slug","standard","","","","This row duplicates the first row slug and must be reported as a duplicate within the file.","","","",draft`,
       `"electric-cycle-in-kolkata","Bad product","standard","","","no-such-product","This row references a product slug that does not exist and must be blocked accordingly.","","","",draft`,
       `"electric-cycle-in-jaipur","Published status","standard","","","","This row asks for status published which imports must never honour, so it must be blocked with a clear error message.","","","",published`,
     ].join('\n')
@@ -281,7 +281,7 @@ async function main() {
     const rows = upload.json?.rows ?? []
     log(rows.length === 6, 'all 6 rows parsed and returned for preview')
 
-    const hyd = rows.find((r) => r.slug === 'electric-cycle-in-hyderabad')
+    const hyd = rows.find((r) => r.slug === 'electric-cycle-in-smokecity')
     log(
       Boolean(hyd && hyd.issues.every((i) => i.severity !== 'error')),
       'valid row has no errors',
@@ -295,8 +295,8 @@ async function main() {
       'thin content row blocked',
     )
     log(
-      rows.filter((r) => r.slug === 'electric-cycle-in-hyderabad').length === 2 &&
-        rows.some((r) => r.slug === 'electric-cycle-in-hyderabad' && r.issues.some((i) => i.message.toLowerCase().includes('duplicate'))),
+      rows.filter((r) => r.slug === 'electric-cycle-in-smokecity').length === 2 &&
+        rows.some((r) => r.slug === 'electric-cycle-in-smokecity' && r.issues.some((i) => i.message.toLowerCase().includes('duplicate'))),
       'duplicate slug within file detected',
     )
     log(
@@ -319,10 +319,10 @@ async function main() {
     )
 
     // Imported page must be a draft and NOT publicly visible
-    const importedDraft = await fetch(`${BASE_URL}/electric-cycle-in-hyderabad`)
+    const importedDraft = await fetch(`${BASE_URL}/electric-cycle-in-smokecity`)
     log(importedDraft.status === 404, 'imported page not public before approval')
 
-    const pages = await api('/api/pages?where[slug][equals]=electric-cycle-in-hyderabad&draft=true', { token: adminToken })
+    const pages = await api('/api/pages?where[slug][equals]=electric-cycle-in-smokecity&draft=true', { token: adminToken })
     const importedPage = pages.json?.docs?.[0]
     log(
       Boolean(importedPage && importedPage._status === 'draft' && importedPage.approvalStatus === 'pending'),
@@ -365,7 +365,7 @@ async function main() {
       })
       log(publish.status === 200, 'approved page publishes successfully')
 
-      const publicPage = await fetch(`${BASE_URL}/electric-cycle-in-hyderabad`)
+      const publicPage = await fetch(`${BASE_URL}/electric-cycle-in-smokecity`)
       log(publicPage.status === 200, 'approved+published page renders 200')
 
       // Live report reflects published state
@@ -530,13 +530,13 @@ async function main() {
       'demo product omits offers/ratings from structured data',
     )
 
-    const cityPage = await fetch(`${BASE_URL}/electric-cycle-in-hyderabad`)
+    const cityPage = await fetch(`${BASE_URL}/electric-cycle-in-smokecity`)
     const cityHtml = await cityPage.text()
     log(cityHtml.includes('"@type":"BreadcrumbList"'), 'city page has breadcrumbs structured data')
 
     const pagesSitemap = await fetch(`${BASE_URL}/pages-sitemap.xml`)
     const pagesXml = await pagesSitemap.text()
-    log(pagesXml.includes('electric-cycle-in-hyderabad'), 'approved+published city page in sitemap')
+    log(pagesXml.includes('electric-cycle-in-smokecity'), 'approved+published city page in sitemap')
     log(!pagesXml.includes('smoke-import-bad'), 'invalid import rows never reach the sitemap')
 
     const productsSitemap = await fetch(`${BASE_URL}/products-sitemap.xml`)

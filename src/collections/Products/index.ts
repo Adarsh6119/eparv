@@ -103,15 +103,6 @@ export const Products: CollectionConfig<'products'> = {
               required: false,
             },
             {
-              name: 'imageUrl',
-              type: 'text',
-              label: 'Image URL (external)',
-              admin: {
-                description:
-                  'Paste a direct image URL (e.g. from imgbb/Cloudinary) if media upload is not available.',
-              },
-            },
-            {
               name: 'gallery',
               type: 'array',
               fields: [

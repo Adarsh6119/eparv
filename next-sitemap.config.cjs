@@ -19,6 +19,7 @@ module.exports = {
     ],
     additionalSitemaps: [
       `${SITE_URL}/pages-sitemap.xml`,
+      `${SITE_URL}/cities-sitemap.xml`,
       `${SITE_URL}/blog-sitemap.xml`,
       `${SITE_URL}/products-sitemap.xml`,
       `${SITE_URL}/dealers-sitemap.xml`,

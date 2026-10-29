@@ -3,6 +3,7 @@ import Papa from 'papaparse'
 import type { Payload } from 'payload'
 
 import type { ContentBlock } from '@/payload-types'
+import { isRegistrySlug } from '@/cities'
 import { isValidSlugFormat, isReservedSlug } from '@/utilities/reservedSlugs'
 
 /** The JSON shape Payload expects in a richText field (from the generated Content block type). */
@@ -278,6 +279,12 @@ export const parseAndValidateCsv = async (
         severity: 'error',
         field: 'slug',
         message: `"${row.slug}" is a reserved application route.`,
+      })
+    } else if (isRegistrySlug(row.slug)) {
+      issues.push({
+        severity: 'error',
+        field: 'slug',
+        message: `"${row.slug}" is served by the built-in city page template (src/cities) — add or edit the city there instead.`,
       })
     } else if (seenSlugs.has(row.slug)) {
       issues.push({

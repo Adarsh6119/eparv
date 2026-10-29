@@ -850,7 +850,11 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
-  featuredImage: number | Media;
+  featuredImage?: (number | null) | Media;
+  /**
+   * Paste a direct image URL (e.g. from imgbb/Cloudinary) if media upload is not available.
+   */
+  imageUrl?: string | null;
   gallery?:
     | {
         image: number | Media;
@@ -1572,6 +1576,7 @@ export interface ProductsSelect<T extends boolean = true> {
   shortDescription?: T;
   description?: T;
   featuredImage?: T;
+  imageUrl?: T;
   gallery?:
     | T
     | {
