@@ -97,6 +97,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
     availability,
     isDemoData,
     category,
+    imageUrl,
     meta,
   } = product
 
@@ -122,6 +123,10 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
   const hasPromo = typeof promotionalPrice === 'number' && promotionalPrice > 0
   const image =
     featuredImage && typeof featuredImage === 'object' ? featuredImage : null
+  const imageUrlValue =
+    (featuredImage && typeof featuredImage === 'object' && featuredImage.url) ||
+    imageUrl ||
+    null
 
   return (
     <article className="pb-24 pt-16">
@@ -142,6 +147,12 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted">
               {image ? (
                 <Media resource={image} size="50vw" priority imgClassName="object-contain" />
+              ) : imageUrlValue ? (
+                <img
+                  src={imageUrlValue}
+                  alt={name}
+                  className="w-full h-full object-contain"
+                />
               ) : (
                 <div className="flex h-full items-center justify-center text-muted-foreground">
                   Image coming soon
@@ -304,7 +315,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
           ...(tagline ? { description: tagline } : {}),
           ...(shortDescription ? { disambiguatingDescription: shortDescription } : {}),
           category: category ?? undefined,
-          ...(image?.url ? { image: `${getServerSideURL()}${image.url}` } : {}),
+          ...(imageUrlValue ? { image: `${getServerSideURL()}${imageUrlValue}` } : {}),
           ...(meta?.description ? { description: meta.description } : {}),
           ...(!isDemoData && typeof price === 'number'
             ? {

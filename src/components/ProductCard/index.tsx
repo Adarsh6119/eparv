@@ -40,6 +40,7 @@ export type CardProductData = Pick<
   'slug' | 'name' | 'category' | 'tagline' | 'shortDescription' | 'price' | 'promotionalPrice' | 'availability' | 'isDemoData'
 > & {
   featuredImage?: Product['featuredImage']
+  imageUrl?: string | null
 }
 
 export const ProductCard: React.FC<{
@@ -53,9 +54,10 @@ export const ProductCard: React.FC<{
     return null
   }
 
-  const { slug, name, category, tagline, price, promotionalPrice, availability, isDemoData, featuredImage } = product
+  const { slug, name, category, tagline, price, promotionalPrice, availability, isDemoData, featuredImage, imageUrl } = product
   const href = `/electric-cycles/${slug}`
   const image = featuredImage && typeof featuredImage === 'object' ? featuredImage : null
+  const imageUrlValue = imageUrl || (image?.url ?? null)
   const hasPromo = typeof promotionalPrice === 'number' && promotionalPrice > 0
 
   return (
@@ -68,6 +70,12 @@ export const ProductCard: React.FC<{
       <div className="relative w-full aspect-[4/3] bg-muted">
         {image ? (
           <Media resource={image} size="33vw" imgClassName="object-contain" />
+        ) : imageUrlValue ? (
+          <img
+            src={imageUrlValue}
+            alt={name}
+            className="w-full h-full object-contain"
+          />
         ) : (
           <div className="flex h-full items-center justify-center text-muted-foreground text-sm">
             Image coming soon
