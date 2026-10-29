@@ -97,9 +97,10 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
     availability,
     isDemoData,
     category,
-    imageUrl,
     meta,
   } = product
+
+  const imageUrl = (product as { imageUrl?: string | null }).imageUrl ?? null
 
   const specs: { label: string; value: string }[] = []
   if (product.batteryCapacity) specs.push({ label: 'Battery capacity', value: product.batteryCapacity })
