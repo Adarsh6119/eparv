@@ -57,7 +57,16 @@ export const ProductCard: React.FC<{
   const { slug, name, category, tagline, price, promotionalPrice, availability, isDemoData, featuredImage, imageUrl } = product
   const href = `/electric-cycles/${slug}`
   const image = featuredImage && typeof featuredImage === 'object' ? featuredImage : null
-  const imageUrlValue = imageUrl || (image?.url ?? null)
+
+  // Ensure real cycle image fallback if database doesn't have an uploaded media file
+  const fallbackCycleImage =
+    slug?.includes('visak') ? '/cycles/visakka.png' :
+    slug?.includes('panther') ? '/cycles/panther.png' :
+    slug?.includes('lahari') ? '/cycles/lahari.png' :
+    slug?.includes('savitri') ? '/cycles/savitri.png' :
+    slug?.includes('satya') ? '/cycles/satya.png' : null
+
+  const imageUrlValue = imageUrl || (image?.url ?? fallbackCycleImage)
   const hasPromo = typeof promotionalPrice === 'number' && promotionalPrice > 0
 
   return (

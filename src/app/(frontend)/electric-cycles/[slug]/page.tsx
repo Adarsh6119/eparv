@@ -35,10 +35,193 @@ type Args = {
   }>
 }
 
+const FALLBACK_PRODUCTS: Record<string, Partial<Product> & { imageUrl?: string }> = {
+  panther: {
+    name: 'Eparv Panther',
+    slug: 'eparv-panther',
+    category: 'city-commuter',
+    tagline: 'Stealth urban performance with lightweight agility',
+    shortDescription:
+      'EPARV Panther is a 26T matte stealth black electric bicycle with a 250W BLDC hub motor, dual disc brakes with motor cut-off, and a removable 36V quick-charge battery.',
+    price: 21000,
+    promotionalPrice: 19999,
+    availability: 'in-stock',
+    batteryCapacity: '36V, 10Ah Lithium-ion',
+    motorPower: '250W BLDC hub motor',
+    claimedRangeKm: 55,
+    chargingTimeHours: 2,
+    topSpeedKmh: 25,
+    weightKg: 21,
+    warrantyMonths: 60,
+    imageUrl: '/cycles/panther.png',
+    additionalSpecifications: [
+      { id: 'p1', label: 'Frame', value: 'Lightweight Alloy / Hi-Tensile Steel' },
+      { id: 'p2', label: 'Brakes', value: 'Mechanical Dual Disc Brakes with Motor Cut-off' },
+      { id: 'p3', label: 'Suspension', value: 'Rigid Aerodynamic Alloy Fork' },
+      { id: 'p4', label: 'Tyres', value: '26 × 2.10 Urban Low-Rolling Resistance' },
+      { id: 'p5', label: 'Display', value: 'Smart LED Display with 3-Mode PAS' },
+      { id: 'p6', label: 'Security', value: 'Anti-Theft Key Ignition & Battery Lock' },
+    ],
+  },
+  visakka: {
+    name: 'Eparv Visakka',
+    slug: 'eparv-visakka',
+    category: 'off-road',
+    tagline: 'Built to dominate every terrain with high-tensile power',
+    shortDescription:
+      'EPARV Visakka is an all-terrain electric MTB featuring front suspension, high-tensile frame, 250W BLDC hub motor, and mechanical dual disc brakes.',
+    price: 26000,
+    promotionalPrice: 24999,
+    availability: 'in-stock',
+    batteryCapacity: '36V, 12Ah Detachable Li-ion',
+    motorPower: '250W High-Torque BLDC',
+    claimedRangeKm: 60,
+    chargingTimeHours: 3,
+    topSpeedKmh: 25,
+    weightKg: 23,
+    warrantyMonths: 60,
+    imageUrl: '/cycles/visakka.png',
+    additionalSpecifications: [
+      { id: 'v1', label: 'Frame', value: '18.5-inch Heavy-Duty MTB Hi-Tensile' },
+      { id: 'v2', label: 'Fork', value: '80mm Travel Front Suspension Fork' },
+      { id: 'v3', label: 'Brakes', value: 'Mechanical Dual Disc Brakes with Auto Cut-off' },
+      { id: 'v4', label: 'Tyres', value: '27.5 × 2.10 Knobby All-Terrain' },
+      { id: 'v5', label: 'Pedal Assist', value: '5-Level Intelligent Cadence Sensor' },
+    ],
+  },
+  lahari: {
+    name: 'Eparv Lahari',
+    slug: 'eparv-lahari',
+    category: 'city-commuter',
+    tagline: 'Unstoppable 110 km ultra long-distance touring and adventure',
+    shortDescription:
+      'EPARV Lahari is built for long-distance touring with an extended 110 km range, front suspension, comfort saddle, and 250W high-efficiency BLDC motor.',
+    price: 27999,
+    promotionalPrice: 21999,
+    availability: 'in-stock',
+    batteryCapacity: '36V, 15.6Ah Extended Capacity Li-ion',
+    motorPower: '250W High-Efficiency BLDC',
+    claimedRangeKm: 110,
+    chargingTimeHours: 3,
+    topSpeedKmh: 25,
+    weightKg: 24,
+    warrantyMonths: 60,
+    imageUrl: '/cycles/lahari.png',
+    additionalSpecifications: [
+      { id: 'l1', label: 'Frame', value: 'Ergonomic Long-Distance Touring Geometry' },
+      { id: 'l2', label: 'Fork', value: 'Damped Front Suspension Fork' },
+      { id: 'l3', label: 'Brakes', value: 'Dual Disc Brakes' },
+      { id: 'l4', label: 'Saddle', value: 'Comfort Touring Foam Cushion' },
+      { id: 'l5', label: 'Range (PAS)', value: 'Up to 110 km on Single Charge' },
+    ],
+  },
+  savitri: {
+    name: 'Eparv Savitri',
+    slug: 'eparv-savitri',
+    category: 'city-commuter',
+    tagline: 'The classic Indian commuter, electrified with long range',
+    shortDescription:
+      'EPARV Savitri is a classic city roadster with a 22-inch frame, 250W BLDC hub motor, heavy-duty rear carrier, steel mudguards, and 110 km range.',
+    price: 21500,
+    promotionalPrice: 18999,
+    availability: 'in-stock',
+    batteryCapacity: '36V, 10.4Ah Li-ion Pack',
+    motorPower: '250W BLDC hub motor',
+    claimedRangeKm: 110,
+    chargingTimeHours: 3,
+    topSpeedKmh: 25,
+    weightKg: 26,
+    warrantyMonths: 60,
+    imageUrl: '/cycles/savitri.png',
+    additionalSpecifications: [
+      { id: 's1', label: 'Frame', value: '22-inch Heavy-Duty Traditional Roadster' },
+      { id: 's2', label: 'Carrier', value: 'Reinforced Steel Rear Carrier Rack' },
+      { id: 's3', label: 'Mudguards', value: 'Full Wrap Steel Mudguards' },
+      { id: 's4', label: 'Brakes', value: 'Dual High-Friction Brakes' },
+      { id: 's5', label: 'Posture', value: 'Relaxed Upright Comfort Seating' },
+    ],
+  },
+  satya: {
+    name: 'Eparv Satya',
+    slug: 'eparv-satya',
+    category: 'off-road',
+    tagline: 'Rugged all-weather trail MTB built for tough Indian roads',
+    shortDescription:
+      'EPARV Satya is a 26T heavy-duty electric bicycle designed for rough roads and trails with a 250W BLDC hub motor, dual disc brakes, and anti-theft key lock.',
+    price: 22999,
+    promotionalPrice: 21000,
+    availability: 'in-stock',
+    batteryCapacity: '36V, 7.8Ah Li-ion NMC',
+    motorPower: '250W BLDC hub motor',
+    claimedRangeKm: 55,
+    chargingTimeHours: 2,
+    topSpeedKmh: 25,
+    weightKg: 25,
+    warrantyMonths: 60,
+    imageUrl: '/cycles/satya.png',
+    additionalSpecifications: [
+      { id: 'st1', label: 'Frame', value: 'Lightweight Hi-Tensile Steel 26T' },
+      { id: 'st2', label: 'Fork', value: 'Rigid Heavy-Duty MTB Fork' },
+      { id: 'st3', label: 'Brakes', value: 'Mechanical Dual Disc Brakes' },
+      { id: 'st4', label: 'Colour', value: 'Metallic Magenta' },
+      { id: 'st5', label: 'Ignition', value: 'Key Ignition with Anti-Theft Feature' },
+    ],
+  },
+}
+
+function getFallbackProduct(slug: string): Product | null {
+  const s = slug.toLowerCase()
+  let key = ''
+  if (s.includes('panther')) key = 'panther'
+  else if (s.includes('visak')) key = 'visakka'
+  else if (s.includes('lahari')) key = 'lahari'
+  else if (s.includes('savitri')) key = 'savitri'
+  else if (s.includes('satya')) key = 'satya'
+
+  if (!key || !FALLBACK_PRODUCTS[key]) return null
+
+  const data = FALLBACK_PRODUCTS[key]
+  return {
+    id: `fallback-${key}`,
+    slug,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    _status: 'published',
+    isDemoData: false,
+    ...data,
+  } as unknown as Product
+}
+
 const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
+
+  // Support slug variations: with or without '-electric-bike', 'visakka' vs 'visalka', etc.
+  const variants = new Set<string>([slug])
+  if (slug.endsWith('-electric-bike')) {
+    variants.add(slug.replace(/-electric-bike$/, ''))
+  } else {
+    variants.add(`${slug}-electric-bike`)
+  }
+
+  if (slug.includes('visak')) {
+    variants.add('eparv-visakka')
+    variants.add('eparv-visakka-electric-bike')
+    variants.add('eparv-visalka')
+    variants.add('eparv-visalka-electric-bike')
+  } else if (slug.includes('panther')) {
+    variants.add('eparv-panther')
+    variants.add('eparv-panther-electric-bike')
+  } else if (slug.includes('lahari')) {
+    variants.add('eparv-lahari')
+    variants.add('eparv-lahari-electric-bike')
+  } else if (slug.includes('savitri')) {
+    variants.add('eparv-savitri')
+    variants.add('eparv-savitri-electric-bike')
+  } else if (slug.includes('satya')) {
+    variants.add('eparv-satya')
+    variants.add('eparv-satya-electric-bike')
+  }
 
   const result = await payload.find({
     collection: 'products',
@@ -48,13 +231,19 @@ const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {
     overrideAccess: draft,
     pagination: false,
     where: {
-      slug: {
-        equals: slug,
-      },
+      or: Array.from(variants).map((v) => ({
+        slug: { equals: v },
+      })),
     },
-  })
+  }).catch(() => null)
 
-  return result.docs?.[0] || null
+  const found = result?.docs?.[0]
+  if (found) {
+    return found
+  }
+
+  // Graceful fallback to official model specifications if not found in database
+  return getFallbackProduct(slug)
 })
 
 export async function generateStaticParams() {
@@ -68,9 +257,27 @@ export async function generateStaticParams() {
     select: {
       slug: true,
     },
-  })
+  }).catch(() => null)
 
-  return products.docs?.map(({ slug }) => ({ slug })) ?? []
+  const officialSlugs = [
+    'eparv-panther',
+    'eparv-panther-electric-bike',
+    'eparv-visakka',
+    'eparv-visakka-electric-bike',
+    'eparv-visalka',
+    'eparv-visalka-electric-bike',
+    'eparv-lahari',
+    'eparv-lahari-electric-bike',
+    'eparv-savitri',
+    'eparv-savitri-electric-bike',
+    'eparv-satya',
+    'eparv-satya-electric-bike',
+  ]
+
+  const dbSlugs = products?.docs?.map(({ slug }) => slug) ?? []
+  const allSlugs = Array.from(new Set([...dbSlugs, ...officialSlugs]))
+
+  return allSlugs.map((slug) => ({ slug }))
 }
 
 export default async function ProductPage({ params: paramsPromise }: Args) {
@@ -122,11 +329,20 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
 
   const deliveryLocations = product.deliveryLocations ?? []
   const hasPromo = typeof promotionalPrice === 'number' && promotionalPrice > 0
+
+  const fallbackCycleImage =
+    decodedSlug.includes('visak') ? '/cycles/visakka.png' :
+    decodedSlug.includes('panther') ? '/cycles/panther.png' :
+    decodedSlug.includes('lahari') ? '/cycles/lahari.png' :
+    decodedSlug.includes('savitri') ? '/cycles/savitri.png' :
+    decodedSlug.includes('satya') ? '/cycles/satya.png' : null
+
   const image =
     featuredImage && typeof featuredImage === 'object' ? featuredImage : null
   const imageUrlValue =
     (featuredImage && typeof featuredImage === 'object' && featuredImage.url) ||
     imageUrl ||
+    fallbackCycleImage ||
     null
 
   return (
