@@ -34,9 +34,25 @@ export const Card: React.FC<{
         className,
       )}
     >
-      <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+      <div className="relative w-full aspect-[16/9] overflow-hidden bg-gradient-to-br from-primary/10 via-muted to-primary/5 flex items-center justify-center border-b border-border">
+        {!metaImage && (
+          <div className="flex flex-col items-center justify-center gap-2 p-6 text-center">
+            <div className="size-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="5.5" cy="17.5" r="3.5"/>
+                <circle cx="18.5" cy="17.5" r="3.5"/>
+                <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5L9 9l3-3 4 3 2.5 8.5"/>
+                <path d="M12 9l-4 8.5"/>
+              </svg>
+            </div>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+              Eparv EV Knowledge Hub
+            </span>
+          </div>
+        )}
+        {metaImage && typeof metaImage !== 'string' && (
+          <Media resource={metaImage} size="33vw" imgClassName="object-cover w-full h-full" />
+        )}
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
