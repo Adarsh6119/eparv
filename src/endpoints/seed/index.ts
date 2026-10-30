@@ -467,6 +467,7 @@ export const seed = async ({
     data: {
       navItems: [
         navLink('Electric Cycles', '/electric-cycles'),
+        navLink('About Us', '/about'),
         navLink('Dealers', '/dealers'),
         navLink('Book a Test Ride', '/book-test-ride'),
         navLink('Become a Dealer', '/become-a-dealer'),
@@ -480,6 +481,7 @@ export const seed = async ({
     slug: 'footer',
     data: {
       navItems: [
+        navLink('About Us', '/about'),
         navLink('Privacy Policy', '/privacy-policy'),
         navLink('Terms', '/terms'),
         navLink('Bulk Orders', '/bulk-orders'),

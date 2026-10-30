@@ -15,6 +15,13 @@ export const HeaderNav: React.FC<{ data: HeaderType; scrolled?: boolean }> = ({
   const navItems = data?.navItems || []
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const hasAbout = navItems.some(
+    (n) =>
+      n.link?.url === '/about' ||
+      n.link?.url === '/about-us' ||
+      n.link?.label?.toLowerCase().includes('about'),
+  )
+
   return (
     <>
       {/* Desktop Navigation */}
@@ -25,11 +32,21 @@ export const HeaderNav: React.FC<{ data: HeaderType; scrolled?: boolean }> = ({
               <CMSLink
                 {...link}
                 appearance="link"
-                className="rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary"
+                className="rounded-lg px-2.5 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary whitespace-nowrap"
               />
             </div>
           )
         })}
+
+        {!hasAbout && (
+          <Link
+            href="/about"
+            className="rounded-lg px-2.5 lg:px-3 py-2 text-xs lg:text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary whitespace-nowrap"
+          >
+            About Us
+          </Link>
+        )}
+
         <Link
           href="/search"
           className="ml-1 flex size-9 items-center justify-center rounded-lg transition-colors hover:bg-primary/10"
@@ -39,7 +56,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; scrolled?: boolean }> = ({
         </Link>
         <Link
           href="/electric-cycles"
-          className="ml-2 inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md hover:-translate-y-px"
+          className="ml-2 inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3.5 lg:px-4 text-xs lg:text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md hover:-translate-y-px whitespace-nowrap"
         >
           Shop Now
           <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -82,6 +99,18 @@ export const HeaderNav: React.FC<{ data: HeaderType; scrolled?: boolean }> = ({
                   />
                 </div>
               ))}
+
+              {!hasAbout && (
+                <div onClick={() => setMobileOpen(false)}>
+                  <Link
+                    href="/about"
+                    className="block w-full rounded-lg px-4 py-3 text-base font-medium transition-colors hover:bg-primary/10 hover:text-primary"
+                  >
+                    About Us
+                  </Link>
+                </div>
+              )}
+
               <hr className="my-2 border-border" />
               <Link
                 href="/search"
