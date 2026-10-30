@@ -11,6 +11,8 @@ import {
   UserCheck,
 } from 'lucide-react'
 
+import { isClaimVerified } from '@/data/claims'
+
 interface Testimonial {
   id: string
   name: string
@@ -80,6 +82,9 @@ const REVIEWS: Testimonial[] = [
 ]
 
 export const TestimonialsSection: React.FC = () => {
+  const verifiedReviews = isClaimVerified('reviews1500plus')
+  const verifiedRating = isClaimVerified('rating49')
+
   return (
     <section className="py-20 relative overflow-hidden bg-card/40 border-t border-border">
       <div className="container relative z-10">
@@ -90,9 +95,9 @@ export const TestimonialsSection: React.FC = () => {
             <span>Verified Customer Stories</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
-            Loved by Over{' '}
+            Loved by Daily{' '}
             <span className="bg-gradient-to-r from-primary to-energy bg-clip-text text-transparent">
-              1,500+ Indian Riders
+              {verifiedReviews ? '1,500+ Indian Riders' : 'Indian Commuters'}
             </span>
           </h2>
           <p className="mt-3 text-muted-foreground text-sm sm:text-base leading-relaxed">
@@ -100,18 +105,20 @@ export const TestimonialsSection: React.FC = () => {
             switching to Eparv electric cycles.
           </p>
 
-          {/* Aggregate Rating Pill */}
-          <div className="mt-5 inline-flex items-center gap-3 px-5 py-2 rounded-2xl bg-card border border-border shadow-sm">
-            <div className="flex items-center gap-1 text-energy">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="size-4 fill-energy text-energy" />
-              ))}
+          {/* Aggregate Rating Pill (rendered only when verified in data) */}
+          {verifiedRating && (
+            <div className="mt-5 inline-flex items-center gap-3 px-5 py-2 rounded-2xl bg-card border border-border shadow-sm">
+              <div className="flex items-center gap-1 text-energy">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="size-4 fill-energy text-energy" />
+                ))}
+              </div>
+              <span className="text-sm font-black text-foreground">4.9 / 5.0</span>
+              <span className="text-xs text-muted-foreground border-l border-border pl-3">
+                Based on verified customer reviews
+              </span>
             </div>
-            <span className="text-sm font-black text-foreground">4.9 / 5.0</span>
-            <span className="text-xs text-muted-foreground border-l border-border pl-3">
-              Based on 1,500+ verified customer reviews
-            </span>
-          </div>
+          )}
         </div>
 
         {/* Testimonials Grid */}

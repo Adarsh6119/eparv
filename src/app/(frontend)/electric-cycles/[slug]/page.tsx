@@ -261,21 +261,17 @@ export async function generateStaticParams() {
 
   const officialSlugs = [
     'eparv-panther',
-    'eparv-panther-electric-bike',
     'eparv-visakka',
-    'eparv-visakka-electric-bike',
-    'eparv-visalka',
-    'eparv-visalka-electric-bike',
     'eparv-lahari',
-    'eparv-lahari-electric-bike',
     'eparv-savitri',
-    'eparv-savitri-electric-bike',
     'eparv-satya',
-    'eparv-satya-electric-bike',
   ]
 
-  const dbSlugs = products?.docs?.map(({ slug }) => slug) ?? []
-  const allSlugs = Array.from(new Set([...dbSlugs, ...officialSlugs]))
+  const dbSlugs =
+    products?.docs
+      ?.map(({ slug }) => slug)
+      .filter((s): s is string => Boolean(s) && !s.endsWith('-electric-bike') && s !== 'smoke-test-cycle') ?? []
+  const allSlugs = Array.from(new Set([...officialSlugs, ...dbSlugs]))
 
   return allSlugs.map((slug) => ({ slug }))
 }
@@ -437,7 +433,7 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
                 Enquire now
               </a>
               <Link
-                href={`/book-test-ride?product=${product.slug}`}
+                href={`/book-test-ride?model=${product.slug}`}
                 className="inline-flex h-11 items-center rounded-md border border-input bg-background px-8 text-sm font-medium hover:bg-accent"
               >
                 Book a test ride

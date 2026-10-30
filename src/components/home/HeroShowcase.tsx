@@ -14,6 +14,8 @@ import {
   Zap,
 } from 'lucide-react'
 
+import { isClaimVerified } from '@/data/claims'
+
 export interface HeroModel {
   id: string
   name: string
@@ -156,22 +158,30 @@ export const HeroShowcase: React.FC = () => {
             {/* Subheading */}
             <p className="max-w-xl text-base sm:text-lg text-white/70 leading-relaxed">
               Experience the freedom of smart electric mobility. Built with high-torque 250W BLDC
-              motors, up to 110 km range, and zero petrol bills. No license or RTO registration needed!
+              motors, 55 to 110 km range options, and zero petrol bills.
             </p>
 
-            {/* Quick feature pill highlights */}
+            {/* Quick feature pill highlights (wired to claims gate) */}
             <div className="flex flex-wrap items-center gap-2.5 pt-1 text-xs sm:text-sm">
               <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 className="size-4 text-emerald-400" />
-                <span>₹0.12 / km Running Cost</span>
+                <span>₹0.05 / km Running Cost</span>
               </div>
               <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 className="size-4 text-emerald-400" />
-                <span>No License / Helmet Laws Required</span>
+                <span>
+                  {isClaimVerified('noLicenseRto')
+                    ? 'No License or RTO Required'
+                    : 'CMVR Non-Motorized (<250W)'}
+                </span>
               </div>
               <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
                 <CheckCircle2 className="size-4 text-emerald-400" />
-                <span>5-Year Frame Warranty</span>
+                <span>
+                  {isClaimVerified('frame5yr')
+                    ? '5-Year Frame Warranty'
+                    : 'Factory Warranty Included'}
+                </span>
               </div>
             </div>
 
@@ -185,7 +195,7 @@ export const HeroShowcase: React.FC = () => {
                 <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
               <Link
-                href="/book-test-ride"
+                href={`/book-test-ride?model=${activeModel.slug}`}
                 className="group inline-flex h-12 items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur-md transition-all duration-200 hover:bg-white/15 hover:border-white/40 hover:-translate-y-0.5"
               >
                 <Calendar className="size-4 text-energy" />

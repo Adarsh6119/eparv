@@ -32,15 +32,41 @@ const getProductsSitemap = unstable_cache(
     })
 
     const dateFallback = new Date().toISOString()
+    const officialSlugs = [
+      'eparv-panther',
+      'eparv-visakka',
+      'eparv-lahari',
+      'eparv-savitri',
+      'eparv-satya',
+    ]
 
-    const sitemap = results.docs
+    const dbItems = results.docs
       ? results.docs
-          .filter((product) => Boolean(product?.slug))
+          .filter(
+            (product) =>
+              Boolean(product?.slug) &&
+              !product.slug.endsWith('-electric-bike') &&
+              product.slug !== 'smoke-test-cycle',
+          )
           .map((product) => ({
-            loc: `${SITE_URL}/electric-cycles/${product?.slug}`,
-            lastmod: product.updatedAt || dateFallback,
+            slug: product.slug,
+            updatedAt: product.updatedAt || dateFallback,
           }))
       : []
+
+    const map = new Map<string, { slug: string; updatedAt: string }>()
+    for (const slug of officialSlugs) {
+      map.set(slug, { slug, updatedAt: dateFallback })
+    }
+    for (const item of dbItems) {
+      map.set(item.slug, item)
+    }
+    const combined = Array.from(map.values())
+
+    const sitemap = combined.map((item) => ({
+      loc: `${SITE_URL}/electric-cycles/${item.slug}`,
+      lastmod: item.updatedAt,
+    }))
 
     return sitemap
   },

@@ -14,13 +14,6 @@ export const redirects: NextConfig['redirects'] = async () => {
     source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
   }
 
-  // Legacy template blog URLs → Eparv blog (301)
-  const postsToBlog = {
-    destination: '/blog/:slug*',
-    permanent: true,
-    source: '/posts/:slug*',
-  }
-
   // The homepage lives at "/" — a CMS page at /home would duplicate it.
   const homeRedirect = {
     destination: '/',
@@ -28,5 +21,44 @@ export const redirects: NextConfig['redirects'] = async () => {
     source: '/home',
   }
 
-  return [internetExplorerRedirect, postsToBlog, homeRedirect]
+  // Phase 1 Canonical Fix: 301-redirect any -electric-bike model URL to clean model URL
+  const modelElectricBikeRedirects = [
+    {
+      source: '/electric-cycles/eparv-panther-electric-bike',
+      destination: '/electric-cycles/eparv-panther',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-visakka-electric-bike',
+      destination: '/electric-cycles/eparv-visakka',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-visalka-electric-bike',
+      destination: '/electric-cycles/eparv-visakka',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-visalka',
+      destination: '/electric-cycles/eparv-visakka',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-lahari-electric-bike',
+      destination: '/electric-cycles/eparv-lahari',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-savitri-electric-bike',
+      destination: '/electric-cycles/eparv-savitri',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-satya-electric-bike',
+      destination: '/electric-cycles/eparv-satya',
+      permanent: true,
+    },
+  ]
+
+  return [internetExplorerRedirect, homeRedirect, ...modelElectricBikeRedirects]
 }
