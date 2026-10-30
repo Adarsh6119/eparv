@@ -1,20 +1,48 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
+import {
+  ArrowRight,
+  Battery,
+  Calculator,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  Compass,
+  Gauge,
+  HelpCircle,
+  MapPin,
+  ShieldAlert,
+  ShieldCheck,
+  Sparkles,
+  TableProperties,
+  ThumbsDown,
+  ThumbsUp,
+  TrendingDown,
+  Zap,
+} from 'lucide-react'
 
 import { Breadcrumbs } from '@/components/Breadcrumbs'
-import { DemoNotice } from '@/components/DemoNotice'
 import { JsonLd } from '@/components/JsonLd'
 import { LeadForm } from '@/components/LeadForm'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
+import { DirectAnswer, FaqBlock, RelatedLinks, SpecTable } from '@/components/seo'
 import type { Product } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import {
+  EPARV_MODELS,
+  MODEL_LIST,
+  getModelBySlug,
+  type EparvModel,
+} from '@/data/models'
+import { MODEL_LINK_GRAPH, getRelatedLinksForModel } from '@/data/linkGraph'
 
 const inr = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -22,243 +50,13 @@ const inr = new Intl.NumberFormat('en-IN', {
   maximumFractionDigits: 0,
 })
 
-const AVAILABILITY_LABELS: Record<string, string> = {
-  'in-stock': 'In stock',
-  'pre-order': 'Pre-order',
-  'out-of-stock': 'Out of stock',
-  discontinued: 'Discontinued',
-}
-
 type Args = {
   params: Promise<{
     slug?: string
   }>
 }
 
-const FALLBACK_PRODUCTS: Record<string, Partial<Product> & { imageUrl?: string }> = {
-  panther: {
-    name: 'Eparv Panther',
-    slug: 'eparv-panther',
-    category: 'city-commuter',
-    tagline: 'Stealth urban performance with lightweight agility',
-    shortDescription:
-      'EPARV Panther is a 26T matte stealth black electric bicycle with a 250W BLDC hub motor, dual disc brakes with motor cut-off, and a removable 36V quick-charge battery.',
-    price: 21000,
-    promotionalPrice: 19999,
-    availability: 'in-stock',
-    batteryCapacity: '36V, 10Ah Lithium-ion',
-    motorPower: '250W BLDC hub motor',
-    claimedRangeKm: 55,
-    chargingTimeHours: 2,
-    topSpeedKmh: 25,
-    weightKg: 21,
-    warrantyMonths: 60,
-    imageUrl: '/cycles/panther.png',
-    additionalSpecifications: [
-      { id: 'p1', label: 'Frame', value: 'Lightweight Alloy / Hi-Tensile Steel' },
-      { id: 'p2', label: 'Brakes', value: 'Mechanical Dual Disc Brakes with Motor Cut-off' },
-      { id: 'p3', label: 'Suspension', value: 'Rigid Aerodynamic Alloy Fork' },
-      { id: 'p4', label: 'Tyres', value: '26 × 2.10 Urban Low-Rolling Resistance' },
-      { id: 'p5', label: 'Display', value: 'Smart LED Display with 3-Mode PAS' },
-      { id: 'p6', label: 'Security', value: 'Anti-Theft Key Ignition & Battery Lock' },
-    ],
-  },
-  visakka: {
-    name: 'Eparv Visakka',
-    slug: 'eparv-visakka',
-    category: 'off-road',
-    tagline: 'Built to dominate every terrain with high-tensile power',
-    shortDescription:
-      'EPARV Visakka is an all-terrain electric MTB featuring front suspension, high-tensile frame, 250W BLDC hub motor, and mechanical dual disc brakes.',
-    price: 26000,
-    promotionalPrice: 24999,
-    availability: 'in-stock',
-    batteryCapacity: '36V, 12Ah Detachable Li-ion',
-    motorPower: '250W High-Torque BLDC',
-    claimedRangeKm: 60,
-    chargingTimeHours: 3,
-    topSpeedKmh: 25,
-    weightKg: 23,
-    warrantyMonths: 60,
-    imageUrl: '/cycles/visakka.png',
-    additionalSpecifications: [
-      { id: 'v1', label: 'Frame', value: '18.5-inch Heavy-Duty MTB Hi-Tensile' },
-      { id: 'v2', label: 'Fork', value: '80mm Travel Front Suspension Fork' },
-      { id: 'v3', label: 'Brakes', value: 'Mechanical Dual Disc Brakes with Auto Cut-off' },
-      { id: 'v4', label: 'Tyres', value: '27.5 × 2.10 Knobby All-Terrain' },
-      { id: 'v5', label: 'Pedal Assist', value: '5-Level Intelligent Cadence Sensor' },
-    ],
-  },
-  lahari: {
-    name: 'Eparv Lahari',
-    slug: 'eparv-lahari',
-    category: 'city-commuter',
-    tagline: 'Unstoppable 110 km ultra long-distance touring and adventure',
-    shortDescription:
-      'EPARV Lahari is built for long-distance touring with an extended 110 km range, front suspension, comfort saddle, and 250W high-efficiency BLDC motor.',
-    price: 27999,
-    promotionalPrice: 21999,
-    availability: 'in-stock',
-    batteryCapacity: '36V, 15.6Ah Extended Capacity Li-ion',
-    motorPower: '250W High-Efficiency BLDC',
-    claimedRangeKm: 110,
-    chargingTimeHours: 3,
-    topSpeedKmh: 25,
-    weightKg: 24,
-    warrantyMonths: 60,
-    imageUrl: '/cycles/lahari.png',
-    additionalSpecifications: [
-      { id: 'l1', label: 'Frame', value: 'Ergonomic Long-Distance Touring Geometry' },
-      { id: 'l2', label: 'Fork', value: 'Damped Front Suspension Fork' },
-      { id: 'l3', label: 'Brakes', value: 'Dual Disc Brakes' },
-      { id: 'l4', label: 'Saddle', value: 'Comfort Touring Foam Cushion' },
-      { id: 'l5', label: 'Range (PAS)', value: 'Up to 110 km on Single Charge' },
-    ],
-  },
-  savitri: {
-    name: 'Eparv Savitri',
-    slug: 'eparv-savitri',
-    category: 'city-commuter',
-    tagline: 'The classic Indian commuter, electrified with long range',
-    shortDescription:
-      'EPARV Savitri is a classic city roadster with a 22-inch frame, 250W BLDC hub motor, heavy-duty rear carrier, steel mudguards, and 110 km range.',
-    price: 21500,
-    promotionalPrice: 18999,
-    availability: 'in-stock',
-    batteryCapacity: '36V, 10.4Ah Li-ion Pack',
-    motorPower: '250W BLDC hub motor',
-    claimedRangeKm: 110,
-    chargingTimeHours: 3,
-    topSpeedKmh: 25,
-    weightKg: 26,
-    warrantyMonths: 60,
-    imageUrl: '/cycles/savitri.png',
-    additionalSpecifications: [
-      { id: 's1', label: 'Frame', value: '22-inch Heavy-Duty Traditional Roadster' },
-      { id: 's2', label: 'Carrier', value: 'Reinforced Steel Rear Carrier Rack' },
-      { id: 's3', label: 'Mudguards', value: 'Full Wrap Steel Mudguards' },
-      { id: 's4', label: 'Brakes', value: 'Dual High-Friction Brakes' },
-      { id: 's5', label: 'Posture', value: 'Relaxed Upright Comfort Seating' },
-    ],
-  },
-  satya: {
-    name: 'Eparv Satya',
-    slug: 'eparv-satya',
-    category: 'off-road',
-    tagline: 'Rugged all-weather trail MTB built for tough Indian roads',
-    shortDescription:
-      'EPARV Satya is a 26T heavy-duty electric bicycle designed for rough roads and trails with a 250W BLDC hub motor, dual disc brakes, and anti-theft key lock.',
-    price: 22999,
-    promotionalPrice: 21000,
-    availability: 'in-stock',
-    batteryCapacity: '36V, 7.8Ah Li-ion NMC',
-    motorPower: '250W BLDC hub motor',
-    claimedRangeKm: 55,
-    chargingTimeHours: 2,
-    topSpeedKmh: 25,
-    weightKg: 25,
-    warrantyMonths: 60,
-    imageUrl: '/cycles/satya.png',
-    additionalSpecifications: [
-      { id: 'st1', label: 'Frame', value: 'Lightweight Hi-Tensile Steel 26T' },
-      { id: 'st2', label: 'Fork', value: 'Rigid Heavy-Duty MTB Fork' },
-      { id: 'st3', label: 'Brakes', value: 'Mechanical Dual Disc Brakes' },
-      { id: 'st4', label: 'Colour', value: 'Metallic Magenta' },
-      { id: 'st5', label: 'Ignition', value: 'Key Ignition with Anti-Theft Feature' },
-    ],
-  },
-}
-
-function getFallbackProduct(slug: string): Product | null {
-  const s = slug.toLowerCase()
-  let key = ''
-  if (s.includes('panther')) key = 'panther'
-  else if (s.includes('visak')) key = 'visakka'
-  else if (s.includes('lahari')) key = 'lahari'
-  else if (s.includes('savitri')) key = 'savitri'
-  else if (s.includes('satya')) key = 'satya'
-
-  if (!key || !FALLBACK_PRODUCTS[key]) return null
-
-  const data = FALLBACK_PRODUCTS[key]
-  return {
-    id: `fallback-${key}`,
-    slug,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    _status: 'published',
-    isDemoData: false,
-    ...data,
-  } as unknown as Product
-}
-
-const queryProductBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-  const payload = await getPayload({ config: configPromise })
-
-  // Support slug variations: with or without '-electric-bike', 'visakka' vs 'visalka', etc.
-  const variants = new Set<string>([slug])
-  if (slug.endsWith('-electric-bike')) {
-    variants.add(slug.replace(/-electric-bike$/, ''))
-  } else {
-    variants.add(`${slug}-electric-bike`)
-  }
-
-  if (slug.includes('visak')) {
-    variants.add('eparv-visakka')
-    variants.add('eparv-visakka-electric-bike')
-    variants.add('eparv-visalka')
-    variants.add('eparv-visalka-electric-bike')
-  } else if (slug.includes('panther')) {
-    variants.add('eparv-panther')
-    variants.add('eparv-panther-electric-bike')
-  } else if (slug.includes('lahari')) {
-    variants.add('eparv-lahari')
-    variants.add('eparv-lahari-electric-bike')
-  } else if (slug.includes('savitri')) {
-    variants.add('eparv-savitri')
-    variants.add('eparv-savitri-electric-bike')
-  } else if (slug.includes('satya')) {
-    variants.add('eparv-satya')
-    variants.add('eparv-satya-electric-bike')
-  }
-
-  const result = await payload.find({
-    collection: 'products',
-    depth: 2,
-    draft,
-    limit: 1,
-    overrideAccess: draft,
-    pagination: false,
-    where: {
-      or: Array.from(variants).map((v) => ({
-        slug: { equals: v },
-      })),
-    },
-  }).catch(() => null)
-
-  const found = result?.docs?.[0]
-  if (found) {
-    return found
-  }
-
-  // Graceful fallback to official model specifications if not found in database
-  return getFallbackProduct(slug)
-})
-
 export async function generateStaticParams() {
-  const payload = await getPayload({ config: configPromise })
-  const products = await payload.find({
-    collection: 'products',
-    draft: false,
-    limit: 1000,
-    overrideAccess: false,
-    pagination: false,
-    select: {
-      slug: true,
-    },
-  }).catch(() => null)
-
   const officialSlugs = [
     'eparv-panther',
     'eparv-visakka',
@@ -267,322 +65,511 @@ export async function generateStaticParams() {
     'eparv-satya',
   ]
 
-  const dbSlugs =
-    products?.docs
-      ?.map(({ slug }) => slug)
-      .filter((s): s is string => Boolean(s) && !s.endsWith('-electric-bike') && s !== 'smoke-test-cycle') ?? []
-  const allSlugs = Array.from(new Set([...officialSlugs, ...dbSlugs]))
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const products = await payload.find({
+      collection: 'products',
+      draft: false,
+      limit: 1000,
+      overrideAccess: false,
+      pagination: false,
+      select: { slug: true },
+    })
 
-  return allSlugs.map((slug) => ({ slug }))
-}
-
-export default async function ProductPage({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode()
-  const { slug = '' } = await paramsPromise
-  const decodedSlug = decodeURIComponent(slug)
-  const url = `/electric-cycles/${decodedSlug}`
-
-  const product = await queryProductBySlug({ slug: decodedSlug })
-
-  if (!product) {
-    return <PayloadRedirects url={url} />
+    const dbSlugs =
+      products?.docs
+        ?.map(({ slug }) => slug)
+        .filter((s): s is string => Boolean(s) && !s.endsWith('-electric-bike') && s !== 'smoke-test-cycle') ?? []
+    const allSlugs = Array.from(new Set([...officialSlugs, ...dbSlugs]))
+    return allSlugs.map((slug) => ({ slug }))
+  } catch (e) {
+    return officialSlugs.map((slug) => ({ slug }))
   }
-
-  const {
-    name,
-    tagline,
-    shortDescription,
-    description,
-    featuredImage,
-    gallery,
-    price,
-    promotionalPrice,
-    availability,
-    isDemoData,
-    category,
-    meta,
-  } = product
-
-  const imageUrl = (product as { imageUrl?: string | null }).imageUrl ?? null
-
-  const specs: { label: string; value: string }[] = []
-  if (product.batteryCapacity) specs.push({ label: 'Battery capacity', value: product.batteryCapacity })
-  if (product.motorPower) specs.push({ label: 'Motor power', value: product.motorPower })
-  if (typeof product.claimedRangeKm === 'number')
-    specs.push({ label: 'Claimed range', value: `${product.claimedRangeKm} km` })
-  if (typeof product.chargingTimeHours === 'number')
-    specs.push({ label: 'Charging time', value: `${product.chargingTimeHours} hours` })
-  if (typeof product.topSpeedKmh === 'number')
-    specs.push({ label: 'Maximum speed', value: `${product.topSpeedKmh} km/h` })
-  if (typeof product.weightKg === 'number') specs.push({ label: 'Weight', value: `${product.weightKg} kg` })
-  if (typeof product.warrantyMonths === 'number')
-    specs.push({ label: 'Warranty', value: `${product.warrantyMonths} months` })
-  for (const extra of product.additionalSpecifications ?? []) {
-    if (extra.label && extra.value) {
-      specs.push({ label: extra.label, value: extra.value })
-    }
-  }
-
-  const deliveryLocations = product.deliveryLocations ?? []
-  const hasPromo = typeof promotionalPrice === 'number' && promotionalPrice > 0
-
-  const fallbackCycleImage =
-    decodedSlug.includes('visak') ? '/cycles/visakka.png' :
-    decodedSlug.includes('panther') ? '/cycles/panther.png' :
-    decodedSlug.includes('lahari') ? '/cycles/lahari.png' :
-    decodedSlug.includes('savitri') ? '/cycles/savitri.png' :
-    decodedSlug.includes('satya') ? '/cycles/satya.png' : null
-
-  const image =
-    featuredImage && typeof featuredImage === 'object' ? featuredImage : null
-  const imageUrlValue =
-    (featuredImage && typeof featuredImage === 'object' && featuredImage.url) ||
-    imageUrl ||
-    fallbackCycleImage ||
-    null
-
-  return (
-    <article className="pb-24 pt-16">
-      <PayloadRedirects disableNotFound url={url} />
-
-      <div className="container">
-        <Breadcrumbs
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Electric Cycles', href: '/electric-cycles' },
-            { label: name },
-          ]}
-        />
-
-        <div className="grid gap-10 lg:grid-cols-2">
-          {/* Gallery */}
-          <div className="space-y-4">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-muted">
-              {image ? (
-                <Media resource={image} size="50vw" priority imgClassName="object-contain" />
-              ) : imageUrlValue ? (
-                <img
-                  src={imageUrlValue}
-                  alt={name}
-                  className="w-full h-full object-contain"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-muted-foreground">
-                  Image coming soon
-                </div>
-              )}
-            </div>
-            {gallery && gallery.length > 0 && (
-              <div className="grid grid-cols-4 gap-3">
-                {gallery.slice(0, 8).map((item: any, index: number) => {
-                  const galleryImage =
-                    item.image && typeof item.image === 'object' ? item.image : null
-                  return (
-                    <div
-                      key={index}
-                      className="relative aspect-square overflow-hidden rounded-md border border-border bg-muted"
-                    >
-                      {galleryImage ? (
-                        <Media resource={galleryImage} size="10vw" alt={item.altText ?? undefined} imgClassName="object-contain" />
-                      ) : null}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Summary */}
-          <div>
-            <div className="mb-2 flex flex-wrap items-center gap-2">
-              {availability && (
-                <span className="rounded-full border border-border bg-card px-3 py-1 text-xs">
-                  {AVAILABILITY_LABELS[availability] ?? availability}
-                </span>
-              )}
-              <span className="text-xs uppercase tracking-wide text-muted-foreground">{category}</span>
-            </div>
-            <h1 className="mb-2 text-3xl font-semibold tracking-tight md:text-4xl">{name}</h1>
-            {tagline && <p className="mb-4 text-lg text-muted-foreground">{tagline}</p>}
-
-            {isDemoData && <DemoNotice className="mb-4" />}
-
-            {typeof price === 'number' && (
-              <div className="mb-4 flex items-baseline gap-3">
-                <span
-                  className={`text-2xl font-semibold ${hasPromo ? 'line-through text-muted-foreground' : ''}`}
-                >
-                  {inr.format(price)}
-                </span>
-                {hasPromo && typeof promotionalPrice === 'number' && (
-                  <span className="text-2xl font-semibold text-primary">
-                    {inr.format(promotionalPrice)}
-                  </span>
-                )}
-                {isDemoData && <span className="text-sm text-muted-foreground">(demo price)</span>}
-              </div>
-            )}
-
-            {shortDescription && <p className="mb-6 text-muted-foreground">{shortDescription}</p>}
-
-            <div className="mb-6 flex flex-wrap gap-3">
-              <a
-                href="#enquire"
-                className="inline-flex h-11 items-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-              >
-                Enquire now
-              </a>
-              <Link
-                href={`/book-test-ride?model=${product.slug}`}
-                className="inline-flex h-11 items-center rounded-md border border-input bg-background px-8 text-sm font-medium hover:bg-accent"
-              >
-                Book a test ride
-              </Link>
-            </div>
-
-            {deliveryLocations.length > 0 && (
-              <div className="rounded-lg border border-border bg-card p-4">
-                <h2 className="mb-2 text-sm font-semibold">Eligible delivery locations</h2>
-                <p className="text-sm text-muted-foreground">
-                  {deliveryLocations.map((loc) => `${loc.city}, ${loc.state}`).join(' · ')}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Specifications */}
-        {specs.length > 0 && (
-          <section className="mt-12" aria-labelledby="specs-heading">
-            <h2 id="specs-heading" className="mb-4 text-2xl font-semibold">
-              Specifications
-            </h2>
-            <div className="overflow-hidden rounded-lg border border-border">
-              <table className="w-full text-sm">
-                <tbody>
-                  {specs.map((spec, index) => (
-                    <tr key={spec.label} className={index % 2 === 0 ? 'bg-card' : 'bg-background'}>
-                      <th scope="row" className="w-1/3 px-4 py-3 text-left font-medium">
-                        {spec.label}
-                      </th>
-                      <td className="px-4 py-3">
-                        {spec.value}
-                        {isDemoData && (
-                          <span className="ml-2 text-xs text-muted-foreground">(demo)</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {isDemoData && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                All specifications are unverified demo values until officially confirmed.
-              </p>
-            )}
-          </section>
-        )}
-
-        {/* Description */}
-        {description && (
-          <section className="mt-12" aria-labelledby="description-heading">
-            <h2 id="description-heading" className="mb-4 text-2xl font-semibold">
-              About this cycle
-            </h2>
-            <RichText
-              className="prose max-w-none"
-              data={description}
-              enableGutter={false}
-            />
-          </section>
-        )}
-
-        {/* Enquiry form */}
-        <section id="enquire" className="mt-12 scroll-mt-24" aria-labelledby="enquire-heading">
-          <div className="rounded-lg border border-border bg-card p-6 md:p-8">
-            <h2 id="enquire-heading" className="mb-2 text-2xl font-semibold">
-              Enquire about the {name}
-            </h2>
-            <p className="mb-6 text-sm text-muted-foreground">
-              Share your city and contact details — our team confirms pricing, availability and
-              delivery for your location.
-            </p>
-            <LeadForm
-              type="retail"
-              products={[{ slug: product.slug, name }]}
-              defaultProductSlug={product.slug}
-              submitLabel="Send enquiry"
-            />
-          </div>
-        </section>
-      </div>
-
-      {/* Structured data: name/description/image only. Offers, ratings and
-          availability are intentionally omitted while data is demo/unverified. */}
-      <JsonLd
-        data={{
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name,
-          ...(tagline ? { description: tagline } : {}),
-          ...(shortDescription ? { disambiguatingDescription: shortDescription } : {}),
-          category: category ?? undefined,
-          ...(imageUrlValue ? { image: `${getServerSideURL()}${imageUrlValue}` } : {}),
-          ...(meta?.description ? { description: meta.description } : {}),
-          ...(!isDemoData && typeof price === 'number'
-            ? {
-                offers: {
-                  '@type': 'Offer',
-                  price,
-                  priceCurrency: 'INR',
-                  url: `${getServerSideURL()}${url}`,
-                  ...(availability && availability !== 'discontinued'
-                    ? { availability: `https://schema.org/${availability === 'in-stock' ? 'InStock' : availability === 'pre-order' ? 'PreOrder' : 'OutOfStock'}` }
-                    : {}),
-                },
-              }
-            : {}),
-        }}
-      />
-    </article>
-  )
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const product = await queryProductBySlug({ slug: decodedSlug })
-
-  if (!product) {
-    // Let the page component handle redirects/404 — return minimal metadata.
-    return { title: 'Product not found | Eparv' }
-  }
-
-  const title = product.meta?.title ? `${product.meta.title} | Eparv` : `${product.name} | Eparv`
-  const description = product.meta?.description ?? product.shortDescription ?? undefined
+  const typedModel = getModelBySlug(decodedSlug)
   const base = getServerSideURL()
-  const canonical = `${base}/electric-cycles/${product.slug}`
-  const ogImage =
-    product.meta?.image && typeof product.meta.image === 'object' && 'url' in product.meta.image
-      ? product.meta.image
-      : null
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical,
-    },
-    openGraph: mergeOpenGraph({
+  if (typedModel) {
+    const canonical = `${base}/electric-cycles/${typedModel.cleanSlug}`
+    const title = `${typedModel.name} Electric Cycle: Price, Specs & Range | Eparv`
+    const description = `Buy ${typedModel.name} Electric Cycle in India. Starting at ₹${typedModel.priceSelling?.toLocaleString('en-IN')}. ${typedModel.motorPowerW}W BLDC motor, ${typedModel.rangePasKm} km range, detachable lithium battery, and 5-year frame warranty.`
+
+    return {
       title,
-      description: description ?? '',
-      url: `/electric-cycles/${product.slug}`,
-      images: ogImage?.url
-        ? [{ url: `${base}${ogImage.url}` }]
-        : product.featuredImage && typeof product.featuredImage === 'object' && product.featuredImage.url
-          ? [{ url: `${base}${product.featuredImage.url}` }]
-          : undefined,
-    }),
+      description,
+      alternates: {
+        canonical,
+      },
+      openGraph: mergeOpenGraph({
+        title,
+        description,
+        url: canonical,
+        images: [{ url: `${base}${typedModel.image}` }],
+      }),
+    }
   }
+
+  // Fallback to Payload Product
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'products',
+      limit: 1,
+      where: { slug: { equals: decodedSlug } },
+    })
+    const doc = result.docs?.[0]
+    if (doc) {
+      const title = doc.meta?.title ? `${doc.meta.title} | Eparv` : `${doc.name} | Eparv`
+      const description = doc.meta?.description ?? doc.shortDescription ?? undefined
+      return {
+        title,
+        description,
+        alternates: {
+          canonical: `${base}/electric-cycles/${doc.slug}`,
+        },
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  return { title: 'Electric Cycle Not Found | Eparv' }
+}
+
+export default async function ProductPage({ params: paramsPromise }: Args) {
+  const { slug = '' } = await paramsPromise
+  const decodedSlug = decodeURIComponent(slug)
+  const typedModel = getModelBySlug(decodedSlug)
+  const url = `/electric-cycles/${decodedSlug}`
+
+  // If matched to official typed model, render the authoritative 10-section layout
+  if (typedModel) {
+    const directAnswer = `${typedModel.name} Electric Cycle is priced at ₹${typedModel.priceSelling?.toLocaleString('en-IN')} (MRP ₹${typedModel.priceMrp?.toLocaleString('en-IN')}), featuring a ${typedModel.motorPowerW}W BLDC hub motor and a ${typedModel.batteryVoltageV}V ${typedModel.batteryCapacityAh}Ah (${typedModel.batteryCapacityWh} Wh) detachable lithium battery. It delivers up to ${typedModel.rangePasKm} km in pedal assist and ${typedModel.rangeThrottleKm} km on throttle, engineered for ${typedModel.tagline.toLowerCase()}.`
+
+    // Running cost calculations
+    // Battery Wh to kWh
+    const batteryKwh = (typedModel.batteryCapacityWh ?? 360) / 1000
+    const electricityRate = 7.0 // ₹7.00 per unit benchmark
+    const costPerFullCharge = (batteryKwh * electricityRate).toFixed(2)
+    const pasRange = typedModel.rangePasKm ?? 55
+    const costPerKm = (Number(costPerFullCharge) / pasRange).toFixed(2)
+    const dailyCommuteKm = 25
+    const monthlyCostEparv = (Number(costPerKm) * dailyCommuteKm * 30).toFixed(0)
+    // Petrol scooter benchmark: 45 km/L @ 106.5 = ~2.37/km
+    const monthlyCostPetrol = ((106.5 / 45) * dailyCommuteKm * 30).toFixed(0)
+    const monthlySavings = (Number(monthlyCostPetrol) - Number(monthlyCostEparv)).toLocaleString('en-IN')
+
+    // Sibling models for comparison
+    const siblingSlugs = MODEL_LINK_GRAPH[typedModel.id]?.siblings ?? []
+    const siblingModels = siblingSlugs.map((s) => EPARV_MODELS[s]).filter(Boolean)
+
+    // FAQs for model
+    const faqs = [
+      {
+        question: `What is the real-world range of ${typedModel.name}?`,
+        answer: `${typedModel.name} delivers up to ${typedModel.rangePasKm} km per charge on Pedal Assist (PAS) and up to ${typedModel.rangeThrottleKm} km on Pure Throttle mode. Real range may vary slightly depending on rider payload, tyre pressure, and road slope (${typedModel.rangeTestNote}).`,
+      },
+      {
+        question: `How do I charge the battery of ${typedModel.name}?`,
+        answer: `The ${typedModel.batteryVoltageV}V ${typedModel.batteryCapacityAh}Ah lithium-ion battery pack is key-secured and fully detachable. You can remove it and plug it into any standard 5A household 220V wall socket. A full recharge takes just ${typedModel.chargeTimeHours} hours.`,
+      },
+      {
+        question: `What is the maximum rider weight or payload capacity?`,
+        answer: `${typedModel.name} is engineered with a reinforced high-tensile frame designed to safely support a maximum payload of ${typedModel.payloadKg} kg.`,
+      },
+      {
+        question: `Can I ride ${typedModel.name} in the rain and waterlogged roads?`,
+        answer: `Yes. All core electronic components, including the ${typedModel.motorPowerW}W BLDC hub motor, battery casing, and wiring harness, are water-resistant for heavy monsoon riding. Avoid submerging the motor hub in standing deep flood waters.`,
+      },
+      {
+        question: `What is the warranty coverage for ${typedModel.name}?`,
+        answer: `Eparv provides a ${typedModel.warrantyFrameMonths}-month (5-year) frame warranty, a ${typedModel.warrantyMotorMonths}-month (2-year) motor warranty, and a ${typedModel.warrantyBatteryMonths}-month (1-year) replacement warranty on the lithium battery pack.`,
+      },
+      {
+        question: `Can I get a doorstep test ride of ${typedModel.name}?`,
+        answer: `Yes, you can schedule a free doorstep test ride. Our regional coordinator will arrange a test ride slot at your doorstep or nearest authorized showroom in your city.`,
+      },
+    ]
+
+    const relatedLinks = getRelatedLinksForModel(typedModel.id)
+
+    // Schemas
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: `${typedModel.name} Electric Cycle`,
+      image: `${getServerSideURL()}${typedModel.image}`,
+      description: typedModel.shortDescription,
+      brand: {
+        '@type': 'Brand',
+        name: 'Eparv',
+      },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'INR',
+        price: typedModel.priceSelling,
+        availability: 'https://schema.org/InStock',
+        url: `${getServerSideURL()}/electric-cycles/${typedModel.cleanSlug}`,
+        priceValidUntil: '2026-12-31',
+      },
+    }
+
+    const breadcrumbsSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: getServerSideURL(),
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Electric Cycles',
+          item: `${getServerSideURL()}/electric-cycles`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: typedModel.name,
+          item: `${getServerSideURL()}/electric-cycles/${typedModel.cleanSlug}`,
+        },
+      ],
+    }
+
+    return (
+      <article className="pb-24 pt-16">
+        <PayloadRedirects disableNotFound url={url} />
+
+        <div className="container max-w-5xl">
+          {/* 1. Breadcrumbs */}
+          <Breadcrumbs
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Electric Cycles', href: '/electric-cycles' },
+              { label: typedModel.name },
+            ]}
+          />
+
+          {/* 2. Model Header & Gallery Grid */}
+          <div className="grid gap-10 lg:grid-cols-2 my-8">
+            {/* Image Showcase */}
+            <div className="space-y-4">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-card to-muted flex items-center justify-center p-4">
+                <img
+                  src={typedModel.image}
+                  alt={`${typedModel.name} Electric Cycle`}
+                  className="w-full h-full object-contain max-h-[380px] drop-shadow-lg transition-transform duration-300 hover:scale-105"
+                />
+                <span className="absolute top-4 left-4 rounded-full bg-primary/10 border border-primary/20 px-3 py-1 text-xs font-bold text-primary">
+                  {typedModel.badge}
+                </span>
+              </div>
+            </div>
+
+            {/* Title, Pricing & Highlights */}
+            <div className="space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="rounded-full bg-emerald-500/10 px-3 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                    In Stock & Ready to Ship
+                  </span>
+                  <span className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+                    {typedModel.category}
+                  </span>
+                </div>
+
+                <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                  {typedModel.name} Electric Cycle
+                </h1>
+                <p className="mt-1 text-base text-muted-foreground">{typedModel.tagline}</p>
+
+                {/* Price Block */}
+                <div className="mt-4 flex items-baseline gap-3">
+                  <span className="text-3xl font-extrabold text-foreground">
+                    ₹{typedModel.priceSelling?.toLocaleString('en-IN')}
+                  </span>
+                  {typedModel.priceMrp && (
+                    <span className="text-lg text-muted-foreground line-through">
+                      ₹{typedModel.priceMrp.toLocaleString('en-IN')}
+                    </span>
+                  )}
+                  <span className="rounded-md bg-emerald-500/10 px-2 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                    Save ₹{((typedModel.priceMrp ?? 0) - (typedModel.priceSelling ?? 0)).toLocaleString('en-IN')}
+                  </span>
+                </div>
+
+                <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
+                  {typedModel.shortDescription}
+                </p>
+
+                {/* Key Spec Badges */}
+                <div className="grid grid-cols-2 gap-2 mt-5 text-xs">
+                  <div className="rounded-xl border border-border bg-card p-3">
+                    <div className="text-[10px] text-muted-foreground font-semibold">PAS Range</div>
+                    <div className="font-bold text-foreground">{typedModel.rangePasKm} km per charge</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-card p-3">
+                    <div className="text-[10px] text-muted-foreground font-semibold">Throttle Range</div>
+                    <div className="font-bold text-foreground">{typedModel.rangeThrottleKm} km per charge</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-card p-3">
+                    <div className="text-[10px] text-muted-foreground font-semibold">Motor Power</div>
+                    <div className="font-bold text-foreground">{typedModel.motorPowerW}W BLDC Hub</div>
+                  </div>
+                  <div className="rounded-xl border border-border bg-card p-3">
+                    <div className="text-[10px] text-muted-foreground font-semibold">Charging Time</div>
+                    <div className="font-bold text-foreground">{typedModel.chargeTimeHours} Hours (5A Socket)</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTAs */}
+              <div className="pt-4 flex flex-wrap gap-3">
+                <a
+                  href="#enquire"
+                  className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-8 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+                >
+                  Enquire Now
+                </a>
+                <Link
+                  href={`/book-test-ride?model=${typedModel.cleanSlug}`}
+                  className="inline-flex h-11 items-center justify-center rounded-xl border border-input bg-background px-8 text-sm font-bold text-foreground hover:bg-accent transition-colors"
+                >
+                  Book a Free Test Ride
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Direct Answer Block */}
+          <DirectAnswer text={directAnswer} className="my-10" />
+
+          {/* 4. Complete Technical Spec Table */}
+          <section className="my-14 space-y-4">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-primary">Technical Specs</div>
+              <h2 className="text-2xl font-bold text-foreground">
+                {typedModel.name} Specifications
+              </h2>
+            </div>
+            <SpecTable model={typedModel} />
+          </section>
+
+          {/* 5. Who Should Buy / Who Should Not Buy */}
+          <section className="my-14 rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-6">
+            <h2 className="text-2xl font-bold text-foreground">
+              Is the {typedModel.name} Right For You?
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Who Should Buy */}
+              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-5 space-y-3">
+                <div className="flex items-center gap-2 font-bold text-emerald-700 dark:text-emerald-400 text-sm">
+                  <ThumbsUp className="size-4" />
+                  <span>Who Should Buy This Cycle</span>
+                </div>
+                <ul className="space-y-2 text-xs text-muted-foreground">
+                  {typedModel.whoShouldBuy.map((point, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Who Should Not Buy */}
+              <div className="rounded-xl border border-rose-500/20 bg-rose-500/5 p-5 space-y-3">
+                <div className="flex items-center gap-2 font-bold text-rose-700 dark:text-rose-400 text-sm">
+                  <ThumbsDown className="size-4" />
+                  <span>Who Should Consider Other Models</span>
+                </div>
+                <ul className="space-y-2 text-xs text-muted-foreground">
+                  {typedModel.whoShouldNotBuy.map((point, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <ShieldAlert className="size-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* 6. Running Cost Block */}
+          <section className="my-14 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-background p-6 sm:p-8 space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">
+              <Calculator className="size-3.5" />
+              <span>Electricity vs Petrol Maths</span>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">
+                Running Cost: Less Than ₹{costPerKm} Per Kilometer
+              </h2>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Formula: Battery ({typedModel.batteryCapacityWh} Wh = {batteryKwh.toFixed(3)} kWh) × Electricity (₹7.00/unit) ÷ Range ({pasRange} km) = ₹{costPerKm}/km
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-4 pt-2">
+              <div className="rounded-xl border border-border bg-card p-4">
+                <div className="text-[11px] text-muted-foreground">Full Charge Cost</div>
+                <div className="text-2xl font-extrabold text-foreground mt-1">₹{costPerFullCharge}</div>
+                <div className="text-[10px] text-muted-foreground mt-1">0.3 units electricity</div>
+              </div>
+
+              <div className="rounded-xl border border-border bg-card p-4">
+                <div className="text-[11px] text-muted-foreground">Monthly E-Cycle Cost (25 km/day)</div>
+                <div className="text-2xl font-extrabold text-foreground mt-1">₹{monthlyCostEparv}</div>
+                <div className="text-[10px] text-muted-foreground mt-1">Negligible power bill impact</div>
+              </div>
+
+              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
+                <div className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400">Monthly Petrol Savings</div>
+                <div className="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
+                  ₹{monthlySavings}
+                </div>
+                <div className="text-[10px] text-muted-foreground mt-1">Compared to 100cc petrol scooter</div>
+              </div>
+            </div>
+          </section>
+
+          {/* 7. Compare vs 2 Sibling Models */}
+          {siblingModels.length > 0 && (
+            <section className="my-14 space-y-6">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-primary">Family Comparison</div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  Compare {typedModel.name} With Sibling Models
+                </h2>
+              </div>
+
+              <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+                <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                  <thead>
+                    <tr className="border-b border-border bg-muted/50">
+                      <th className="py-3 px-4 font-bold">Model</th>
+                      <th className="py-3 px-4 font-bold">Selling Price</th>
+                      <th className="py-3 px-4 font-bold">Motor</th>
+                      <th className="py-3 px-4 font-bold">PAS Range</th>
+                      <th className="py-3 px-4 font-bold">Suspension</th>
+                      <th className="py-3 px-4 font-bold">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border">
+                    <tr className="bg-primary/5 font-semibold">
+                      <td className="py-3 px-4 text-foreground">{typedModel.name} (Current)</td>
+                      <td className="py-3 px-4 text-foreground">₹{typedModel.priceSelling?.toLocaleString('en-IN')}</td>
+                      <td className="py-3 px-4 text-muted-foreground">{typedModel.motorPowerW}W</td>
+                      <td className="py-3 px-4 text-emerald-600 dark:text-emerald-400">{typedModel.rangePasKm} km</td>
+                      <td className="py-3 px-4 text-muted-foreground">{typedModel.fork ?? 'Rigid'}</td>
+                      <td className="py-3 px-4 text-xs text-primary font-bold">Viewing Now</td>
+                    </tr>
+                    {siblingModels.map((sib) => (
+                      <tr key={sib.cleanSlug} className="hover:bg-muted/30">
+                        <td className="py-3 px-4 font-medium text-foreground">{sib.name}</td>
+                        <td className="py-3 px-4 text-foreground">₹{sib.priceSelling?.toLocaleString('en-IN')}</td>
+                        <td className="py-3 px-4 text-muted-foreground">{sib.motorPowerW}W</td>
+                        <td className="py-3 px-4 text-muted-foreground">{sib.rangePasKm} km</td>
+                        <td className="py-3 px-4 text-muted-foreground">{sib.fork ?? 'Rigid'}</td>
+                        <td className="py-3 px-4">
+                          <Link
+                            href={`/electric-cycles/${sib.cleanSlug}`}
+                            className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
+                          >
+                            <span>Compare</span>
+                            <ArrowRight className="size-3" />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+          {/* 8. FAQ Block */}
+          <FaqBlock
+            heading={`Frequently Asked Questions About ${typedModel.name}`}
+            subheading="Clear answers regarding range testing, battery life, rain protection, and warranty coverage."
+            faqs={faqs}
+            id="model-faq"
+          />
+
+          {/* 9. Enquiry Form & Test Ride CTA */}
+          <section id="enquire" className="my-14 scroll-mt-24">
+            <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
+              <h2 className="mb-2 text-2xl font-bold text-foreground">
+                Enquire or Book Test Ride for {typedModel.name}
+              </h2>
+              <p className="mb-6 text-xs text-muted-foreground">
+                Enter your city and phone number — our authorized regional distributor will confirm instant on-road delivery, test-ride slots, and warranty registration.
+              </p>
+              <LeadForm
+                type="retail"
+                products={[{ slug: typedModel.cleanSlug, name: typedModel.name }]}
+                defaultProductSlug={typedModel.cleanSlug}
+                submitLabel="Send Official Enquiry"
+              />
+            </div>
+          </section>
+
+          {/* 10. Related Internal Links */}
+          <RelatedLinks
+            heading={`Related Guides, Categories & Cities for ${typedModel.name}`}
+            subheading="Explore buyer intent guides, state hubs, or read battery care tips."
+            links={relatedLinks}
+          />
+        </div>
+
+        <JsonLd data={productSchema} />
+        <JsonLd data={breadcrumbsSchema} />
+      </article>
+    )
+  }
+
+  // Fallback to Payload CMS Product if not a standard model
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'products',
+      limit: 1,
+      where: { slug: { equals: decodedSlug } },
+    })
+
+    const product = result.docs?.[0]
+    if (product) {
+      return (
+        <article className="pb-24 pt-16">
+          <PayloadRedirects disableNotFound url={url} />
+          <div className="container max-w-5xl">
+            <Breadcrumbs
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Electric Cycles', href: '/electric-cycles' },
+                { label: product.name },
+              ]}
+            />
+            <div className="mt-8">
+              <h1 className="text-3xl font-bold">{product.name}</h1>
+              {product.shortDescription && <p className="mt-2 text-muted-foreground">{product.shortDescription}</p>}
+            </div>
+          </div>
+        </article>
+      )
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  notFound()
 }

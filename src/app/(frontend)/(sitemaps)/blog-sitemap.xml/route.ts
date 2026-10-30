@@ -2,14 +2,14 @@ import { getServerSideSitemap } from 'next-sitemap'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
+import { GUIDES } from '@/data/guides'
+import { getServerSideURL } from '@/utilities/getURL'
 
 const getPostsSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
-    const SITE_URL =
-      process.env.NEXT_PUBLIC_SERVER_URL ||
-      process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-      'https://example.com'
+    const SITE_URL = getServerSideURL()
+    const dateFallback = new Date().toISOString()
 
     const results = await payload.find({
       collection: 'posts',
@@ -29,18 +29,33 @@ const getPostsSitemap = unstable_cache(
       },
     })
 
-    const dateFallback = new Date().toISOString()
-
-    const sitemap = results.docs
+    const dbPosts = results.docs
       ? results.docs
           .filter((post) => Boolean(post?.slug))
           .map((post) => ({
-            loc: `${SITE_URL}/blog/${post?.slug}`,
+            loc: `${SITE_URL}/posts/${post?.slug}`,
             lastmod: post.updatedAt || dateFallback,
           }))
       : []
 
-    return sitemap
+    // 10 Code-defined technical guides from data/guides.ts
+    const guidePosts = Object.values(GUIDES).map((guide) => ({
+      loc: `${SITE_URL}/posts/${guide.slug}`,
+      lastmod: dateFallback,
+    }))
+
+    // Deduplicate by URL
+    const seen = new Set<string>()
+    const merged: { loc: string; lastmod: string }[] = []
+
+    for (const item of [...guidePosts, ...dbPosts]) {
+      if (!seen.has(item.loc)) {
+        seen.add(item.loc)
+        merged.push(item)
+      }
+    }
+
+    return merged
   },
   ['posts-sitemap'],
   {

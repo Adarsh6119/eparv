@@ -1,31 +1,44 @@
 import { getServerSideSitemap } from 'next-sitemap'
+import { CITIES, STATE_HUBS, isCityIndexable, isStateHubIndexable, type StateHubSlug } from '@/data/cities'
+import { getServerSideURL } from '@/utilities/getURL'
 
-import { REGISTRY_SLUGS } from '@/cities'
-
-/**
- * Sitemap for the code-defined `/electric-cycle-in-*` city, state and region
- * pages. These pages live in src/cities rather than the pages collection, so
- * they get their own sitemap instead of appearing in pages-sitemap.xml.
- */
 export async function GET() {
-  const SITE_URL =
-    process.env.NEXT_PUBLIC_SERVER_URL ||
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-    'https://example.com'
-
+  const SITE_URL = getServerSideURL()
   const lastmod = new Date().toISOString()
 
-  return getServerSideSitemap(
-    REGISTRY_SLUGS.map((slug) => ({
-      loc: `${SITE_URL}/${slug}`,
-      lastmod,
-      changefreq: 'weekly' as const,
-      priority: slug.startsWith('electric-cycle-in-uttar-pradesh') ||
-        slug === 'electric-cycle-in-bihar' ||
-        slug === 'electric-cycle-in-madhya-pradesh' ||
-        slug === 'electric-cycle-in-delhi-ncr'
-        ? 0.8
-        : 0.7,
-    })),
-  )
+  const entries: { loc: string; lastmod: string; changefreq: 'daily' | 'weekly' | 'monthly'; priority: number }[] = []
+
+  // 1. National Location Hub
+  entries.push({
+    loc: `${SITE_URL}/electric-cycle-in`,
+    lastmod,
+    changefreq: 'weekly',
+    priority: 0.9,
+  })
+
+  // 2. Indexable State Hubs
+  for (const [slug, hub] of Object.entries(STATE_HUBS)) {
+    if (isStateHubIndexable(slug as StateHubSlug)) {
+      entries.push({
+        loc: `${SITE_URL}/electric-cycle-in/${slug}`,
+        lastmod,
+        changefreq: 'weekly',
+        priority: 0.8,
+      })
+    }
+  }
+
+  // 3. Indexable Cities
+  for (const city of Object.values(CITIES)) {
+    if (isCityIndexable(city)) {
+      entries.push({
+        loc: `${SITE_URL}/electric-cycle-in/${city.slug}`,
+        lastmod,
+        changefreq: 'weekly',
+        priority: 0.7,
+      })
+    }
+  }
+
+  return getServerSideSitemap(entries)
 }

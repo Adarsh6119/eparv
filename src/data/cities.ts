@@ -39,6 +39,8 @@ export interface CityData {
   nearby: string[]
 }
 
+export type City = CityData
+
 export const STATE_HUBS: Record<StateHubSlug, StateHub> = {
   'delhi-ncr': {
     slug: 'delhi-ncr',
