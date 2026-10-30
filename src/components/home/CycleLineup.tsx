@@ -161,9 +161,29 @@ export const CYCLE_MODELS: CycleModel[] = [
   },
 ]
 
-export const CycleLineup: React.FC = () => {
-  const [activeFilter, setActiveFilter] = useState<'all' | 'city-commute' | 'trail' | 'long-range'>('all')
-  const [viewMode, setViewMode] = useState<'cards' | 'compare'>('cards')
+export interface CycleLineupProps {
+  badgeText?: string
+  title?: string
+  subtitle?: string
+  initialFilter?: 'all' | 'city-commute' | 'trail' | 'long-range'
+  initialViewMode?: 'cards' | 'compare'
+  id?: string
+  className?: string
+  hideHeader?: boolean
+}
+
+export const CycleLineup: React.FC<CycleLineupProps> = ({
+  badgeText = 'Our Complete Electric Lineup',
+  title = 'Explore Eparv Electric Cycles',
+  subtitle = '100% proper electric cycles engineered with 250W high-torque hub motors, detachable lithium batteries, and reinforced frames. Choose the model that matches your commute.',
+  initialFilter = 'all',
+  initialViewMode = 'cards',
+  id = 'cycle-lineup',
+  className = '',
+  hideHeader = false,
+}) => {
+  const [activeFilter, setActiveFilter] = useState<'all' | 'city-commute' | 'trail' | 'long-range'>(initialFilter)
+  const [viewMode, setViewMode] = useState<'cards' | 'compare'>(initialViewMode)
 
   const filteredCycles = CYCLE_MODELS.filter((m) => {
     if (activeFilter === 'all') return true
@@ -174,80 +194,81 @@ export const CycleLineup: React.FC = () => {
   })
 
   return (
-    <section className="py-20 relative overflow-hidden bg-gradient-to-b from-card/30 via-background to-card/20" id="cycle-lineup">
+    <section className={`py-20 relative overflow-hidden bg-gradient-to-b from-card/30 via-background to-card/20 ${className}`} id={id}>
       <div className="container relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-primary mb-3">
-              <Sparkles className="size-4 text-energy" />
-              <span>Our Complete Electric Lineup</span>
+        {!hideHeader && (
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs sm:text-sm font-semibold text-primary mb-3">
+                <Sparkles className="size-4 text-energy" />
+                <span>{badgeText}</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+                {title}
+              </h2>
+              <p className="mt-2 text-muted-foreground text-sm sm:text-base max-w-2xl">
+                {subtitle}
+              </p>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-              Explore Eparv Electric Cycles
-            </h2>
-            <p className="mt-2 text-muted-foreground text-sm sm:text-base max-w-2xl">
-              100% proper electric cycles engineered with 250W high-torque hub motors, detachable lithium
-              batteries, and reinforced frames. Choose the model that matches your commute.
-            </p>
-          </div>
 
-          {/* Controls: Filter & View Mode */}
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Filter Pills */}
-            <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-muted/60 border border-border">
-              {[
-                { id: 'all', label: 'All Models (5)' },
-                { id: 'city-commute', label: 'City Commuter' },
-                { id: 'trail', label: 'Trails & MTB' },
-                { id: 'long-range', label: 'Long Range (110 km)' },
-              ].map((f) => (
+            {/* Controls: Filter & View Mode */}
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Filter Pills */}
+              <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-muted/60 border border-border">
+                {[
+                  { id: 'all', label: 'All Models (5)' },
+                  { id: 'city-commute', label: 'City Commuter' },
+                  { id: 'trail', label: 'Trails & MTB' },
+                  { id: 'long-range', label: 'Long Range (110 km)' },
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setActiveFilter(f.id as any)}
+                    className={`cursor-pointer px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                      activeFilter === f.id
+                        ? 'bg-primary text-white shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* View Mode Toggle: Cards vs Compare */}
+              <div className="flex items-center gap-1 p-1 rounded-2xl bg-muted/60 border border-border">
                 <button
-                  key={f.id}
                   type="button"
-                  onClick={() => setActiveFilter(f.id as any)}
-                  className={`cursor-pointer px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                    activeFilter === f.id
-                      ? 'bg-primary text-white shadow-sm'
+                  onClick={() => setViewMode('cards')}
+                  className={`cursor-pointer p-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                    viewMode === 'cards'
+                      ? 'bg-card text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground'
                   }`}
+                  title="Card View"
                 >
-                  {f.label}
+                  <LayoutGrid className="size-4 text-primary" />
+                  <span className="hidden sm:inline">Cards</span>
                 </button>
-              ))}
-            </div>
-
-            {/* View Mode Toggle: Cards vs Compare */}
-            <div className="flex items-center gap-1 p-1 rounded-2xl bg-muted/60 border border-border">
-              <button
-                type="button"
-                onClick={() => setViewMode('cards')}
-                className={`cursor-pointer p-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                  viewMode === 'cards'
-                    ? 'bg-card text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-                title="Card View"
-              >
-                <LayoutGrid className="size-4 text-primary" />
-                <span className="hidden sm:inline">Cards</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('compare')}
-                className={`cursor-pointer p-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
-                  viewMode === 'compare'
-                    ? 'bg-card text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-                title="Compare Matrix"
-              >
-                <Table className="size-4 text-primary" />
-                <span className="hidden sm:inline">Compare</span>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('compare')}
+                  className={`cursor-pointer p-2 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                    viewMode === 'compare'
+                      ? 'bg-card text-foreground shadow-sm'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                  title="Compare Matrix"
+                >
+                  <Table className="size-4 text-primary" />
+                  <span className="hidden sm:inline">Compare</span>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* ── VIEW 1: MODERN CARDS GRID ── */}
         {viewMode === 'cards' && (
