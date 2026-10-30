@@ -1,10 +1,15 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import React from 'react'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 
 import { Breadcrumbs } from '@/components/Breadcrumbs'
+import { DealerHero } from '@/components/dealers/DealerHero'
+import { DealerBenefits } from '@/components/dealers/DealerBenefits'
+import { DealerTiers } from '@/components/dealers/DealerTiers'
+import { DealerDirectory } from '@/components/dealers/DealerDirectory'
+import { DealerOnboarding } from '@/components/dealers/DealerOnboarding'
+import { DealerApplicationSection } from '@/components/dealers/DealerApplicationSection'
 import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import type { Dealer } from '@/payload-types'
@@ -45,108 +50,44 @@ export default async function DealersPage({ searchParams }: Args) {
   const states = Array.from(byState.keys()).sort()
 
   return (
-    <article className="pb-24 pt-16">
-      <div className="container">
-        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Dealers' }]} />
-
-        <header className="mb-8">
-          <h1 className="mb-3 text-3xl font-semibold tracking-tight md:text-4xl">
-            Eparv dealer directory
-          </h1>
-          <p className="max-w-2xl text-muted-foreground">
-            Verified Eparv dealers offer test rides, local delivery and service. Contact a dealer
-            directly or <Link href="/become-a-dealer" className="text-primary hover:underline">apply to become one</Link>.
-          </p>
-        </header>
-
-        {dealers.length === 0 ? (
-          <div className="rounded-lg border border-border bg-card p-12 text-center">
-            <p className="text-muted-foreground">
-              {state
-                ? `No verified dealers listed in ${state} yet.`
-                : 'No verified dealers listed yet — the network is growing.'}
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              You can still{' '}
-              <Link href="/book-test-ride" className="text-primary hover:underline">
-                book a test ride
-              </Link>{' '}
-              or{' '}
-              <Link href="/contact" className="text-primary hover:underline">
-                contact us
-              </Link>{' '}
-              directly.
-            </p>
-          </div>
-        ) : (
-          <>
-            {states.length > 1 && (
-              <nav aria-label="Filter by state" className="mb-8 flex flex-wrap gap-2">
-                <Link
-                  href="/dealers"
-                  className={`rounded-full border px-4 py-1.5 text-sm ${!state ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card hover:border-primary/50'}`}
-                >
-                  All states
-                </Link>
-                {states.map((name) => (
-                  <Link
-                    key={name}
-                    href={`/dealers?state=${encodeURIComponent(name)}`}
-                    className={`rounded-full border px-4 py-1.5 text-sm ${state === name ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card hover:border-primary/50'}`}
-                  >
-                    {name}
-                  </Link>
-                ))}
-              </nav>
-            )}
-
-            {anyDemo && (
-              <p className="mb-6 text-xs text-muted-foreground">
-                Dealerships marked “demo data” are placeholder entries for development — not real
-                businesses.
-              </p>
-            )}
-
-            {states.map((stateName) => (
-              <section key={stateName} className="mb-10" aria-labelledby={`state-${stateName}`}>
-                <h2 id={`state-${stateName}`} className="mb-4 text-xl font-semibold">
-                  {stateName}
-                </h2>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                  {(byState.get(stateName) ?? []).map((dealer) => (
-                    <div key={dealer.id} className="rounded-lg border border-border bg-card p-6">
-                      <h3 className="mb-1 font-semibold">
-                        <Link
-                          href={`/dealers/${dealer.slug}`}
-                          className="hover:text-primary hover:underline"
-                        >
-                          {dealer.businessName}
-                        </Link>
-                      </h3>
-                      <p className="mb-2 text-sm text-muted-foreground">
-                        {dealer.city}
-                        {dealer.state ? `, ${dealer.state}` : ''}
-                        {dealer.isDemoData && (
-                          <span className="ml-2 text-xs">(demo data)</span>
-                        )}
-                      </p>
-                      {dealer.address && (
-                        <p className="text-sm text-muted-foreground line-clamp-2">{dealer.address}</p>
-                      )}
-                      <Link
-                        href={`/dealers/${dealer.slug}`}
-                        className="mt-3 inline-block text-sm text-primary hover:underline"
-                      >
-                        View dealership →
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </>
-        )}
+    <article className="pb-12">
+      {/* Top Breadcrumb Bar */}
+      <div className="bg-muted/30 border-b border-border/40 py-3">
+        <div className="container">
+          <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Dealers & Franchise' }]} />
+        </div>
       </div>
+
+      {/* Hero Showcase with Key Franchise Value Pillars */}
+      <DealerHero />
+
+      {/* Demo data notice if any demo entries are loaded in dev */}
+      {anyDemo && (
+        <div className="container py-2">
+          <p className="text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-lg border border-border inline-block">
+            Note: Dealerships marked “demo data” are placeholder entries for development — not real businesses.
+          </p>
+        </div>
+      )}
+
+      {/* Core Business Advantages (Margins, Territory Lock, Turnkey Support) */}
+      <DealerBenefits />
+
+      {/* Dealership Investment Tiers & Model Specifications */}
+      <DealerTiers />
+
+      {/* Interactive Dealer Directory & Open Territory Finder */}
+      <DealerDirectory
+        dealers={dealers}
+        states={states}
+        selectedState={state}
+      />
+
+      {/* 4-Step Launch Onboarding Timeline, FAQs, and Direct Expansion Hotline */}
+      <DealerOnboarding />
+
+      {/* Lead Application Form Section with Trust Commitments */}
+      <DealerApplicationSection />
     </article>
   )
 }
@@ -156,11 +97,12 @@ export const metadata: Metadata = {
     canonical: `${getServerSideURL()}/dealers`,
   },
   description:
-    'Find verified Eparv electric cycle dealers across India — test rides, local delivery and service.',
+    'Start an authorized Eparv electric cycle dealership. Earn 25%–35% gross margins, territory exclusivity, turnkey branding, and direct customer leads. Locate authorized dealers or apply today.',
   openGraph: mergeOpenGraph({
-    description: 'Find verified Eparv electric cycle dealers across India.',
-    title: 'Dealer Directory | Eparv',
+    description:
+      'Partner with Eparv Electric Cycles: High retail margins, territory lock, turnkey showroom support, and zero royalty. Find existing showrooms or apply now.',
+    title: 'Electric Cycle Dealership & Franchise Program | Eparv',
     url: '/dealers',
   }),
-  title: 'Dealer Directory | Eparv',
+  title: 'Electric Cycle Dealership & Franchise Program | Eparv',
 }
