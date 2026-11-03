@@ -152,18 +152,18 @@ export const AboutCta: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="tel:+919170244766"
+              href="tel:+919968984030"
               className="inline-flex h-10 items-center gap-2 rounded-xl bg-primary px-4 text-xs sm:text-sm font-bold text-white hover:bg-primary/90 transition-all"
             >
               <PhoneCall className="size-4" />
-              <span>+91 91702 44766</span>
+              <span>+91 99689 84030</span>
             </a>
             <a
-              href="mailto:support@eparvingenuity.com"
+              href="mailto:eparvingenuiuty@gmail.com"
               className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-card px-4 text-xs sm:text-sm font-semibold text-foreground hover:border-primary/50 transition-all"
             >
               <Mail className="size-4 text-primary" />
-              <span>support@eparvingenuity.com</span>
+              <span>eparvingenuiuty@gmail.com</span>
             </a>
           </div>
         </div>

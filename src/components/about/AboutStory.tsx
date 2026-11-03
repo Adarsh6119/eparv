@@ -2,17 +2,25 @@
 
 import React from 'react'
 import {
+  Building2,
+  Calendar,
   Compass,
+  FileCheck2,
   Flame,
   Globe2,
   HeartHandshake,
   Lightbulb,
+  MapPin,
+  Phone,
   Rocket,
   ShieldCheck,
   Target,
   TrendingDown,
+  User,
   Zap,
 } from 'lucide-react'
+
+import { COMPANY_DETAILS } from '@/data/company'
 
 export const AboutStory: React.FC = () => {
   return (
@@ -39,8 +47,10 @@ export const AboutStory: React.FC = () => {
                 riders exhausted and drenched in sweat before their workday even begins.
               </p>
               <p>
-                <strong className="text-foreground font-semibold">Eparv Ingenuity</strong> was
-                established to solve this exact dilemma. We asked ourselves:{' '}
+                <strong className="text-foreground font-semibold">{COMPANY_DETAILS.legalName}</strong> was
+                founded on <strong className="text-foreground font-semibold">{COMPANY_DETAILS.foundingDateDisplay}</strong> by{' '}
+                <strong className="text-foreground font-semibold">{COMPANY_DETAILS.founder.name}</strong> to
+                solve this exact dilemma. We asked ourselves:{' '}
                 <em>
                   &ldquo;What if daily travel could be as effortless as twisting a throttle, as
                   healthy as pedaling when you choose, and so economical that a 20 km commute costs
@@ -48,11 +58,43 @@ export const AboutStory: React.FC = () => {
                 </em>
               </p>
               <p>
-                From that vision emerged the Eparv electric cycle lineup — engineered from the ground
-                up for Indian road conditions. High-tensile reinforced frames, high-torque 250W BLDC
-                hub motors that easily conquer flyovers, monsoon-sealed IP65 electrical harnesses, and
-                smart BMS battery packs built to withstand peak Indian summer heat.
+                From our corporate headquarters in Dwarka, New Delhi, we engineered the Eparv electric cycle
+                lineup from the ground up for real Indian road conditions. High-tensile reinforced frames,
+                high-torque 250W BLDC hub motors that easily conquer flyovers, monsoon-sealed IP65 electrical
+                harnesses, and smart BMS battery packs built to withstand peak Indian summer heat. Today, with{' '}
+                <strong className="text-foreground font-semibold">{COMPANY_DETAILS.metrics.cyclesServedLabel}</strong>,
+                we are proving that sustainable green micro-mobility is practical, reliable, and within reach of every commuter.
               </p>
+            </div>
+
+            {/* Corporate Registration & Transparency Card */}
+            <div className="rounded-2xl border border-primary/20 bg-card p-5 sm:p-6 space-y-4 shadow-sm">
+              <div className="flex items-center gap-2 text-sm font-bold text-foreground">
+                <Building2 className="size-4 text-primary" />
+                <span>Corporate Registration &amp; Disclosures</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">Legal Entity</span>
+                  <span className="font-bold text-foreground">{COMPANY_DETAILS.legalName}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">GST Identification Number (GSTIN)</span>
+                  <span className="font-mono font-bold text-primary">{COMPANY_DETAILS.gstin}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">Founder &amp; Managing Director</span>
+                  <span className="font-bold text-foreground">{COMPANY_DETAILS.founder.name}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">Incorporation Date</span>
+                  <span className="font-bold text-foreground">{COMPANY_DETAILS.foundingDateDisplay}</span>
+                </div>
+                <div className="sm:col-span-2 pt-1 border-t border-border">
+                  <span className="text-muted-foreground block text-[11px]">Registered Office Address</span>
+                  <span className="font-medium text-foreground">{COMPANY_DETAILS.registeredAddress.full}</span>
+                </div>
+              </div>
             </div>
 
             {/* Mission & Vision Cards */}
@@ -64,7 +106,7 @@ export const AboutStory: React.FC = () => {
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
                   To eliminate daily commuting stress by providing ultra-reliable, zero-emission
-                  electric bicycles operating at just ₹0.05 per kilometer.
+                  electric bicycles operating at just ₹0.04 per kilometer.
                 </p>
               </div>
 
@@ -74,7 +116,7 @@ export const AboutStory: React.FC = () => {
                   <span>Our Vision</span>
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                  To empower 100,000+ Indian riders by 2028 with accessible green mobility and foster
+                  To empower 100,000+ Indian riders with accessible, dependable green mobility and foster
                   cleaner, breathable cities across India.
                 </p>
               </div>

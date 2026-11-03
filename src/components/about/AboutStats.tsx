@@ -3,6 +3,8 @@
 import React from 'react'
 import {
   Award,
+  Building2,
+  Calendar,
   CheckCircle2,
   Coins,
   Compass,
@@ -15,33 +17,35 @@ import {
   Zap,
 } from 'lucide-react'
 
+import { COMPANY_DETAILS } from '@/data/company'
+
 const STATS = [
   {
-    value: '10,000+',
-    label: 'Riders Empowered',
-    sub: 'Daily Commuters Across India',
+    value: COMPANY_DETAILS.metrics.cyclesServed,
+    label: 'Electric Cycles on Roads',
+    sub: 'Active Daily Commuters Across India',
     icon: Users,
     color: 'text-primary',
   },
   {
-    value: '₹0.05',
+    value: '₹0.04',
     label: 'Cost Per Kilometer',
-    sub: '98% Cheaper than Petrol Bikes',
+    sub: '98% Cheaper than Petrol Two-Wheelers',
     icon: Coins,
     color: 'text-energy',
   },
   {
-    value: '50+',
-    label: 'Cities Network',
-    sub: 'Authorized Dealers & Service',
-    icon: MapPin,
+    value: '2021',
+    label: 'Founded 31 March 2021',
+    sub: 'Over 3+ Years of Dedicated EV Engineering',
+    icon: Calendar,
     color: 'text-cyan-500',
   },
   {
-    value: '1,200+',
-    label: 'Tons CO₂ Prevented',
-    sub: 'Clean Green Micro-Mobility',
-    icon: Leaf,
+    value: '25 Cities',
+    label: 'Distribution & Service',
+    sub: 'Delhi NCR, UP, Bihar & MP Network',
+    icon: MapPin,
     color: 'text-emerald-500',
   },
 ]
@@ -58,15 +62,17 @@ export const AboutStats: React.FC = () => {
                 key={idx}
                 className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-all text-center flex flex-col items-center justify-center space-y-3 group"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted group-hover:scale-110 transition-transform">
-                  <Icon className={`size-6 ${stat.color}`} />
+                <div
+                  className={`size-12 rounded-xl bg-primary/10 flex items-center justify-center ${stat.color} group-hover:scale-110 transition-transform`}
+                >
+                  <Icon className="size-6" />
                 </div>
-                <div className="space-y-1">
-                  <span className="text-3xl sm:text-4xl font-black tracking-tight text-foreground">
+                <div>
+                  <div className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">
                     {stat.value}
-                  </span>
-                  <h3 className="text-sm font-bold text-foreground">{stat.label}</h3>
-                  <p className="text-xs text-muted-foreground">{stat.sub}</p>
+                  </div>
+                  <div className="text-sm font-bold text-foreground mt-1">{stat.label}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{stat.sub}</div>
                 </div>
               </div>
             )

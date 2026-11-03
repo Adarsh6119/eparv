@@ -9,10 +9,42 @@ import { AboutInnovations } from '@/components/about/AboutInnovations'
 import { AboutLineup } from '@/components/about/AboutLineup'
 import { AboutValues } from '@/components/about/AboutValues'
 import { AboutCta } from '@/components/about/AboutCta'
+import { JsonLd } from '@/components/JsonLd'
+import { COMPANY_DETAILS } from '@/data/company'
 import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 export default function AboutPage() {
+  const orgSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: COMPANY_DETAILS.tradeName,
+    legalName: COMPANY_DETAILS.legalName,
+    taxID: COMPANY_DETAILS.gstin,
+    foundingDate: COMPANY_DETAILS.foundedDate,
+    founder: {
+      '@type': 'Person',
+      name: COMPANY_DETAILS.founder.name,
+      jobTitle: COMPANY_DETAILS.founder.role,
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
+      addressLocality: COMPANY_DETAILS.registeredAddress.city,
+      addressRegion: COMPANY_DETAILS.registeredAddress.state,
+      postalCode: COMPANY_DETAILS.registeredAddress.pincode,
+      addressCountry: 'IN',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: COMPANY_DETAILS.contact.phoneFormatted,
+      contactType: 'customer service',
+      email: COMPANY_DETAILS.contact.email,
+      availableLanguage: ['en', 'hi'],
+    },
+    url: `${getServerSideURL()}/about`,
+  }
+
   return (
     <article className="pb-12">
       {/* Top Breadcrumb Bar */}
@@ -42,6 +74,8 @@ export default function AboutPage() {
 
       {/* Action CTAs for Riders, Dealers & Fleets */}
       <AboutCta />
+
+      <JsonLd data={orgSchema} />
     </article>
   )
 }

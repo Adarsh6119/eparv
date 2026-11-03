@@ -120,18 +120,18 @@ export const DealerApplicationSection: React.FC = () => {
 
               <div className="space-y-2 text-xs sm:text-sm">
                 <a
-                  href="tel:+919170244766"
+                  href="tel:+919968984030"
                   className="flex items-center gap-2.5 text-foreground hover:text-primary font-medium transition-colors"
                 >
                   <PhoneCall className="size-4 text-primary" />
-                  <span>+91 91702 44766 (Mon–Sat, 9:30 AM – 7:00 PM)</span>
+                  <span>+91 99689 84030 (Mon–Sat, 9:30 AM – 7:00 PM)</span>
                 </a>
                 <a
-                  href="mailto:dealers@eparvingenuity.com"
+                  href="mailto:eparvingenuiuty@gmail.com"
                   className="flex items-center gap-2.5 text-foreground hover:text-primary font-medium transition-colors"
                 >
                   <Mail className="size-4 text-primary" />
-                  <span>dealers@eparvingenuity.com</span>
+                  <span>eparvingenuiuty@gmail.com</span>
                 </a>
               </div>
             </div>

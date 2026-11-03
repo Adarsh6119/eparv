@@ -202,14 +202,14 @@ export const DealerOnboarding: React.FC = () => {
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="tel:+919170244766"
+              href="tel:+919968984030"
               className="inline-flex h-11 items-center gap-2 rounded-xl bg-primary px-5 text-xs sm:text-sm font-bold text-white shadow-sm hover:bg-primary/90 transition-all"
             >
               <PhoneCall className="size-4" />
-              <span>Call +91 91702 44766</span>
+              <span>Call +91 99689 84030</span>
             </a>
             <a
-              href="https://wa.me/919170244766?text=Hello%20Eparv%20Team%2C%20I%20am%20interested%20in%20becoming%20an%20authorized%20dealer."
+              href="https://wa.me/919968984030?text=Hello%20Eparv%20Team%2C%20I%20am%20interested%20in%20becoming%20an%20authorized%20dealer."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-11 items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-5 text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500 hover:text-white transition-all"

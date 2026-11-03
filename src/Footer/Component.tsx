@@ -13,6 +13,7 @@ import {
   Zap,
 } from 'lucide-react'
 
+import { COMPANY_DETAILS } from '@/data/company'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
@@ -39,22 +40,22 @@ export async function Footer() {
 
             <div className="space-y-2 pt-2 text-xs text-slate-300">
               <a
-                href="tel:+919170244766"
+                href={COMPANY_DETAILS.contact.phoneTel}
                 className="flex items-center gap-2 text-slate-300 hover:text-primary transition-colors"
               >
                 <Phone className="size-3.5 text-primary shrink-0" />
-                <span>+91 91702 44766</span>
+                <span>{COMPANY_DETAILS.contact.phoneFormatted}</span>
               </a>
               <a
-                href="mailto:support@eparvingenuity.com"
+                href={`mailto:${COMPANY_DETAILS.contact.email}`}
                 className="flex items-center gap-2 text-slate-300 hover:text-primary transition-colors"
               >
                 <Mail className="size-3.5 text-primary shrink-0" />
-                <span>support@eparvingenuity.com</span>
+                <span>{COMPANY_DETAILS.contact.email}</span>
               </a>
               <div className="flex items-start gap-2 text-slate-400">
                 <MapPin className="size-3.5 text-energy shrink-0 mt-0.5" />
-                <span>Delhi NCR &amp; Pan-India Distribution Showrooms</span>
+                <span className="leading-snug">{COMPANY_DETAILS.registeredAddress.full}</span>
               </div>
             </div>
           </div>
@@ -326,9 +327,13 @@ export async function Footer() {
 
         {/* Bottom Bar: Copyright & Theme */}
         <div className="pt-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <div>
-            © {new Date().getFullYear()} Eparv Ingenuity Private Limited. All rights reserved. Made
-            with pride in India 🇮🇳
+          <div className="space-y-1 text-center sm:text-left">
+            <div>
+              © {new Date().getFullYear()} {COMPANY_DETAILS.legalName}. All rights reserved. Made with pride in India 🇮🇳
+            </div>
+            <div className="text-[11px] text-slate-400">
+              CIN: {COMPANY_DETAILS.cin ?? 'U34300DL2021PTC379435'} • GSTIN: {COMPANY_DETAILS.gstin} • Founded on {COMPANY_DETAILS.foundingDateDisplay} by {COMPANY_DETAILS.founder.name}
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <ThemeSelector />
