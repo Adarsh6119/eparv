@@ -15,6 +15,7 @@ import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { COMPANY_DETAILS } from '@/data/company'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -45,18 +46,34 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
         </Providers>
-        {/* Organization structured data — factual site identity only, no
-            fabricated addresses, ratings or contact points. */}
+        {/* Organization structured data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'Organization',
-              name: 'Eparv',
+              name: COMPANY_DETAILS.tradeName,
+              legalName: COMPANY_DETAILS.legalName,
+              taxID: COMPANY_DETAILS.gstin,
+              foundingDate: COMPANY_DETAILS.foundedDate,
               url: siteUrl,
               description:
-                'Eparv builds dependable electric cycles for daily commutes, weekend rides and delivery fleets across India.',
+                'EPARV INGENUITY PRIVATE LIMITED designs and builds high-torque 250W electric cycles for Indian urban commutes and delivery fleets.',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
+                addressLocality: COMPANY_DETAILS.registeredAddress.city,
+                addressRegion: COMPANY_DETAILS.registeredAddress.state,
+                postalCode: COMPANY_DETAILS.registeredAddress.pincode,
+                addressCountry: 'IN',
+              },
+              contactPoint: {
+                '@type': 'ContactPoint',
+                telephone: COMPANY_DETAILS.contact.phoneFormatted,
+                contactType: 'customer service',
+                email: COMPANY_DETAILS.contact.email,
+              },
             }).replace(/</g, '\\u003c'),
           }}
         />
@@ -67,13 +84,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
-  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN
-    ? {
-        verification: {
-          google: process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN,
-        },
-      }
-    : {}),
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN || 'b024c7b5f1d9e7ca',
+    other: {
+      'google-site-verification': ['b024c7b5f1d9e7ca'],
+    },
+  },
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
