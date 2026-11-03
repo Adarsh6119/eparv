@@ -84,12 +84,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
-  verification: {
-    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN || 'b024c7b5f1d9e7ca',
-    other: {
-      'google-site-verification': ['b024c7b5f1d9e7ca'],
-    },
-  },
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN
+    ? {
+        verification: {
+          google: process.env.NEXT_PUBLIC_GSC_VERIFICATION_TOKEN,
+        },
+      }
+    : {}),
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
