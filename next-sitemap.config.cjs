@@ -1,7 +1,13 @@
-const SITE_URL =
+const rawUrl =
   process.env.NEXT_PUBLIC_SERVER_URL ||
-  process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-  'https://example.com'
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : '') ||
+  'https://eparvmotors.com'
+
+const SITE_URL = (rawUrl.startsWith('http://') || rawUrl.startsWith('https://'))
+  ? rawUrl.replace(/\/+$/, '')
+  : `https://${rawUrl}`.replace(/\/+$/, '')
 
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {

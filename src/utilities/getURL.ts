@@ -1,12 +1,23 @@
 import canUseDOM from './canUseDOM'
 
 export const getServerSideURL = () => {
-  return (
+  let url =
     process.env.NEXT_PUBLIC_SERVER_URL ||
     (process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : 'http://localhost:3000')
-  )
+      : '')
+
+  if (!url) {
+    url = process.env.NODE_ENV === 'production' ? 'https://eparvmotors.com' : 'http://localhost:3000'
+  }
+
+  // Guarantee protocol
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = `https://${url}`
+  }
+
+  // Guarantee no trailing slash
+  return url.replace(/\/+$/, '')
 }
 
 export const getClientSideURL = () => {
@@ -18,9 +29,6 @@ export const getClientSideURL = () => {
     return `${protocol}//${domain}${port ? `:${port}` : ''}`
   }
 
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  }
-
-  return process.env.NEXT_PUBLIC_SERVER_URL || ''
+  return getServerSideURL()
 }
+
