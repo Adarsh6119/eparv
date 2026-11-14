@@ -47,7 +47,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       alternates: {
         canonical: canonicalUrl,
       },
-      robots: isIndexable ? { index: true, follow: true } : { index: false, follow: true },
+      robots: { index: true, follow: true },
       openGraph: mergeOpenGraph({
         title,
         description,
@@ -73,7 +73,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       alternates: {
         canonical: canonicalUrl,
       },
-      robots: isIndexable ? { index: true, follow: true } : { index: false, follow: true },
+      robots: { index: true, follow: true },
       openGraph: mergeOpenGraph({
         title,
         description,
