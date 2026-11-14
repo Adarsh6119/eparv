@@ -15,34 +15,16 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 export default function AboutPage() {
-  const orgSchema = {
+  const aboutPageSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: COMPANY_DETAILS.tradeName,
-    legalName: COMPANY_DETAILS.legalName,
-    taxID: COMPANY_DETAILS.gstin,
-    foundingDate: COMPANY_DETAILS.foundedDate,
-    founder: {
-      '@type': 'Person',
-      name: COMPANY_DETAILS.founder.name,
-      jobTitle: COMPANY_DETAILS.founder.role,
-    },
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
-      addressLocality: COMPANY_DETAILS.registeredAddress.city,
-      addressRegion: COMPANY_DETAILS.registeredAddress.state,
-      postalCode: COMPANY_DETAILS.registeredAddress.pincode,
-      addressCountry: 'IN',
-    },
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: COMPANY_DETAILS.contact.phoneFormatted,
-      contactType: 'customer service',
-      email: COMPANY_DETAILS.contact.email,
-      availableLanguage: ['en', 'hi'],
+    '@type': 'AboutPage',
+    mainEntity: {
+      '@id': `${getServerSideURL()}/#organization`,
     },
     url: `${getServerSideURL()}/about`,
+    name: 'About Eparv Ingenuity Private Limited',
+    description:
+      'Learn about Eparv Ingenuity — pioneering India’s electric cycle revolution with indigenous high-torque 250W BLDC hub motors, smart BMS lithium batteries, and tough frames built for Indian roads.',
   }
 
   return (
@@ -75,7 +57,7 @@ export default function AboutPage() {
       {/* Action CTAs for Riders, Dealers & Fleets */}
       <AboutCta />
 
-      <JsonLd data={orgSchema} />
+      <JsonLd data={aboutPageSchema} />
     </article>
   )
 }

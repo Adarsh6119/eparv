@@ -324,7 +324,7 @@ export const seed = async ({
         ],
       },
     ],
-    hero: { type: 'lowImpact' as const, richText: plainTextToLexical(`## ${title}`) },
+    hero: { type: 'lowImpact' as const, richText: plainTextToLexical(`# ${title}`) },
     _status: 'published' as const,
   })
 
@@ -351,7 +351,7 @@ export const seed = async ({
       'These terms govern your use of the Eparv website.',
       [
         ['Use of the site', 'You may browse this site and submit genuine enquiries. Automated scraping, spam submissions and misuse of the forms are not permitted.'],
-        ['Product information', 'Product specifications, prices and availability shown on this website may change. Records marked as demo data are placeholders and are not offers.'],
+        ['Product information', 'Product specifications, prices and availability shown on this website are accurate at the time of publication and subject to regular updates. Official quotes are confirmed via our team upon inquiry.'],
         ['Enquiries and orders', 'Submitting an enquiry or application does not create a contract. Purchases, where offered, are confirmed separately with final pricing, taxes and delivery terms.'],
         ['Liability', 'The website content is provided for information. Eparv is not liable for decisions made solely on the basis of website content without confirmation from our team.'],
       ],
@@ -384,7 +384,7 @@ export const seed = async ({
         ],
       },
     ],
-    hero: { type: 'lowImpact' as const, richText: plainTextToLexical(`## ${title}`) },
+    hero: { type: 'lowImpact' as const, richText: plainTextToLexical(`# ${title}`) },
     faqs,
     meta: {
       title,

@@ -61,11 +61,11 @@ export default async function DealersPage({ searchParams }: Args) {
       {/* Hero Showcase with Key Franchise Value Pillars */}
       <DealerHero />
 
-      {/* Demo data notice if any demo entries are loaded in dev */}
-      {anyDemo && (
+      {/* Demo data notice only in local development */}
+      {process.env.NODE_ENV !== 'production' && anyDemo && (
         <div className="container py-2">
           <p className="text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-lg border border-border inline-block">
-            Note: Dealerships marked “demo data” are placeholder entries for development — not real businesses.
+            Note: Dealerships marked “demo data” are placeholder entries for development.
           </p>
         </div>
       )}

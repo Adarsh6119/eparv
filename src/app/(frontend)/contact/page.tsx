@@ -22,34 +22,16 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 export default function ContactPage() {
-  const orgSchema = {
+  const contactPageSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: COMPANY_DETAILS.tradeName,
-    legalName: COMPANY_DETAILS.legalName,
-    taxID: COMPANY_DETAILS.gstin,
-    foundingDate: COMPANY_DETAILS.foundedDate,
-    founder: {
-      '@type': 'Person',
-      name: COMPANY_DETAILS.founder.name,
-      jobTitle: COMPANY_DETAILS.founder.role,
+    '@type': 'ContactPage',
+    mainEntity: {
+      '@id': `${getServerSideURL()}/#organization`,
     },
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
-      addressLocality: COMPANY_DETAILS.registeredAddress.city,
-      addressRegion: COMPANY_DETAILS.registeredAddress.state,
-      postalCode: COMPANY_DETAILS.registeredAddress.pincode,
-      addressCountry: 'IN',
-    },
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: COMPANY_DETAILS.contact.phoneFormatted,
-      contactType: 'customer service',
-      email: COMPANY_DETAILS.contact.email,
-      availableLanguage: ['en', 'hi'],
-    },
-    url: getServerSideURL(),
+    url: `${getServerSideURL()}/contact`,
+    name: 'Contact Eparv Ingenuity Private Limited',
+    description:
+      'Get in touch with Eparv customer service, test-ride coordination, dealership inquiries, or corporate sales.',
   }
 
   return (
@@ -99,7 +81,7 @@ export default function ContactPage() {
                     Customer &amp; Business Inquiries
                   </span>
                   <a
-                    href={COMPANY_DETAILS.contact.phoneTel}
+                    href={`tel:${COMPANY_DETAILS.contact.phone.replace(/^tel:/, '')}`}
                     className="text-base font-bold text-foreground hover:text-primary transition-colors"
                   >
                     {COMPANY_DETAILS.contact.phoneFormatted}
@@ -226,7 +208,7 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <JsonLd data={orgSchema} />
+      <JsonLd data={contactPageSchema} />
     </article>
   )
 }

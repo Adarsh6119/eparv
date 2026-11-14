@@ -116,7 +116,7 @@ export const IntentHubView: React.FC<IntentHubViewProps> = ({ intent }) => {
     },
     {
       title: 'Electric Cycle Running Cost Calculator',
-      url: '/posts/electric-cycle-running-cost-calculator',
+      url: '/posts/electric-cycle-running-cost-per-km',
       category: 'guide' as const,
       description: 'Calculate your exact daily electricity vs petrol expenses',
     },

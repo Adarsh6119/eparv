@@ -84,5 +84,13 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 export function generateMetadata(): Metadata {
   return {
     title: `Search | Eparv`,
+    description: 'Search Eparv electric cycles, technical guides and dealership information.',
+    robots: {
+      index: false,
+      follow: true,
+    },
+    alternates: {
+      canonical: '/search',
+    },
   }
 }

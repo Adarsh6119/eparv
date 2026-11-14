@@ -52,28 +52,52 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: COMPANY_DETAILS.tradeName,
-              legalName: COMPANY_DETAILS.legalName,
-              taxID: COMPANY_DETAILS.gstin,
-              foundingDate: COMPANY_DETAILS.foundedDate,
-              url: siteUrl,
-              description:
-                'EPARV INGENUITY PRIVATE LIMITED designs and builds high-torque 250W electric cycles for Indian urban commutes and delivery fleets.',
-              address: {
-                '@type': 'PostalAddress',
-                streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
-                addressLocality: COMPANY_DETAILS.registeredAddress.city,
-                addressRegion: COMPANY_DETAILS.registeredAddress.state,
-                postalCode: COMPANY_DETAILS.registeredAddress.pincode,
-                addressCountry: 'IN',
-              },
-              contactPoint: {
-                '@type': 'ContactPoint',
-                telephone: COMPANY_DETAILS.contact.phoneFormatted,
-                contactType: 'customer service',
-                email: COMPANY_DETAILS.contact.email,
-              },
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': `${siteUrl}/#organization`,
+                  name: COMPANY_DETAILS.tradeName,
+                  legalName: COMPANY_DETAILS.legalName,
+                  taxID: COMPANY_DETAILS.gstin,
+                  foundingDate: COMPANY_DETAILS.foundedDate,
+                  founder: {
+                    '@type': 'Person',
+                    name: COMPANY_DETAILS.founder.name,
+                    jobTitle: COMPANY_DETAILS.founder.role,
+                  },
+                  url: siteUrl,
+                  logo: `${siteUrl}/eparv-logo.png`,
+                  image: `${siteUrl}/eparv-og.png`,
+                  description:
+                    'EPARV INGENUITY PRIVATE LIMITED designs and builds high-torque 250W electric cycles for Indian urban commutes and delivery fleets.',
+                  address: {
+                    '@type': 'PostalAddress',
+                    streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
+                    addressLocality: COMPANY_DETAILS.registeredAddress.city,
+                    addressRegion: COMPANY_DETAILS.registeredAddress.state,
+                    postalCode: COMPANY_DETAILS.registeredAddress.pincode,
+                    addressCountry: 'IN',
+                  },
+                  contactPoint: {
+                    '@type': 'ContactPoint',
+                    telephone: COMPANY_DETAILS.contact.phoneFormatted,
+                    contactType: 'customer service',
+                    email: COMPANY_DETAILS.contact.email,
+                    availableLanguage: ['en', 'hi'],
+                    areaServed: 'IN',
+                  },
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': `${siteUrl}/#website`,
+                  url: siteUrl,
+                  name: 'Eparv Electric Cycles',
+                  publisher: {
+                    '@id': `${siteUrl}/#organization`,
+                  },
+                  inLanguage: ['en-IN', 'hi-IN'],
+                },
+              ],
             }).replace(/</g, '\\u003c'),
           }}
         />

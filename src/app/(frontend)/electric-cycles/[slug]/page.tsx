@@ -202,8 +202,13 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
       '@context': 'https://schema.org',
       '@type': 'Product',
       name: `${typedModel.name} Electric Cycle`,
-      image: `${getServerSideURL()}${typedModel.image}`,
+      image: [
+        `${getServerSideURL()}${typedModel.image}`,
+        `${getServerSideURL()}/eparv-og.png`,
+      ],
       description: typedModel.shortDescription,
+      sku: `EPARV-${typedModel.cleanSlug.toUpperCase()}`,
+      mpn: `EP-${typedModel.cleanSlug.toUpperCase()}`,
       brand: {
         '@type': 'Brand',
         name: 'Eparv',
@@ -212,9 +217,45 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
         '@type': 'Offer',
         priceCurrency: 'INR',
         price: typedModel.priceSelling,
+        itemCondition: 'https://schema.org/NewCondition',
         availability: 'https://schema.org/InStock',
         url: `${getServerSideURL()}/electric-cycles/${typedModel.cleanSlug}`,
         priceValidUntil: '2026-12-31',
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: '0',
+            currency: 'INR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'IN',
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 1,
+              maxValue: 2,
+              unitCode: 'DAY',
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 3,
+              maxValue: 5,
+              unitCode: 'DAY',
+            },
+          },
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'IN',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 7,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+        },
       },
     }
 

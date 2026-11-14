@@ -60,5 +60,56 @@ export const redirects: NextConfig['redirects'] = async () => {
     },
   ]
 
-  return [internetExplorerRedirect, homeRedirect, ...modelElectricBikeRedirects]
+  // Consolidate parallel /electric-cycle-in/:slug URLs into canonical /electric-cycle-in-:slug
+  const citySubpathRedirects = [
+    {
+      source: '/electric-cycle-in/:slug',
+      destination: '/electric-cycle-in-:slug',
+      permanent: true,
+    },
+  ]
+
+  // Fix dead links / calculator aliases
+  const guideAliases = [
+    {
+      source: '/posts/electric-cycle-running-cost-calculator',
+      destination: '/posts/electric-cycle-running-cost-per-km',
+      permanent: true,
+    },
+  ]
+
+  // Apex domain enforcement for www duplicates (308 Permanent Redirect)
+  const wwwRedirects = [
+    {
+      source: '/:path*',
+      has: [
+        {
+          type: 'host' as const,
+          value: 'www.eparvmotors.com',
+        },
+      ],
+      destination: 'https://eparvmotors.com/:path*',
+      permanent: true,
+    },
+    {
+      source: '/:path*',
+      has: [
+        {
+          type: 'host' as const,
+          value: 'www.eparvingenuity.com',
+        },
+      ],
+      destination: 'https://eparvingenuity.com/:path*',
+      permanent: true,
+    },
+  ]
+
+  return [
+    internetExplorerRedirect,
+    homeRedirect,
+    ...wwwRedirects,
+    ...modelElectricBikeRedirects,
+    ...citySubpathRedirects,
+    ...guideAliases,
+  ]
 }

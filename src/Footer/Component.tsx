@@ -40,7 +40,7 @@ export async function Footer() {
 
             <div className="space-y-2 pt-2 text-xs text-slate-300">
               <a
-                href={COMPANY_DETAILS.contact.phoneTel}
+                href={`tel:${COMPANY_DETAILS.contact.phone.replace(/^tel:/, '')}`}
                 className="flex items-center gap-2 text-slate-300 hover:text-primary transition-colors"
               >
                 <Phone className="size-3.5 text-primary shrink-0" />

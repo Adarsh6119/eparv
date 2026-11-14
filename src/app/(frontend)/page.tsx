@@ -89,36 +89,6 @@ export default async function HomePage() {
 
   const posts = latestPosts?.docs ?? []
 
-  const orgSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: COMPANY_DETAILS.tradeName,
-    legalName: COMPANY_DETAILS.legalName,
-    taxID: COMPANY_DETAILS.gstin,
-    foundingDate: COMPANY_DETAILS.foundedDate,
-    founder: {
-      '@type': 'Person',
-      name: COMPANY_DETAILS.founder.name,
-      jobTitle: COMPANY_DETAILS.founder.role,
-    },
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: `${COMPANY_DETAILS.registeredAddress.line1}, ${COMPANY_DETAILS.registeredAddress.line2}`,
-      addressLocality: COMPANY_DETAILS.registeredAddress.city,
-      addressRegion: COMPANY_DETAILS.registeredAddress.state,
-      postalCode: COMPANY_DETAILS.registeredAddress.pincode,
-      addressCountry: 'IN',
-    },
-    contactPoint: {
-      '@type': 'ContactPoint',
-      telephone: COMPANY_DETAILS.contact.phoneFormatted,
-      contactType: 'customer service',
-      email: COMPANY_DETAILS.contact.email,
-      availableLanguage: ['en', 'hi'],
-    },
-    url: getServerSideURL(),
-  }
-
   return (
     <article className="pb-0 overflow-x-hidden">
       {/* 1. HERO SHOWCASE WITH MODEL SWITCHER (100% REAL CYCLE PHOTOS) */}
@@ -304,13 +274,14 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      <JsonLd data={orgSchema} />
     </article>
   )
 }
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+  },
   description:
     'Eparv builds dependable electric cycles for daily commutes, weekend rides and delivery fleets across India. 250W BLDC motor, 110km range, 5-year frame warranty. Book a test ride today.',
   openGraph: mergeOpenGraph({

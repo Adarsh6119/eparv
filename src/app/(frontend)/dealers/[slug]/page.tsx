@@ -197,6 +197,14 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   return {
     title,
     description,
+    ...(dealer.isDemoData
+      ? {
+          robots: {
+            index: false,
+            follow: true,
+          },
+        }
+      : {}),
     alternates: {
       canonical: `${getServerSideURL()}/dealers/${dealer.slug}`,
     },

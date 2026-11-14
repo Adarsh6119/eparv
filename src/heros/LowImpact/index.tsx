@@ -15,6 +15,19 @@ type LowImpactHeroType =
     })
 
 export const LowImpactHero: React.FC<LowImpactHeroType> = ({ children, richText }) => {
+  // Ensure the primary hero heading renders as an <h1> for strict SEO compliance
+  if (richText && typeof richText === 'object' && 'root' in richText) {
+    const root = (richText as any).root
+    if (Array.isArray(root?.children)) {
+      for (const child of root.children) {
+        if (child?.type === 'heading') {
+          child.tag = 'h1'
+          break
+        }
+      }
+    }
+  }
+
   return (
     <div className="container mt-16">
       <div className="max-w-[48rem]">

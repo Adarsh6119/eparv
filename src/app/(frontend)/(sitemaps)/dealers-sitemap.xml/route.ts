@@ -17,6 +17,11 @@ const getDealersSitemap = unstable_cache(
       depth: 0,
       limit: 1000,
       pagination: false,
+      where: {
+        isDemoData: {
+          not_equals: true,
+        },
+      },
       select: {
         slug: true,
         updatedAt: true,

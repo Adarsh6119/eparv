@@ -127,10 +127,17 @@ export default async function CataloguePage({ searchParams }: Args) {
         name: model.name,
         url: `${getServerSideURL()}/electric-cycles/${model.cleanSlug}`,
         description: model.tagline,
+        image: [`${getServerSideURL()}${model.image}`, `${getServerSideURL()}/eparv-og.png`],
+        sku: `EPARV-${model.cleanSlug.toUpperCase()}`,
+        brand: {
+          '@type': 'Brand',
+          name: 'Eparv',
+        },
         offers: {
           '@type': 'Offer',
           priceCurrency: 'INR',
           price: model.priceSelling ?? 19999,
+          itemCondition: 'https://schema.org/NewCondition',
           availability: 'https://schema.org/InStock',
         },
       },
