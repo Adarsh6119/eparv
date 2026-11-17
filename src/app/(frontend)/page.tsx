@@ -72,33 +72,54 @@ const FAQS = [
 export default async function HomePage() {
   const payload = await getPayload({ config: configPromise })
 
-  const latestPosts = await payload
-    .find({
-      collection: 'posts',
-      depth: 1,
-      limit: 3,
-      overrideAccess: false,
-      draft: false,
-      pagination: false,
-      where: {
-        _status: { equals: 'published' },
-      },
-      sort: '-publishedAt',
-    })
-    .catch(() => null)
+  const [latestPosts, productsResult] = await Promise.all([
+    payload
+      .find({
+        collection: 'posts',
+        depth: 1,
+        limit: 3,
+        overrideAccess: false,
+        draft: false,
+        pagination: false,
+        where: {
+          _status: { equals: 'published' },
+        },
+        sort: '-publishedAt',
+      })
+      .catch(() => null),
+    payload
+      .find({
+        collection: 'products',
+        depth: 2,
+        limit: 50,
+        overrideAccess: false,
+        draft: false,
+        pagination: false,
+        where: {
+          _status: { equals: 'published' },
+        },
+        sort: 'createdAt',
+      })
+      .catch(() => null),
+  ])
 
   const posts = latestPosts?.docs ?? []
+  const rawProducts = productsResult?.docs ?? []
+  const filteredProducts = rawProducts.filter(
+    (p: any) => p && p.slug && p.slug !== 'smoke-test-cycle',
+  )
+  const serializableProducts = JSON.parse(JSON.stringify(filteredProducts))
 
   return (
     <article className="pb-0 overflow-x-hidden">
       {/* 1. HERO SHOWCASE WITH MODEL SWITCHER (100% REAL CYCLE PHOTOS) */}
-      <HeroShowcase />
+      <HeroShowcase cmsProducts={serializableProducts} />
 
       {/* 2. STATS & TRUST PILLARS BAR */}
       <TrustBadges />
 
       {/* 3. UNIFIED ELECTRIC CYCLE LINEUP (REAL PHOTOS + FILTERS + COMPARISON TOGGLE) */}
-      <CycleLineup />
+      <CycleLineup cmsProducts={serializableProducts} />
 
       {/* 4. INTERACTIVE FUEL SAVINGS CALCULATOR */}
       <SavingsCalculator />

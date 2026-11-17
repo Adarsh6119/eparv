@@ -170,6 +170,160 @@ export interface CycleLineupProps {
   id?: string
   className?: string
   hideHeader?: boolean
+  cmsProducts?: any[]
+}
+
+export function mapCmsProductToCycle(product: any): CycleModel {
+  const pSlug = (product.slug || '').toLowerCase()
+  const pName = (product.name || '').trim()
+
+  // Match against canonical CYCLE_MODELS by slug or name for badges, clean cutouts, and rich defaults
+  const canonical = CYCLE_MODELS.find(
+    (m) =>
+      pSlug.includes(m.id) ||
+      m.slug.toLowerCase() === pSlug ||
+      pName.toLowerCase().includes(m.name.toLowerCase().replace('eparv ', '')) ||
+      (m.id === 'visakka' && (pSlug.includes('visal') || pName.toLowerCase().includes('visal'))),
+  )
+
+  // Clean transparent PNG fallback cutouts for guaranteed visual fidelity
+  const fallbackCutout =
+    pSlug.includes('visak') || pSlug.includes('visal') || pName.toLowerCase().includes('visak') || pName.toLowerCase().includes('visal')
+      ? '/cycles/visakka.png'
+      : pSlug.includes('panther') || pName.toLowerCase().includes('panther')
+      ? '/cycles/panther.png'
+      : pSlug.includes('lahari') || pName.toLowerCase().includes('lahari')
+      ? '/cycles/lahari.png'
+      : pSlug.includes('savitri') || pName.toLowerCase().includes('savitri')
+      ? '/cycles/savitri.png'
+      : pSlug.includes('satya') || pName.toLowerCase().includes('satya')
+      ? '/cycles/satya.png'
+      : null
+
+  // If featuredImage is uploaded in Payload media
+  const uploadedImage =
+    typeof product.featuredImage === 'object' && product.featuredImage?.url
+      ? product.featuredImage.url
+      : null
+
+  const galleryImage =
+    Array.isArray(product.gallery) &&
+    product.gallery[0]?.image &&
+    typeof product.gallery[0].image === 'object' &&
+    product.gallery[0].image.url
+      ? product.gallery[0].image.url
+      : null
+
+  // Priority: Uploaded media / gallery > Clean Cutout PNG > imageUrl (if not spec sheet) > Canonical > Default
+  const hasValidCustomImageUrl =
+    product.imageUrl &&
+    typeof product.imageUrl === 'string' &&
+    !product.imageUrl.includes('spec-sheet')
+
+  const resolvedImage =
+    uploadedImage ||
+    galleryImage ||
+    fallbackCutout ||
+    (hasValidCustomImageUrl ? product.imageUrl : null) ||
+    canonical?.image ||
+    '/cycles/panther.png'
+
+  // Pricing formatting
+  const inr = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  })
+
+  const rawPrice = Number(product.price)
+  const rawPromo = Number(product.promotionalPrice)
+
+  const hasPromo = !isNaN(rawPromo) && rawPromo > 0
+  const hasRegular = !isNaN(rawPrice) && rawPrice > 0
+
+  const sellingPrice = hasPromo
+    ? rawPromo
+    : hasRegular
+    ? rawPrice
+    : canonical
+    ? parseInt(canonical.price.replace(/[^\d]/g, ''), 10)
+    : 19999
+  const regularPrice = hasPromo && hasRegular ? rawPrice : null
+
+  const price = inr.format(sellingPrice)
+  const originalPrice = regularPrice ? inr.format(regularPrice) : canonical?.originalPrice
+
+  // Category mapping
+  const categoryLabelMap: Record<string, string> = {
+    'city-commuter': 'City Commuter',
+    'off-road': 'Off-Road / Trail MTB',
+    foldable: 'Foldable E-Bike',
+    cargo: 'Cargo / Utility',
+    kids: 'Kids E-Bike',
+  }
+  const category = categoryLabelMap[product.category] || canonical?.category || 'Electric Cycle'
+
+  const isLongRange =
+    Number(product.claimedRangeKm) >= 100 ||
+    canonical?.categorySlug === 'long-range' ||
+    pSlug.includes('lahari')
+
+  const categorySlug: 'city-commute' | 'trail' | 'long-range' = isLongRange
+    ? 'long-range'
+    : product.category === 'off-road'
+    ? 'trail'
+    : canonical?.categorySlug || 'city-commute'
+
+  const displayName = pName.toLowerCase().startsWith('eparv') ? pName : `Eparv ${pName}`
+
+  return {
+    id: String(product.id || pSlug || canonical?.id || 'cycle'),
+    name: displayName,
+    slug: product.slug || canonical?.slug || 'eparv-cycle',
+    tagline:
+      product.tagline ||
+      canonical?.tagline ||
+      product.shortDescription ||
+      'Engineered for Indian commutes and trails',
+    idealFor:
+      canonical?.idealFor ||
+      product.shortDescription ||
+      'Daily office commutes, errands & city cruising',
+    category,
+    categorySlug,
+    range: product.claimedRangeKm ? `${product.claimedRangeKm} km` : canonical?.range || '55 km',
+    rangeKm: Number(product.claimedRangeKm) || canonical?.rangeKm || 55,
+    topSpeed: product.topSpeedKmh ? `${product.topSpeedKmh} km/h` : canonical?.topSpeed || '25 km/h',
+    motor: product.motorPower || canonical?.motor || '250W BLDC Hub Motor',
+    battery: product.batteryCapacity || canonical?.battery || '36V Detachable Lithium-ion',
+    brakes: canonical?.brakes || 'Dual Disc Brakes + Auto Cut-off',
+    suspension:
+      canonical?.suspension ||
+      (product.category === 'off-road' ? 'Tough-Terrain Front Suspension' : 'Comfort Fork'),
+    wheelSize: canonical?.wheelSize || '26" / 27.5" Alloy Wheels',
+    price,
+    originalPrice,
+    image: resolvedImage,
+    badge:
+      canonical?.badge ||
+      (isLongRange
+        ? 'Longest 110 KM Range'
+        : product.category === 'off-road'
+        ? 'Best Seller Trail'
+        : 'Popular Commuter'),
+    badgeColor:
+      canonical?.badgeColor ||
+      (isLongRange
+        ? 'bg-emerald-500 text-white'
+        : product.category === 'off-road'
+        ? 'bg-primary text-white'
+        : 'bg-energy text-[#0a1628]'),
+    highlights: canonical?.highlights || [
+      `${product.motorPower || '250W BLDC Hub Motor'}`,
+      `${product.batteryCapacity || 'Detachable Lithium-ion'}`,
+      'Dual Disc Brakes + Auto Cut-off',
+    ],
+  }
 }
 
 export const CycleLineup: React.FC<CycleLineupProps> = ({
@@ -181,11 +335,19 @@ export const CycleLineup: React.FC<CycleLineupProps> = ({
   id = 'cycle-lineup',
   className = '',
   hideHeader = false,
+  cmsProducts,
 }) => {
   const [activeFilter, setActiveFilter] = useState<'all' | 'city-commute' | 'trail' | 'long-range'>(initialFilter)
   const [viewMode, setViewMode] = useState<'cards' | 'compare'>(initialViewMode)
 
-  const filteredCycles = CYCLE_MODELS.filter((m) => {
+  const cycles = React.useMemo(() => {
+    if (cmsProducts && cmsProducts.length > 0) {
+      return cmsProducts.map(mapCmsProductToCycle)
+    }
+    return CYCLE_MODELS
+  }, [cmsProducts])
+
+  const filteredCycles = cycles.filter((m) => {
     if (activeFilter === 'all') return true
     if (activeFilter === 'city-commute') return m.categorySlug === 'city-commute'
     if (activeFilter === 'trail') return m.categorySlug === 'trail'
@@ -217,7 +379,7 @@ export const CycleLineup: React.FC<CycleLineupProps> = ({
               {/* Filter Pills */}
               <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-muted/60 border border-border">
                 {[
-                  { id: 'all', label: 'All Models (5)' },
+                  { id: 'all', label: `All Models (${cycles.length})` },
                   { id: 'city-commute', label: 'City Commuter' },
                   { id: 'trail', label: 'Trails & MTB' },
                   { id: 'long-range', label: 'Long Range (110 km)' },
@@ -339,7 +501,7 @@ export const CycleLineup: React.FC<CycleLineupProps> = ({
                       <Zap className="size-4 text-energy shrink-0" />
                       <div className="min-w-0">
                         <div className="text-[10px] text-muted-foreground font-medium">Motor</div>
-                        <div className="font-extrabold text-foreground truncate">250W BLDC</div>
+                        <div className="font-extrabold text-foreground truncate">{cycle.motor}</div>
                       </div>
                     </div>
                   </div>

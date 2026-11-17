@@ -16,6 +16,8 @@ import {
 
 import { isClaimVerified } from '@/data/claims'
 
+import { mapCmsProductToCycle } from './CycleLineup'
+
 export interface HeroModel {
   id: string
   name: string
@@ -112,8 +114,53 @@ const HERO_MODELS: HeroModel[] = [
   },
 ]
 
-export const HeroShowcase: React.FC = () => {
-  const [activeModel, setActiveModel] = useState<HeroModel>(HERO_MODELS[0])
+export interface HeroShowcaseProps {
+  cmsProducts?: any[]
+}
+
+export const HeroShowcase: React.FC<HeroShowcaseProps> = ({ cmsProducts }) => {
+  const models = React.useMemo(() => {
+    if (cmsProducts && cmsProducts.length > 0) {
+      return cmsProducts.map((p) => {
+        const cycle = mapCmsProductToCycle(p)
+        const canonicalHero = HERO_MODELS.find(
+          (h) =>
+            h.id === cycle.id ||
+            cycle.slug.toLowerCase().includes(h.id) ||
+            cycle.name.toLowerCase().includes(h.name.toLowerCase().replace('eparv ', '')) ||
+            (h.id === 'visakka' && (cycle.slug.includes('visal') || cycle.name.toLowerCase().includes('visal'))),
+        )
+        return {
+          id: cycle.id,
+          name: cycle.name,
+          slug: cycle.slug,
+          tagline: cycle.tagline,
+          category: cycle.category,
+          range: cycle.range,
+          topSpeed: cycle.topSpeed,
+          motor: cycle.motor,
+          battery: cycle.battery,
+          image: cycle.image,
+          alt: `${cycle.name} electric cycle side profile`,
+          accentColor: canonicalHero?.accentColor || '#13a5de',
+          badge: cycle.badge,
+          startingPrice: cycle.price,
+        }
+      })
+    }
+    return HERO_MODELS
+  }, [cmsProducts])
+
+  const [activeModel, setActiveModel] = useState<HeroModel>(models[0] || HERO_MODELS[0])
+
+  React.useEffect(() => {
+    if (models.length > 0) {
+      setActiveModel((current) => {
+        const match = models.find((m) => m.id === current.id)
+        return match || models[0]
+      })
+    }
+  }, [models])
 
   return (
     <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#071322] via-[#0b1c31] to-[#040d18] text-white pt-24 pb-20">
@@ -216,7 +263,7 @@ export const HeroShowcase: React.FC = () => {
                 Quick Select Flagship Models:
               </span>
               <div className="flex flex-wrap gap-2">
-                {HERO_MODELS.map((m) => {
+                {models.map((m) => {
                   const isSelected = activeModel.id === m.id
                   return (
                     <button

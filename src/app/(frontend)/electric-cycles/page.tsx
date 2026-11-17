@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import React from 'react'
+import configPromise from '@payload-config'
+import { getPayload } from 'payload'
 import {
   ArrowRight,
   Battery,
@@ -36,6 +38,28 @@ type Args = {
 
 export default async function CataloguePage({ searchParams }: Args) {
   const { category } = await searchParams
+
+  const payload = await getPayload({ config: configPromise })
+  const productsResult = await payload
+    .find({
+      collection: 'products',
+      depth: 2,
+      limit: 50,
+      overrideAccess: false,
+      draft: false,
+      pagination: false,
+      where: {
+        _status: { equals: 'published' },
+      },
+      sort: 'createdAt',
+    })
+    .catch(() => null)
+
+  const rawProducts = productsResult?.docs ?? []
+  const filteredProducts = rawProducts.filter(
+    (p: any) => p && p.slug && p.slug !== 'smoke-test-cycle',
+  )
+  const serializableProducts = JSON.parse(JSON.stringify(filteredProducts))
 
   const mappedCategory =
     category === 'off-road'
@@ -183,6 +207,7 @@ export default async function CataloguePage({ searchParams }: Args) {
         title="Explore All Electric Cycles"
         subtitle="Choose the model that matches your commute distance, riding posture, and terrain preference."
         initialFilter={mappedCategory as any}
+        cmsProducts={serializableProducts}
       />
 
       {/* Real Full 5-Model Comparison Table */}
