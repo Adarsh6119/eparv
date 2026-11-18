@@ -35,7 +35,7 @@ export const StateHubView: React.FC<StateHubViewProps> = ({ hub }) => {
   const faqs = [
     {
       question: `What is the price of electric cycles in ${hub.displayName}?`,
-      answer: `In ${hub.displayName}, Eparv electric cycles are priced from ₹18,999 for the Eparv Savitri commuter up to ₹24,999 for the Eparv Visakka trail MTB. All models include GST, battery charger, and factory warranty.`,
+      answer: `In ${hub.displayName}, Eparv electric cycles are priced from ₹18,999 for the Eparv Savitri commuter up to ₹24,999 for the Eparv Visalka trail MTB. All models include GST, battery charger, and factory warranty.`,
     },
     {
       question: `Is driving license or RTO registration needed for electric cycles in ${hub.displayName}?`,
@@ -82,7 +82,7 @@ export const StateHubView: React.FC<StateHubViewProps> = ({ hub }) => {
     },
     ...otherHubs.map((other) => ({
       title: `Electric Cycles in ${other.displayName}`,
-      url: `/electric-cycle-in/${other.slug}`,
+      url: `/electric-cycle-in-${other.slug}`,
       category: 'location' as const,
       description: `State dealerships and city delivery in ${other.displayName}`,
     })),
@@ -136,7 +136,7 @@ export const StateHubView: React.FC<StateHubViewProps> = ({ hub }) => {
             {hubCities.map((city: City) => (
               <Link
                 key={city.slug}
-                href={`/electric-cycle-in/${city.slug}`}
+                href={`/electric-cycle-in-${city.slug}`}
                 className="group relative flex flex-col justify-between rounded-2xl border border-border bg-card p-5 transition-all hover:border-primary/50 hover:shadow-lg hover:-translate-y-1"
               >
                 <div>

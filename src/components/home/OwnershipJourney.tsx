@@ -51,7 +51,7 @@ const STEPS = [
     title: 'Ride Free with 5-Year Peace of Mind',
     subtitle: 'Save ₹25,000+ yearly with complete warranty backing',
     description:
-      'Zoom past city traffic jams with zero emissions, zero petrol expense, and zero RTO paperwork. Backed by 60 months frame and 24 months motor warranty with 150+ service touchpoints.',
+      'Zoom past city traffic jams with zero emissions, zero petrol expense, and zero RTO paperwork. Backed by 60 months frame and 24 months motor warranty with direct technical support and spare parts dispatch.',
     icon: ShieldCheck,
     color: 'from-violet-500/20 to-purple-500/20',
     iconColor: 'text-purple-500',
@@ -132,7 +132,7 @@ export const OwnershipJourney: React.FC = () => {
               Ready to take your first test ride?
             </h4>
             <p className="text-xs text-muted-foreground mt-0.5">
-              Available at verified dealerships across 200+ cities in India.
+              Available with doorstep delivery and authorized dealer network across India.
             </p>
           </div>
           <Link

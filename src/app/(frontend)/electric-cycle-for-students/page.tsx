@@ -11,7 +11,6 @@ const intent = INTENT_HUBS['for-students']
 export const metadata: Metadata = {
   title: intent.title,
   description: intent.directAnswer,
-  keywords: [intent.primaryKeyword, ...intent.secondaryKeywords],
   alternates: {
     canonical: `${getServerSideURL()}${intent.url}`,
   },

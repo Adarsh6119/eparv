@@ -13,6 +13,7 @@ import {
   leadFormSchema,
   type LeadType,
 } from '@/services/leadSchemas'
+import { trackFormSubmit } from '@/utilities/analytics'
 
 type ProductOption = { slug: string; name: string }
 
@@ -173,6 +174,11 @@ export const LeadForm: React.FC<{
 
       if (res.ok && data.ok) {
         setSuccess({ leadId: data.leadId ?? '', duplicate: Boolean(data.duplicate) })
+        trackFormSubmit(type, {
+          city: values.city,
+          product_name: values.productSlug,
+          lead_id: data.leadId,
+        })
       } else {
         if (data.fieldErrors) {
           setFieldErrors(data.fieldErrors)

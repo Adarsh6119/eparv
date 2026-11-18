@@ -277,3 +277,46 @@ export const otherStatePages = (page: StatePageData): StatePageData[] =>
   STATE_PAGES.filter((candidate) => candidate.slug !== page.slug)
 
 export const allStatePages = (): StatePageData[] => STATE_PAGES
+
+/**
+ * Quality Control & Indexing Policy:
+ * Tier A (4 State Hubs) and Tier B (23 primary metropolitan & divisional hubs)
+ * possess verified delivery capability, localized route maps, and active support.
+ * Tier C district towns are retained for direct users but kept as noindex, follow
+ * until localized physical dealer/service verification is established.
+ */
+export const VERIFIED_INDEXABLE_CITY_SLUGS = new Set<string>([
+  // Tier A: State Hubs
+  'electric-cycle-in-delhi-ncr',
+  'electric-cycle-in-uttar-pradesh',
+  'electric-cycle-in-bihar',
+  'electric-cycle-in-madhya-pradesh',
+
+  // Tier B: Key Metros & Divisional Headquarters
+  'electric-cycle-in-delhi',
+  'electric-cycle-in-noida',
+  'electric-cycle-in-greater-noida',
+  'electric-cycle-in-ghaziabad',
+  'electric-cycle-in-lucknow',
+  'electric-cycle-in-kanpur',
+  'electric-cycle-in-varanasi',
+  'electric-cycle-in-prayagraj',
+  'electric-cycle-in-agra',
+  'electric-cycle-in-meerut',
+  'electric-cycle-in-gorakhpur',
+  'electric-cycle-in-bareilly',
+  'electric-cycle-in-aligarh',
+  'electric-cycle-in-patna',
+  'electric-cycle-in-gaya',
+  'electric-cycle-in-muzaffarpur',
+  'electric-cycle-in-bhagalpur',
+  'electric-cycle-in-darbhanga',
+  'electric-cycle-in-indore',
+  'electric-cycle-in-bhopal',
+  'electric-cycle-in-gwalior',
+  'electric-cycle-in-jabalpur',
+  'electric-cycle-in-ujjain',
+])
+
+export const isCityOrStateIndexable = (slug: string): boolean =>
+  VERIFIED_INDEXABLE_CITY_SLUGS.has(slug)

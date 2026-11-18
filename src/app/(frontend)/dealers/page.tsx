@@ -33,9 +33,14 @@ export default async function DealersPage({ searchParams }: Args) {
     overrideAccess: false,
     pagination: false,
     sort: 'businessName',
-    where: state
-      ? { and: [{ applicationStatus: { equals: 'verified' } }, { publicListing: { equals: true } }, { state: { equals: state } }] }
-      : undefined,
+    where: {
+      and: [
+        { isDemoData: { not_equals: true } },
+        { applicationStatus: { equals: 'verified' } },
+        { publicListing: { equals: true } },
+        ...(state ? [{ state: { equals: state } }] : []),
+      ],
+    },
   })
 
   const dealers = result.docs

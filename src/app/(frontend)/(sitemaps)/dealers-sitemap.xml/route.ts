@@ -28,7 +28,7 @@ const getDealersSitemap = unstable_cache(
       },
     })
 
-    const dateFallback = new Date().toISOString()
+    const dateFallback = '2026-11-17T00:00:00.000Z'
 
     const sitemap = results.docs
       ? results.docs

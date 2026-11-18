@@ -61,7 +61,7 @@ export const ProductCard: React.FC<{
   )
 
   const fallbackCycleImage =
-    slug?.includes('visak') ? '/cycles/visakka.png' :
+    (slug?.includes('visak') || slug?.includes('visal')) ? '/cycles/visakka.png' :
     slug?.includes('panther') ? '/cycles/panther.png' :
     slug?.includes('lahari') ? '/cycles/lahari.png' :
     slug?.includes('savitri') ? '/cycles/savitri.png' :

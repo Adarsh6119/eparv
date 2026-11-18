@@ -9,7 +9,7 @@ const getPostsSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const SITE_URL = getServerSideURL()
-    const dateFallback = new Date().toISOString()
+    const dateFallback = '2026-11-17T00:00:00.000Z'
 
     const results = await payload.find({
       collection: 'posts',
@@ -41,7 +41,7 @@ const getPostsSitemap = unstable_cache(
     // 10 Code-defined technical guides from data/guides.ts
     const guidePosts = Object.values(GUIDES).map((guide) => ({
       loc: `${SITE_URL}/posts/${guide.slug}`,
-      lastmod: dateFallback,
+      lastmod: guide.lastReviewedDate ? `${guide.lastReviewedDate}T00:00:00.000Z` : dateFallback,
     }))
 
     // Deduplicate by URL

@@ -182,7 +182,7 @@ export default function LocationHubPage() {
                       {cities.map((city) => (
                         <Link
                           key={city.slug}
-                          href={`/electric-cycle-in/${city.slug}`}
+                          href={`/electric-cycle-in-${city.slug}`}
                           className="inline-flex items-center gap-1 rounded-lg border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground hover:border-primary hover:text-primary transition-colors"
                         >
                           <MapPin className="size-3 text-primary" />
@@ -195,7 +195,7 @@ export default function LocationHubPage() {
                   <div className="mt-6 pt-4 border-t border-border flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">Doorstep Delivery 3–5 Days</span>
                     <Link
-                      href={`/electric-cycle-in/${hub.slug}`}
+                      href={`/electric-cycle-in-${hub.slug}`}
                       className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline"
                     >
                       Explore State Hub <ArrowRight className="size-3.5" />
@@ -223,7 +223,7 @@ export default function LocationHubPage() {
             {Object.values(CITIES).map((city) => (
               <Link
                 key={city.slug}
-                href={`/electric-cycle-in/${city.slug}`}
+                href={`/electric-cycle-in-${city.slug}`}
                 className="group flex items-center justify-between rounded-xl border border-border/80 bg-background/60 p-3 hover:border-primary hover:bg-card transition-all"
               >
                 <div>

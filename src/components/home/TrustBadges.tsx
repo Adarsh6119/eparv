@@ -55,10 +55,8 @@ export const TrustBadges: React.FC = () => {
     },
     {
       icon: Wrench,
-      title: verifiedDealers ? '150+ Verified Dealers' : 'Authorized Dealer Network',
-      description: verifiedDealers
-        ? '150+ verified dealership touchpoints across India'
-        : 'Verified showroom partners & direct factory spare parts dispatch',
+      title: 'Authorized Dealer Network',
+      description: 'Verified showroom partners & direct factory spare parts dispatch',
     },
   ]
 

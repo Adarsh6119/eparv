@@ -30,17 +30,17 @@ export const redirects: NextConfig['redirects'] = async () => {
     },
     {
       source: '/electric-cycles/eparv-visakka-electric-bike',
-      destination: '/electric-cycles/eparv-visakka',
+      destination: '/electric-cycles/eparv-visalka',
+      permanent: true,
+    },
+    {
+      source: '/electric-cycles/eparv-visakka',
+      destination: '/electric-cycles/eparv-visalka',
       permanent: true,
     },
     {
       source: '/electric-cycles/eparv-visalka-electric-bike',
-      destination: '/electric-cycles/eparv-visakka',
-      permanent: true,
-    },
-    {
-      source: '/electric-cycles/eparv-visalka',
-      destination: '/electric-cycles/eparv-visakka',
+      destination: '/electric-cycles/eparv-visalka',
       permanent: true,
     },
     {
@@ -69,11 +69,21 @@ export const redirects: NextConfig['redirects'] = async () => {
     },
   ]
 
-  // Fix dead links / calculator aliases
+  // Fix dead links / calculator aliases / comparison routes
   const guideAliases = [
     {
       source: '/posts/electric-cycle-running-cost-calculator',
       destination: '/posts/electric-cycle-running-cost-per-km',
+      permanent: true,
+    },
+    {
+      source: '/compare/eparv-vs-emotorad',
+      destination: '/posts/eparv-vs-emotorad-electric-cycle',
+      permanent: true,
+    },
+    {
+      source: '/eparv-vs-emotorad',
+      destination: '/posts/eparv-vs-emotorad-electric-cycle',
       permanent: true,
     },
   ]

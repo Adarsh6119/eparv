@@ -122,18 +122,24 @@ export const EPARV_MODELS: Record<string, EparvModel> = {
     ],
   },
 
-  visakka: {
-    id: 'visakka',
-    slug: 'eparv-visakka',
-    cleanSlug: 'eparv-visakka',
-    legacySlugAliases: ['eparv-visakka-electric-bike', 'eparv-visalka', 'eparv-visalka-electric-bike'],
-    name: 'Eparv Visakka',
+  visalka: {
+    id: 'visalka',
+    slug: 'eparv-visalka',
+    cleanSlug: 'eparv-visalka',
+    legacySlugAliases: [
+      'eparv-visakka',
+      'eparv-visakka-electric-bike',
+      'eparv-visalka-electric-bike',
+      'visalka',
+      'visakka',
+    ],
+    name: 'Eparv Visalka',
     positioning: 'trail-mtb',
     category: 'Off-Road / Trail MTB',
     neutralCategoryLabel: 'All-Terrain Suspension Electric Cycle',
     tagline: 'Built to dominate broken roads, potholes, and steep flyovers with front suspension',
     shortDescription:
-      'The Eparv Visakka is an all-terrain electric MTB featuring front suspension, 250W high-torque hub motor, double-wall 27.5 alloy rims, and responsive dual disc brakes.',
+      'The Eparv Visalka is an all-terrain electric MTB featuring front suspension, 250W high-torque hub motor, double-wall 27.5 alloy rims, and responsive dual disc brakes.',
     whoShouldBuy: [
       'Riders facing rough city tarmac, potholes, unpaved roads, and speed bumps.',
       'Fitness riders seeking weekend trail adventures and gravel paths.',
@@ -375,7 +381,12 @@ export const EPARV_MODELS: Record<string, EparvModel> = {
   },
 }
 
-export const MODEL_LIST: EparvModel[] = Object.values(EPARV_MODELS)
+// Backward-compatibility alias
+;(EPARV_MODELS as Record<string, EparvModel>).visakka = EPARV_MODELS.visalka
+
+export const MODEL_LIST: EparvModel[] = Object.values(EPARV_MODELS).filter(
+  (m, idx, arr) => arr.findIndex((x) => x.id === m.id) === idx,
+)
 
 export function getModelBySlug(slug: string): EparvModel | undefined {
   const clean = slug.replace(/-electric-bike$/, '').toLowerCase()

@@ -116,7 +116,7 @@ export const INTENT_HUBS: Record<string, IntentHubData> = {
       },
       {
         title: 'Priority 2: Rough Terrain & Pothole Absorption',
-        desc: 'Look for telescopic suspension forks and knobby all-terrain tyres like the Eparv Visakka (₹24,999).',
+        desc: 'Look for telescopic suspension forks and knobby all-terrain tyres like the Eparv Visalka (₹24,999).',
       },
       {
         title: 'Priority 3: Fast City Commute & Agile Weight',
@@ -138,7 +138,7 @@ export const INTENT_HUBS: Record<string, IntentHubData> = {
       {
         question: 'Which model under 25000 is best for off-road trails?',
         answer:
-          'The Eparv Visakka (₹24,999) is specifically engineered for trails with 80mm front suspension travel, 27.5-inch knobby tyres, and reinforced hardtail geometry.',
+          'The Eparv Visalka (₹24,999) is specifically engineered for trails with 80mm front suspension travel, 27.5-inch knobby tyres, and reinforced hardtail geometry.',
       },
       {
         question: '25000 me electric cycle kitne kilometer chalti hai ek charge me?',

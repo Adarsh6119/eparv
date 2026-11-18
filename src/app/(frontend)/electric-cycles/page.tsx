@@ -78,7 +78,7 @@ export default async function CataloguePage({ searchParams }: Args) {
     {
       question: 'What is the price range of Eparv electric cycles in India?',
       answer:
-        'Eparv electric cycles start at ₹18,999 for the Eparv Savitri commuter and range up to ₹24,999 for the Eparv Visakka trail MTB. All models include GST, battery charger, factory warranty, and complimentary home delivery.',
+        'Eparv electric cycles start at ₹18,999 for the Eparv Savitri commuter and range up to ₹24,999 for the Eparv Visalka trail MTB. All models include GST, battery charger, factory warranty, and complimentary home delivery.',
     },
     {
       question: 'Do I need a driving license or RTO registration to ride an Eparv electric cycle?',
@@ -392,7 +392,7 @@ export default async function CataloguePage({ searchParams }: Args) {
             {stateHubsList.map((hub) => (
               <Link
                 key={hub.slug}
-                href={`/electric-cycle-in/${hub.slug}`}
+                href={`/electric-cycle-in-${hub.slug}`}
                 className="group flex flex-col justify-between rounded-xl border border-border bg-background p-4 hover:border-primary transition-all"
               >
                 <div>
@@ -442,7 +442,7 @@ export default async function CataloguePage({ searchParams }: Args) {
 export const metadata: Metadata = {
   title: 'Eparv Electric Cycles: Price List & Comparison | Official Store',
   description:
-    'Compare all 5 Eparv electric cycles — Panther, Visakka, Lahari, Savitri, and Satya. Starting at ₹18,999 with 250W motors, smart BMS lithium batteries, up to 110 km range, and zero RTO license needed.',
+    'Compare all 5 Eparv electric cycles — Panther, Visalka, Lahari, Savitri, and Satya. Starting at ₹18,999 with 250W motors, smart BMS lithium batteries, up to 110 km range, and zero RTO license needed.',
   alternates: {
     canonical: `${getServerSideURL()}/electric-cycles`,
   },

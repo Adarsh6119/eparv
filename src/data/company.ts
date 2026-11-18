@@ -69,7 +69,7 @@ export const COMPANY_DETAILS: CompanyDetails = {
     phone: '9968984030',
     phoneFormatted: '+91 99689 84030',
     phoneTel: 'tel:+919968984030',
-    email: 'eparvingenuiuty@gmail.com',
+    email: 'contact@eparvmotors.com',
     hours: 'Monday – Saturday, 9:30 AM – 7:00 PM IST',
   },
   metrics: {

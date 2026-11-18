@@ -48,20 +48,33 @@ export const KEYWORD_MAP: Record<string, KeywordEntry> = {
     recommendedMetaDescription:
       'Eparv Panther urban electric cycle: 250W BLDC motor, 55 km range, detachable 36V quick-charge battery, and dual disc brakes for daily city commutes.',
   },
-  '/electric-cycles/eparv-visakka': {
-    pageUrl: '/electric-cycles/eparv-visakka',
+  '/electric-cycles/eparv-visalka': {
+    pageUrl: '/electric-cycles/eparv-visalka',
     pageType: 'model',
-    primaryKeyword: 'eparv visakka',
+    primaryKeyword: 'eparv visalka',
     secondaryKeywords: [
-      'eparv visakka price',
-      'eparv visakka range',
-      'eparv visakka review',
-      'eparv visakka specifications',
-      'eparv visakka kitne ki hai',
+      'eparv visalka price',
+      'eparv visalka range',
+      'eparv visalka review',
+      'eparv visalka specifications',
+      'eparv visalka kitne ki hai',
+      'eparv visakka',
     ],
-    recommendedTitle: 'Eparv Visakka Electric Cycle: Price, Range & Specs | Eparv',
+    recommendedTitle: 'Eparv Visalka Electric Cycle: Price, Range & Specs | Eparv',
     recommendedMetaDescription:
-      'Eparv Visakka all-terrain electric cycle: front suspension fork, 250W high-torque motor, 60 km range, and dual disc brakes for rough roads and trails.',
+      'Eparv Visalka all-terrain electric cycle: front suspension fork, 250W high-torque motor, 60 km range, and dual disc brakes for rough roads and trails.',
+  },
+  '/electric-cycles/eparv-visakka': {
+    pageUrl: '/electric-cycles/eparv-visalka',
+    pageType: 'model',
+    primaryKeyword: 'eparv visalka',
+    secondaryKeywords: [
+      'eparv visakka',
+      'eparv visalka',
+    ],
+    recommendedTitle: 'Eparv Visalka Electric Cycle: Price, Range & Specs | Eparv',
+    recommendedMetaDescription:
+      'Eparv Visalka all-terrain electric cycle: front suspension fork, 250W high-torque motor, 60 km range, and dual disc brakes for rough roads and trails.',
   },
   '/electric-cycles/eparv-lahari': {
     pageUrl: '/electric-cycles/eparv-lahari',
@@ -186,8 +199,8 @@ export const KEYWORD_MAP: Record<string, KeywordEntry> = {
     recommendedMetaDescription:
       'Find authorized Eparv electric cycle showrooms, test rides, local delivery timelines, and verified dealers across Indian states and cities.',
   },
-  '/electric-cycle-in/delhi-ncr': {
-    pageUrl: '/electric-cycle-in/delhi-ncr',
+  '/electric-cycle-in-delhi-ncr': {
+    pageUrl: '/electric-cycle-in-delhi-ncr',
     pageType: 'state',
     primaryKeyword: 'electric cycle in delhi ncr',
     secondaryKeywords: ['electric cycle price in delhi ncr', 'delhi ncr me electric cycle', 'electric cycle dealers delhi ncr'],
@@ -195,8 +208,8 @@ export const KEYWORD_MAP: Record<string, KeywordEntry> = {
     recommendedMetaDescription:
       'Explore Eparv electric cycles in Delhi NCR: Delhi, Noida, Gurgaon, Ghaziabad, and Faridabad. Free test rides, local showroom networks, and fast delivery.',
   },
-  '/electric-cycle-in/uttar-pradesh': {
-    pageUrl: '/electric-cycle-in/uttar-pradesh',
+  '/electric-cycle-in-uttar-pradesh': {
+    pageUrl: '/electric-cycle-in-uttar-pradesh',
     pageType: 'state',
     primaryKeyword: 'electric cycle in uttar pradesh',
     secondaryKeywords: ['electric cycle price in uttar pradesh', 'up me electric cycle', 'electric cycle dealer up'],
@@ -204,8 +217,8 @@ export const KEYWORD_MAP: Record<string, KeywordEntry> = {
     recommendedMetaDescription:
       'Electric cycles across Uttar Pradesh: Lucknow, Kanpur, Varanasi, Agra, Meerut & more. Compare models, prices, doorstep delivery, and dealer networks.',
   },
-  '/electric-cycle-in/bihar': {
-    pageUrl: '/electric-cycle-in/bihar',
+  '/electric-cycle-in-bihar': {
+    pageUrl: '/electric-cycle-in-bihar',
     pageType: 'state',
     primaryKeyword: 'electric cycle in bihar',
     secondaryKeywords: ['electric cycle price in bihar', 'bihar me electric cycle', 'electric cycle dealer bihar'],
@@ -213,8 +226,8 @@ export const KEYWORD_MAP: Record<string, KeywordEntry> = {
     recommendedMetaDescription:
       'Electric cycles across Bihar: Patna, Gaya, Muzaffarpur, Bhagalpur & Darbhanga. Reliable 250W hub motors, home charging, and direct delivery.',
   },
-  '/electric-cycle-in/madhya-pradesh': {
-    pageUrl: '/electric-cycle-in/madhya-pradesh',
+  '/electric-cycle-in-madhya-pradesh': {
+    pageUrl: '/electric-cycle-in-madhya-pradesh',
     pageType: 'state',
     primaryKeyword: 'electric cycle in madhya pradesh',
     secondaryKeywords: ['electric cycle price in madhya pradesh', 'mp me electric cycle', 'electric cycle dealer mp'],
@@ -230,7 +243,7 @@ export function getKeywordData(pageUrl: string): KeywordEntry | undefined {
 
 export function getCityKeywords(citySlug: string, displayName: string, displayNameHi: string): KeywordEntry {
   return {
-    pageUrl: `/electric-cycle-in/${citySlug}`,
+    pageUrl: `/electric-cycle-in-${citySlug}`,
     pageType: 'city',
     primaryKeyword: `electric cycle in ${displayName}`,
     secondaryKeywords: [

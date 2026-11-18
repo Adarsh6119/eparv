@@ -216,7 +216,7 @@ export default function ContactPage() {
 export const metadata: Metadata = {
   title: 'Contact Us | Eparv Ingenuity Private Limited',
   description:
-    'Contact EPARV INGENUITY PRIVATE LIMITED: Registered office at Krishna Mall, Sector 12 Dwarka, New Delhi. Phone: +91 99689 84030, Email: eparvingenuiuty@gmail.com, GSTIN: 07AAGCE4054K1ZJ.',
+    'Contact EPARV INGENUITY PRIVATE LIMITED: Registered office at Krishna Mall, Sector 12 Dwarka, New Delhi. Phone: +91 99689 84030, Email: contact@eparvmotors.com, GSTIN: 07AAGCE4054K1ZJ.',
   alternates: {
     canonical: `${getServerSideURL()}/contact`,
   },

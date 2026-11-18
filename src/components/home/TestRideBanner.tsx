@@ -148,11 +148,7 @@ export const TestRideBanner: React.FC = () => {
                   className="w-full inline-flex h-10 items-center justify-center gap-2 rounded-xl border border-white/20 text-xs font-semibold text-white/80 hover:text-white hover:bg-white/10 transition-colors"
                 >
                   <MapPin className="size-3.5 text-primary" />
-                  <span>
-                    {showDealerCountClaim
-                      ? 'View All 150+ Dealerships Across India'
-                      : 'Explore Authorized Dealership Network'}
-                  </span>
+                  <span>Explore Authorized Dealership Network</span>
                 </Link>
               </div>
             </div>

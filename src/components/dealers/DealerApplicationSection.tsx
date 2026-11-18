@@ -127,11 +127,11 @@ export const DealerApplicationSection: React.FC = () => {
                   <span>+91 99689 84030 (Mon–Sat, 9:30 AM – 7:00 PM)</span>
                 </a>
                 <a
-                  href="mailto:eparvingenuiuty@gmail.com"
+                  href="mailto:contact@eparvmotors.com"
                   className="flex items-center gap-2.5 text-foreground hover:text-primary font-medium transition-colors"
                 >
                   <Mail className="size-4 text-primary" />
-                  <span>eparvingenuiuty@gmail.com</span>
+                  <span>contact@eparvmotors.com</span>
                 </a>
               </div>
             </div>

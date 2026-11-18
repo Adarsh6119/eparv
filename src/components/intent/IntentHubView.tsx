@@ -45,7 +45,7 @@ export const IntentHubView: React.FC<IntentHubViewProps> = ({ intent }) => {
     filteredModels = [
       MODEL_LIST.find((m) => m.cleanSlug === 'eparv-panther')!,
       MODEL_LIST.find((m) => m.cleanSlug === 'eparv-savitri')!,
-      MODEL_LIST.find((m) => m.cleanSlug === 'eparv-visakka')!,
+      MODEL_LIST.find((m) => m.cleanSlug === 'eparv-visalka' || m.cleanSlug === 'eparv-visakka')!,
     ].filter(Boolean)
   } else if (intent.slug === 'electric-cycle-for-senior-citizens') {
     filteredModels = [
@@ -122,13 +122,13 @@ export const IntentHubView: React.FC<IntentHubViewProps> = ({ intent }) => {
     },
     {
       title: 'Electric Cycles in Delhi-NCR',
-      url: '/electric-cycle-in/delhi-ncr',
+      url: '/electric-cycle-in-delhi-ncr',
       category: 'location' as const,
       description: 'Showrooms and same-week delivery across Delhi-NCR',
     },
     {
       title: 'Electric Cycles in Uttar Pradesh',
-      url: '/electric-cycle-in/uttar-pradesh',
+      url: '/electric-cycle-in-uttar-pradesh',
       category: 'location' as const,
       description: 'Lucknow, Kanpur, Varanasi and UP city coverage',
     },

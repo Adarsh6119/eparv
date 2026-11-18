@@ -8,7 +8,7 @@ const getPagesSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const SITE_URL = getServerSideURL()
-    const dateFallback = new Date().toISOString()
+    const dateFallback = '2026-11-17T00:00:00.000Z'
 
     const results = await payload.find({
       collection: 'pages',

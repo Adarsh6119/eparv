@@ -8,6 +8,8 @@ import { LeadForm } from '@/components/LeadForm'
 import { getServerSideURL } from '@/utilities/getURL'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { MODEL_LIST, getModelBySlug } from '@/data/models'
+import { COMPANY_DETAILS } from '@/data/company'
+import { MessageCircle } from 'lucide-react'
 
 type Args = {
   searchParams: Promise<{
@@ -83,6 +85,30 @@ export default async function BookTestRidePage({ searchParams }: Args) {
             defaultCity={city}
             submitLabel="Request free test ride"
           />
+        </div>
+
+        {/* WhatsApp Instant Booking Alternative */}
+        <div className="mt-6 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="space-y-1 text-center sm:text-left">
+            <h3 className="font-bold text-sm text-foreground flex items-center justify-center sm:justify-start gap-1.5">
+              <MessageCircle className="size-4 text-emerald-500" />
+              <span>Need Instant Scheduling?</span>
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Chat directly with our ride coordinator on WhatsApp for same-day slots and home visits in your city.
+            </p>
+          </div>
+          <a
+            href={`https://wa.me/91${COMPANY_DETAILS.contact.phone}?text=${encodeURIComponent(
+              `Hi Eparv, I would like to schedule a free test ride for ${resolvedModel?.name ?? 'an electric cycle'}${city ? ` in ${city}` : ''}.`,
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 shadow-sm transition-colors shrink-0"
+          >
+            <MessageCircle className="size-4" />
+            <span>Book via WhatsApp</span>
+          </a>
         </div>
       </div>
     </article>

@@ -32,7 +32,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug } = await paramsPromise
   const baseUrl = getServerSideURL()
-  const canonicalUrl = `${baseUrl}/electric-cycle-in/${slug}`
+  const canonicalUrl = `${baseUrl}/electric-cycle-in-${slug}`
 
   // Check if slug is a State Hub
   if (slug in STATE_HUBS) {
@@ -69,7 +69,6 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     return {
       title,
       description,
-      keywords: [keywords.primaryKeyword, ...keywords.secondaryKeywords],
       alternates: {
         canonical: canonicalUrl,
       },

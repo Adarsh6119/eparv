@@ -77,10 +77,10 @@ export async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/electric-cycles/eparv-visakka"
+                  href="/electric-cycles/eparv-visalka"
                   className="hover:text-primary transition-colors text-slate-400 hover:text-white"
                 >
-                  Eparv Visakka (Trail MTB)
+                  Eparv Visalka (Trail MTB)
                 </Link>
               </li>
               <li>
@@ -194,7 +194,7 @@ export async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/electric-cycle-in/delhi-ncr"
+                  href="/electric-cycle-in-delhi-ncr"
                   className="hover:text-primary transition-colors text-slate-400 hover:text-white"
                 >
                   Delhi NCR (6 Cities)
@@ -202,7 +202,7 @@ export async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/electric-cycle-in/uttar-pradesh"
+                  href="/electric-cycle-in-uttar-pradesh"
                   className="hover:text-primary transition-colors text-slate-400 hover:text-white"
                 >
                   Uttar Pradesh (9 Cities)
@@ -210,7 +210,7 @@ export async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/electric-cycle-in/bihar"
+                  href="/electric-cycle-in-bihar"
                   className="hover:text-primary transition-colors text-slate-400 hover:text-white"
                 >
                   Bihar (5 Cities)
@@ -218,7 +218,7 @@ export async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/electric-cycle-in/madhya-pradesh"
+                  href="/electric-cycle-in-madhya-pradesh"
                   className="hover:text-primary transition-colors text-slate-400 hover:text-white"
                 >
                   Madhya Pradesh (5 Cities)

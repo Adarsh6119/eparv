@@ -14,6 +14,7 @@ import { StateLanding } from '@/components/StateLanding'
 import {
   getCityPageBySlug,
   getStatePageBySlug,
+  isCityOrStateIndexable,
   REGISTRY_SLUGS,
 } from '@/cities'
 import { generateMeta } from '@/utilities/generateMeta'
@@ -124,19 +125,23 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   const cityPage = getCityPageBySlug(decodedSlug)
   if (cityPage) {
+    const isIndexable = isCityOrStateIndexable(cityPage.slug)
     return registryMeta({
       title: `Electric Cycle in ${cityPage.city} — Test Ride, Price & Delivery | Eparv`,
       description: cityPage.metaDescription,
       canonicalPath: `/${cityPage.slug}`,
+      isIndexable,
     })
   }
 
   const statePage = getStatePageBySlug(decodedSlug)
   if (statePage) {
+    const isIndexable = isCityOrStateIndexable(statePage.slug)
     return registryMeta({
       title: `Electric Cycles in ${statePage.state} — City Guides & Test Rides | Eparv`,
       description: statePage.metaDescription,
       canonicalPath: `/${statePage.slug}`,
+      isIndexable,
     })
   }
 
@@ -151,6 +156,7 @@ function registryMeta(args: {
   title: string
   description: string
   canonicalPath: string
+  isIndexable: boolean
 }): Metadata {
   const base = getServerSideURL()
   const canonical = `${base}${args.canonicalPath}`
@@ -160,6 +166,10 @@ function registryMeta(args: {
     description: args.description,
     alternates: {
       canonical,
+    },
+    robots: {
+      index: args.isIndexable,
+      follow: true,
     },
     openGraph: {
       title: args.title,

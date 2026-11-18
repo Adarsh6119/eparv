@@ -45,9 +45,9 @@ export interface CycleModel {
 
 export const CYCLE_MODELS: CycleModel[] = [
   {
-    id: 'visakka',
-    name: 'Eparv Visakka',
-    slug: 'eparv-visakka',
+    id: 'visalka',
+    name: 'Eparv Visalka',
+    slug: 'eparv-visalka',
     tagline: 'Built to dominate every terrain with high-tensile power',
     idealFor: 'Potholes, steep flyovers, broken roads & weekend trails',
     category: 'Off-Road / Trail MTB',

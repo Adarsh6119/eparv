@@ -12,6 +12,12 @@ export const MODEL_LINK_GRAPH: Record<string, ModelLinkMapping> = {
     topCities: ['delhi', 'noida'],
     guides: ['electric-cycle-running-cost-per-km', 'electric-cycle-real-range-pas-vs-throttle'],
   },
+  visalka: {
+    siblings: ['satya', 'lahari'],
+    intentHubs: ['under-25000', 'for-students'],
+    topCities: ['delhi', 'gurugram'],
+    guides: ['electric-cycle-real-range-pas-vs-throttle', 'electric-cycle-license-rto-rules-india'],
+  },
   visakka: {
     siblings: ['satya', 'lahari'],
     intentHubs: ['under-25000', 'for-students'],
@@ -19,7 +25,7 @@ export const MODEL_LINK_GRAPH: Record<string, ModelLinkMapping> = {
     guides: ['electric-cycle-real-range-pas-vs-throttle', 'electric-cycle-license-rto-rules-india'],
   },
   lahari: {
-    siblings: ['savitri', 'visakka'],
+    siblings: ['savitri', 'visalka'],
     intentHubs: ['under-25000', 'for-delivery'],
     topCities: ['lucknow', 'patna'],
     guides: ['electric-cycle-real-range-pas-vs-throttle', 'electric-cycle-for-delivery-business-guide'],
@@ -31,7 +37,7 @@ export const MODEL_LINK_GRAPH: Record<string, ModelLinkMapping> = {
     guides: ['electric-cycle-running-cost-per-km', 'electric-cycle-for-delivery-business-guide'],
   },
   satya: {
-    siblings: ['visakka', 'panther'],
+    siblings: ['visalka', 'panther'],
     intentHubs: ['under-25000', 'for-students'],
     topCities: ['delhi', 'indore'],
     guides: ['electric-cycle-license-rto-rules-india', 'electric-cycle-in-rain-monsoon-safety'],
@@ -76,7 +82,7 @@ export function getRelatedLinksForModel(modelId: string): RelatedLinkItem[] {
   for (const city of mapping.topCities) {
     links.push({
       title: `Electric Cycles in ${city.charAt(0).toUpperCase() + city.slice(1)}`,
-      url: `/electric-cycle-in/${city}`,
+      url: `/electric-cycle-in-${city}`,
       category: 'location',
       description: 'Local test ride, pricing & delivery',
     })

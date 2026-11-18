@@ -53,7 +53,7 @@ const TIERS: Tier[] = [
     inventory: '10 to 15 Cycles + Test Ride Fleet',
     features: [
       'Exclusive territorial lock on entire city zone',
-      'Full 5-model lineup (Visakka, Panther, Lahari, Savitri, Satya)',
+      'Full 5-model lineup (Visalka, Panther, Lahari, Savitri, Satya)',
       'Illuminated 3D LED storefront signage & interior podiums',
       '100% website customer leads routed to your showroom',
       'Higher wholesale discount margins',

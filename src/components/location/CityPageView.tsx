@@ -69,7 +69,7 @@ export const CityPageView: React.FC<CityPageViewProps> = ({ city }) => {
   const defaultFaqs = [
     {
       question: `${city.displayName} me electric cycle ki price kitni hai?`,
-      answer: `Eparv electric cycles ${city.displayName} me ₹18,999 (Eparv Savitri) se start hoti hain aur ₹24,999 (Eparv Visakka) tak aati hain. Sabhi models me detachable lithium battery aur factory warranty shamil hai.`,
+      answer: `Eparv electric cycles ${city.displayName} me ₹18,999 (Eparv Savitri) se start hoti hain aur ₹24,999 (Eparv Visalka) tak aati hain. Sabhi models me detachable lithium battery aur factory warranty shamil hai.`,
     },
     {
       question: `Kya ${city.displayName} me electric cycle ke liye license ya RTO registration chahiye?`,
@@ -107,7 +107,7 @@ export const CityPageView: React.FC<CityPageViewProps> = ({ city }) => {
   const relatedLinks = [
     {
       title: `Electric Cycles in ${stateHub.displayName}`,
-      url: `/electric-cycle-in/${stateHub.slug}`,
+      url: `/electric-cycle-in-${stateHub.slug}`,
       category: 'location' as const,
       description: `Explore all cities and dealerships across ${stateHub.displayName}`,
     },
@@ -131,7 +131,7 @@ export const CityPageView: React.FC<CityPageViewProps> = ({ city }) => {
     },
     ...city.nearby.slice(0, 2).map((nSlug) => ({
       title: `Electric Cycles in ${nSlug.charAt(0).toUpperCase() + nSlug.slice(1)}`,
-      url: `/electric-cycle-in/${nSlug}`,
+      url: `/electric-cycle-in-${nSlug}`,
       category: 'location' as const,
       description: `Delivery & test rides in nearby ${nSlug}`,
     })),
@@ -145,7 +145,7 @@ export const CityPageView: React.FC<CityPageViewProps> = ({ city }) => {
           items={[
             { label: 'Home', href: '/' },
             { label: 'Electric Cycle in India', href: '/electric-cycle-in' },
-            { label: stateHub.displayName, href: `/electric-cycle-in/${stateHub.slug}` },
+            { label: stateHub.displayName, href: `/electric-cycle-in-${stateHub.slug}` },
             { label: city.displayName },
           ]}
         />

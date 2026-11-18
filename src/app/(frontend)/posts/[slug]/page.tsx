@@ -66,7 +66,6 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     return {
       title: `${guide.title} | Eparv Guide`,
       description: guide.directAnswer,
-      keywords: [guide.primaryKeyword, ...guide.secondaryKeywords],
       alternates: {
         canonical,
       },

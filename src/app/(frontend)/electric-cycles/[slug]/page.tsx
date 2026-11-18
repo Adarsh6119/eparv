@@ -16,6 +16,7 @@ import {
   Gauge,
   HelpCircle,
   MapPin,
+  MessageCircle,
   ShieldAlert,
   ShieldCheck,
   Sparkles,
@@ -43,6 +44,7 @@ import {
   type EparvModel,
 } from '@/data/models'
 import { MODEL_LINK_GRAPH, getRelatedLinksForModel } from '@/data/linkGraph'
+import { COMPANY_DETAILS } from '@/data/company'
 
 const inr = new Intl.NumberFormat('en-IN', {
   style: 'currency',
@@ -59,7 +61,7 @@ type Args = {
 export async function generateStaticParams() {
   const officialSlugs = [
     'eparv-panther',
-    'eparv-visakka',
+    'eparv-visalka',
     'eparv-lahari',
     'eparv-savitri',
     'eparv-satya',
@@ -193,6 +195,20 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
         question: `Can I get a doorstep test ride of ${typedModel.name}?`,
         answer: `Yes, you can schedule a free doorstep test ride. Our regional coordinator will arrange a test ride slot at your doorstep or nearest authorized showroom in your city.`,
       },
+      ...(typedModel.id === 'lahari'
+        ? [
+            {
+              question: 'How is Eparv Lahari different from Eparv Savitri?',
+              answer:
+                'While both Lahari and Savitri share high-efficiency 250W BLDC powertrains and 110 km extended range, they serve distinct rider profiles. Lahari is an ergonomic touring cruiser with a front telescopic suspension fork, relaxed riding posture, and 27.5-inch alloy wheels designed for long-distance commutes and touring. Savitri is a classic heavy-duty utility roadster with a rigid frame, upright seating posture, full-wrap mudguards, and an integrated heavy-duty steel rear cargo carrier designed for shopkeepers, senior citizens, and delivery transport.',
+            },
+            {
+              question: 'Is EMI or financing available for Eparv Lahari?',
+              answer:
+                'Yes, EMI options are available on leading credit cards, debit cards, and through authorized dealer finance partners. Monthly instalments start from approximately ₹1,950/month. Enquire below or connect via WhatsApp for instant eligibility verification.',
+            },
+          ]
+        : []),
     ]
 
     const relatedLinks = getRelatedLinksForModel(typedModel.id)
@@ -372,19 +388,30 @@ export default async function ProductPage({ params: paramsPromise }: Args) {
               </div>
 
               {/* CTAs */}
-              <div className="pt-4 flex flex-wrap gap-3">
+              <div className="pt-4 flex flex-wrap items-center gap-3">
                 <a
                   href="#enquire"
-                  className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-8 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
+                  className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-7 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-sm"
                 >
                   Enquire Now
                 </a>
                 <Link
                   href={`/book-test-ride?model=${typedModel.cleanSlug}`}
-                  className="inline-flex h-11 items-center justify-center rounded-xl border border-input bg-background px-8 text-sm font-bold text-foreground hover:bg-accent transition-colors"
+                  className="inline-flex h-11 items-center justify-center rounded-xl border border-input bg-background px-6 text-sm font-bold text-foreground hover:bg-accent transition-colors"
                 >
-                  Book a Free Test Ride
+                  Book Free Test Ride
                 </Link>
+                <a
+                  href={`https://wa.me/91${COMPANY_DETAILS.contact.phone}?text=${encodeURIComponent(
+                    `Hi Eparv, I am interested in ${typedModel.name} (₹${typedModel.priceSelling?.toLocaleString('en-IN')}). Please share specifications, availability and delivery details.`,
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-5 text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors"
+                >
+                  <MessageCircle className="size-4" />
+                  <span>WhatsApp</span>
+                </a>
               </div>
             </div>
           </div>

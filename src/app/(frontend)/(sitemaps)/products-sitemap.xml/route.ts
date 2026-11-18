@@ -32,7 +32,7 @@ const getProductsSitemap = unstable_cache(
     const dateFallback = new Date().toISOString()
     const officialSlugs = [
       'eparv-panther',
-      'eparv-visakka',
+      'eparv-visalka',
       'eparv-lahari',
       'eparv-savitri',
       'eparv-satya',

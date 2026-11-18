@@ -37,9 +37,9 @@ export interface HeroModel {
 
 const HERO_MODELS: HeroModel[] = [
   {
-    id: 'visakka',
-    name: 'Eparv Visakka',
-    slug: 'eparv-visakka',
+    id: 'visalka',
+    name: 'Eparv Visalka',
+    slug: 'eparv-visalka',
     tagline: 'Built to dominate every terrain with high-tensile power',
     category: 'Off-Road / Trail MTB',
     range: '60 km',
@@ -47,7 +47,7 @@ const HERO_MODELS: HeroModel[] = [
     motor: '250W High-Torque BLDC',
     battery: '36V Detachable Li-ion',
     image: '/cycles/visakka.png',
-    alt: 'Eparv Visakka electric cycle side profile',
+    alt: 'Eparv Visalka electric cycle side profile',
     accentColor: '#13a5de',
     badge: 'Popular All-Terrain',
   },

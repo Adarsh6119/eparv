@@ -58,11 +58,11 @@ const REVIEWS: Testimonial[] = [
     name: 'Nitin Agrawal',
     role: 'Civil Contractor & Site Engineer',
     city: 'Vijay Nagar, Indore, MP',
-    model: 'Eparv Visakka (Trail MTB)',
+    model: 'Eparv Visalka (Trail MTB)',
     rating: 5,
     headline: 'Conquers Indore bypass flyovers and broken roads with zero effort',
     quote:
-      'Indore flyovers and ongoing roadwork test any vehicle. Visakka’s front suspension absorbs harsh bumps effortlessly and the 250W hub motor powers up steep inclines without breaking a sweat. The dual disc brakes give incredible confidence in wet weather.',
+      'Indore flyovers and ongoing roadwork test any vehicle. Visalka’s front suspension absorbs harsh bumps effortlessly and the 250W hub motor powers up steep inclines without breaking a sweat. The dual disc brakes give incredible confidence in wet weather.',
     avatarInitial: 'NA',
     savings: '₹3,800/mo saved',
   },

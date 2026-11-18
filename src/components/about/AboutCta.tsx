@@ -159,11 +159,11 @@ export const AboutCta: React.FC = () => {
               <span>+91 99689 84030</span>
             </a>
             <a
-              href="mailto:eparvingenuiuty@gmail.com"
+              href="mailto:contact@eparvmotors.com"
               className="inline-flex h-10 items-center gap-2 rounded-xl border border-border bg-card px-4 text-xs sm:text-sm font-semibold text-foreground hover:border-primary/50 transition-all"
             >
               <Mail className="size-4 text-primary" />
-              <span>eparvingenuiuty@gmail.com</span>
+              <span>contact@eparvmotors.com</span>
             </a>
           </div>
         </div>

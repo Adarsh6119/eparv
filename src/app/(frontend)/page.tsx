@@ -55,7 +55,7 @@ const FAQS = [
   {
     question: 'What warranty and after-sales service does Eparv provide?',
     answer:
-      'Every cycle is backed by a 60-month (5-year) frame warranty, a 24-month BLDC motor warranty, and a 12-month battery warranty. We have over 150 verified dealer and service centers across India for maintenance and spare parts.',
+      'Every cycle is backed by a 60-month (5-year) frame warranty, a 24-month BLDC motor warranty, and a 12-month battery warranty. We provide nationwide direct doorstep delivery, certified technician video assistance, genuine spare parts dispatch, and an expanding authorized dealership network across key hubs.',
   },
   {
     question: 'How does the cycle arrive, and is assembly difficult?',
@@ -165,7 +165,7 @@ export default async function HomePage() {
             </div>
             <h3 className="mb-2 text-xl font-bold text-foreground">Find a Dealer Near You</h3>
             <p className="mb-6 text-sm leading-relaxed text-muted-foreground">
-              150+ verified Eparv dealerships offer walk-in test rides, instant delivery, genuine accessories, and servicing.
+              Our authorized dealership network and direct booking offer walk-in test rides, doorstep delivery, genuine accessories, and servicing.
             </p>
             <Button asChild variant="outline" className="rounded-xl">
               <Link href="/dealers">Explore Dealer Directory</Link>
@@ -269,7 +269,7 @@ export default async function HomePage() {
               Ready to Upgrade Your Daily Commute?
             </h2>
             <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Join thousands of Indian riders saving lakhs on petrol, skipping traffic jams, and breathing cleaner air. Book your free test ride today.
+              Join smart Indian riders saving thousands on petrol, skipping traffic jams, and breathing cleaner air. Book your free test ride today.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3.5 pt-4">
               <Link

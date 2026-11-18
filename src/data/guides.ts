@@ -96,8 +96,8 @@ export const GUIDES: Record<string, GuidePost> = {
       'how to charge electric bicycle battery',
       'electric cycle battery maintenance',
     ],
-    author: 'Vikram Joshi',
-    authorRole: 'Battery Systems Engineer',
+    author: 'Eparv Technical Team',
+    authorRole: 'Powertrain & Battery R&D',
     lastReviewedDate: '2026-10-25',
     readTimeMinutes: 6,
     directAnswer:
@@ -137,8 +137,8 @@ export const GUIDES: Record<string, GuidePost> = {
       'how to choose electric cycle',
       'questions before buying e-cycle',
     ],
-    author: 'Ananya Sen',
-    authorRole: 'Product Evaluation Lead',
+    author: 'Rajendra Kumar Mishra',
+    authorRole: 'Founder & Director, Eparv Ingenuity',
     lastReviewedDate: '2026-10-27',
     readTimeMinutes: 7,
     directAnswer:
@@ -232,7 +232,7 @@ export const GUIDES: Record<string, GuidePost> = {
       'Real-world electric cycle range depends heavily on drive mode: Pure Throttle typically delivers 35 to 60 km per charge, while Pedal Assist System (PAS) delivers 55 to 110 km on the exact same battery by combining human effort with intelligent motor assistance.',
     moneyPageLinks: [
       { anchor: 'Eparv Lahari 110 km range', url: '/electric-cycles/eparv-lahari' },
-      { anchor: 'Eparv Visakka trail cycle', url: '/electric-cycles/eparv-visakka' },
+      { anchor: 'Eparv Visalka trail cycle', url: '/electric-cycles/eparv-visalka' },
     ],
     siblingPostSlugs: ['electric-cycles-explained', 'e-cycle-battery-care-basics'],
     sections: [
@@ -302,8 +302,8 @@ export const GUIDES: Record<string, GuidePost> = {
       'petrol bike vs electric cycle savings',
       'electric bicycle roi india',
     ],
-    author: 'Aditya Malhotra',
-    authorRole: 'Mobility Economics Lead',
+    author: 'Rajendra Kumar Mishra',
+    authorRole: 'Founder & Director, Eparv Ingenuity',
     lastReviewedDate: '2026-10-29',
     readTimeMinutes: 7,
     directAnswer:
@@ -346,7 +346,7 @@ export const GUIDES: Record<string, GuidePost> = {
     directAnswer:
       'Yes, you can safely ride quality electric cycles in the rain. Eparv electric cycles feature IP65 water-sealed wiring harnesses, weather-isolated BLDC hub motors, and sealed battery enclosures. Never submerge the hub motor or bottom bracket in deep standing floodwater.',
     moneyPageLinks: [
-      { anchor: 'Eparv Visakka all-weather MTB', url: '/electric-cycles/eparv-visakka' },
+      { anchor: 'Eparv Visalka all-weather MTB', url: '/electric-cycles/eparv-visalka' },
       { anchor: 'Eparv Satya rugged cycle', url: '/electric-cycles/eparv-satya' },
     ],
     siblingPostSlugs: ['e-cycle-battery-care-basics', 'electric-cycles-explained'],
@@ -376,8 +376,8 @@ export const GUIDES: Record<string, GuidePost> = {
       'commercial e-cycle fleet roi',
       'hyperlocal delivery electric bicycle',
     ],
-    author: 'Commercial Logistics Group',
-    authorRole: 'Fleet Strategy Lead',
+    author: 'Eparv Commercial Mobility Team',
+    authorRole: 'Fleet Strategy Desk',
     lastReviewedDate: '2026-10-28',
     readTimeMinutes: 8,
     directAnswer:
@@ -413,8 +413,8 @@ export const GUIDES: Record<string, GuidePost> = {
       'best electric cycle brand comparison',
       'eparv panther vs emotorad doodle',
     ],
-    author: 'Independent Editorial Review',
-    authorRole: 'EV Mobility Analyst',
+    author: 'Eparv Technical & Editorial Desk',
+    authorRole: 'EV Mobility Research Group',
     lastReviewedDate: '2026-10-29',
     readTimeMinutes: 8,
     directAnswer:
@@ -426,15 +426,72 @@ export const GUIDES: Record<string, GuidePost> = {
     siblingPostSlugs: ['five-questions-before-buying-an-electric-cycle', 'electric-cycles-explained'],
     sections: [
       {
-        heading: 'Like-for-Like Specifications Comparison',
-        body: 'Comparing entry-level models: Eparv Panther (₹19,999) delivers 55 km range with 250W BLDC hub motor and dual disc brakes, offering higher accessible value in the sub-20k segment.',
+        heading: 'Head-to-Head Specification Comparison: Eparv Panther vs EMotorad X1',
+        body: `When comparing entry-level commuter electric cycles in India, the Eparv Panther and EMotorad X1 represent two of the most popular choices. Here is a verified, spec-by-spec comparison:
+
+• Selling Price: Eparv Panther ₹19,999 (MRP ₹21,000) vs EMotorad X1 ₹24,999 (MRP ₹28,999).
+• Battery Capacity: Eparv Panther 36V 7.8Ah (280.8 Wh) vs EMotorad X1 36V 7.65Ah (275.4 Wh). Both use detachable lithium-ion packs with key locks.
+• Motor Power: Both feature 250W rear hub BLDC motors compliant with CMVR regulations (<25 km/h top speed, zero RTO license needed).
+• Claimed PAS Range: Eparv Panther up to 55 km vs EMotorad X1 up to 40–45 km.
+• Throttle Range: Eparv Panther ~35 km vs EMotorad X1 ~25–30 km.
+• Charging Time: Eparv Panther ~3 hours vs EMotorad X1 3.5–4 hours via standard 5A sockets.
+• Front Fork: Eparv Panther has a rigid aerodynamic steel fork (lighter, zero suspension maintenance) while EMotorad X1 features a front telescopic suspension fork.
+• Brakes: Both cycles feature mechanical dual disc brakes with automatic electronic motor cut-off.
+• Motor Warranty: Eparv Panther provides 24 months (2 years) warranty on the motor vs EMotorad's 12 months (1 year).
+• Frame Warranty: Both brands provide 60 months (5 years) frame warranty.
+
+(Source for competitor specifications: EMotorad official website and published user manual, verified October 2026).`,
+      },
+      {
+        heading: 'Where EMotorad Has the Edge: An Honest Assessment',
+        body: `EMotorad has built a formidable presence in the Indian electric mobility ecosystem, and there are several areas where they hold clear advantages:
+
+1. Front Suspension on Entry Model: The EMotorad X1 comes equipped with a front telescopic suspension fork, which provides superior vibration dampening over potholes and unpaved roads compared to Panther's rigid front fork.
+2. Wider Dealer Footprint: EMotorad boasts an established network of retail touchpoints across major Tier-1 and Tier-2 metropolitan cities.
+3. Brand Visibility & Community: With high-profile marketing campaigns and brand endorsements, EMotorad enjoys higher widespread brand recall in urban cycling communities.`,
+      },
+      {
+        heading: 'Where Eparv Motors Has the Edge: Value, Warranty & Touring Range',
+        body: `Eparv Motors focuses on engineering accessible, rugged electric cycles optimized for Indian working commuters:
+
+1. ₹5,000 Lower Purchase Cost: At ₹19,999, the Eparv Panther offers an accessible entry into reliable electric mobility without crossing the ₹20,000 barrier, saving buyers ₹5,000 upfront.
+2. Double the Motor Warranty: Eparv backs its 250W BLDC motor with a 24-month (2-year) warranty, compared to the industry-standard 12 months offered by EMotorad.
+3. Extended 110 KM Touring Lineup: For riders needing higher single-charge range, Eparv models like Lahari (₹21,999) and Savitri (₹18,999) offer extended-range configurations delivering up to 110 km in pedal assist—a range tier EMotorad does not offer at sub-₹25,000 pricing.
+4. Simpler Mechanical Maintenance: The Panther's rigid aerodynamic fork eliminates suspension seal degradation, oil leaks, and alignment issues common on budget commuter forks.`,
+      },
+      {
+        heading: 'Final Buying Recommendation: Which Brand Should You Choose?',
+        body: `Choose EMotorad X1 if:
+• Your daily route involves consistently broken pavement, gravel trails, and potholes where front suspension travel is a non-negotiable comfort priority.
+• You prefer purchasing from a walk-in retail showroom with an established physical dealership nearby.
+
+Choose Eparv Panther if:
+• You want maximum daily commuter value under ₹20,000 with lower maintenance.
+• You commute on urban roads and flyovers where a rigid aerodynamic fork provides faster acceleration and lighter handling.
+• You value a longer 2-year manufacturer warranty on the electric motor.
+• You want doorstep test rides and factory-direct support with nationwide courier delivery.`,
       },
     ],
     faqs: [
       {
         question: 'Which brand offers longer range per single charge?',
         answer:
-          'Eparv models like Lahari and Savitri offer extended-capacity packs delivering up to 110 km range in pedal assist.',
+          'Between entry models, Eparv Panther (280.8 Wh) delivers up to 55 km PAS compared to EMotorad X1 (275.4 Wh) at 40–45 km PAS. In the broader lineup, Eparv Lahari and Savitri deliver up to 110 km on a single charge.',
+      },
+      {
+        question: 'How do prices compare between Eparv and EMotorad?',
+        answer:
+          'Eparv cycles start at ₹18,999 (Savitri) and ₹19,999 (Panther), while EMotorad models like the X1 start around ₹24,999, making Eparv approximately ₹5,000 to ₹6,000 more affordable in the entry segment.',
+      },
+      {
+        question: 'Do Eparv or EMotorad cycles need a driving license or RTO registration?',
+        answer:
+          'Neither brand requires a driving license, helmet mandate, or RTO registration for 250W / 25 km/h low-speed electric cycles under Central Motor Vehicles Rules (CMVR) in India.',
+      },
+      {
+        question: 'What is the warranty difference between Eparv Panther and EMotorad X1?',
+        answer:
+          'Both provide 5-year frame warranties and 1-year battery warranties. However, Eparv provides a 2-year (24-month) warranty on the BLDC hub motor, whereas EMotorad provides a 1-year (12-month) motor warranty.',
       },
     ],
   },
