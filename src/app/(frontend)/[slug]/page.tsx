@@ -11,6 +11,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { CityLanding } from '@/components/CityLanding'
 import { StateLanding } from '@/components/StateLanding'
+import { VaranasiPageView } from '@/components/location/VaranasiPageView'
 import {
   getCityPageBySlug,
   getStatePageBySlug,
@@ -79,6 +80,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // Code-defined city and state/region pages (src/cities) take precedence
   // over CMS pages so the landing template is always what renders.
+  if (decodedSlug === 'electric-cycle-in-varanasi') {
+    return <VaranasiPageView />
+  }
+
   const cityPage = getCityPageBySlug(decodedSlug)
   if (cityPage) {
     return <CityLanding data={cityPage} />
@@ -122,6 +127,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = 'home' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
+
+  if (decodedSlug === 'electric-cycle-in-varanasi') {
+    return registryMeta({
+      title: 'Electric Cycle in Varanasi | Price, EMI & Home Delivery',
+      description:
+        'Buy electric cycle in Varanasi online from ₹18,999. Free test ride, home delivery to Lanka, BHU, Sigra, Cantt & Sarnath, EMI options and 5-year frame warranty.',
+      canonicalPath: '/electric-cycle-in-varanasi',
+      isIndexable: true,
+    })
+  }
 
   const cityPage = getCityPageBySlug(decodedSlug)
   if (cityPage) {

@@ -4,6 +4,7 @@ import React from 'react'
 
 import { CityPageView } from '@/components/location/CityPageView'
 import { StateHubView } from '@/components/location/StateHubView'
+import { VaranasiPageView } from '@/components/location/VaranasiPageView'
 import {
   CITIES,
   STATE_HUBS,
@@ -56,6 +57,27 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     }
   }
 
+  // Custom metadata for Varanasi
+  if (slug === 'varanasi') {
+    const title = 'Electric Cycle in Varanasi | Price, EMI & Home Delivery'
+    const description =
+      'Buy electric cycle in Varanasi online from ₹18,999. Free test ride, home delivery to Lanka, BHU, Sigra, Cantt & Sarnath, EMI options and 5-year frame warranty.'
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      robots: { index: true, follow: true },
+      openGraph: mergeOpenGraph({
+        title,
+        description,
+        url: canonicalUrl,
+      }),
+    }
+  }
+
   // Check if slug is a City
   if (slug in CITIES) {
     const city = CITIES[slug]
@@ -92,6 +114,11 @@ export default async function LocationSlugPage({ params: paramsPromise }: Args) 
   if (slug in STATE_HUBS) {
     const hub = STATE_HUBS[slug as StateHubSlug]
     return <StateHubView hub={hub} />
+  }
+
+  // Custom Varanasi page with dedicated content
+  if (slug === 'varanasi') {
+    return <VaranasiPageView />
   }
 
   if (slug in CITIES) {

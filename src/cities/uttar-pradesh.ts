@@ -665,7 +665,7 @@ export const CITIES: CityPageData[] = [
     state: 'Uttar Pradesh',
     stateHubSlug: 'electric-cycle-in-uttar-pradesh',
     metaDescription:
-      'Electric cycle in Varanasi for BHU, Lanka, Sigra, Cantt and Sarnath — beat the gali traffic, cut fuel costs, with delivery and test rides across the city.',
+      'Buy electric cycle in Varanasi online from ₹18,999. Free test ride, home delivery to Lanka, BHU, Sigra, Cantt & Sarnath, EMI options and 5-year frame warranty.',
     intro: [
       'Varanasi’s geometry splits a rider’s life in two: the ancient web of galis around Godowlia and the ghats where no vehicle helps at all, and the modern spread — BHU’s campus gates, Lanka, Sigra, Cantt and the Sarnath road — where most daily commuting actually happens. The electric cycle owns that second world. A 5–10 km run from Lanka to Cantt or Sigra to Sarnath is flat, predictable and free of fuel cost, and unlike an auto, the cycle waits for you at the gate rather than negotiating the fare twice a day. For the silk trade’s short hops between workshop and shop, it quietly replaces a small fortune in annual petrol.',
       'The city’s pilgrim economy also creates odd-hour movement — early temple runs, evening aarti timings, festival-day closures — when buses thin out and autos demand a premium. A cycle charged at home is immune to all of it. Students form another strong case: with BHU, MGKV and a dozen colleges feeding hostels across Lanka and Bhelupur, the e-cycle has become the pragmatic answer to daily class-and-coaching distances that a pedal-only cycle makes tiring in the summer.',
