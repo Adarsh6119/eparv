@@ -11,7 +11,7 @@ export const CITIES: CityPageData[] = [
     state: 'Uttar Pradesh',
     stateHubSlug: 'electric-cycle-in-uttar-pradesh',
     metaDescription:
-      'Electric cycle in Lucknow — delivery to Gomti Nagar, Hazratganj, Indira Nagar and more, free test ride, EMI options and service support across the city.',
+      'Buy electric cycle in Lucknow online from ₹18,999. Free test ride, home delivery to Gomti Nagar, Hazratganj, Aliganj & Alambagh, EMI options, 5-year warranty.',
     intro: [
       'Lucknow has grown well past its nawabi core: the Shaheed Path corridor, Gomti Nagar extension and the IT-city belt mean daily distances that once took ten minutes now swallow forty in peak traffic. An electric cycle suits that reality neatly — the wide carriageways of newer colonies are comfortable to ride, the motor absorbs longer crossings, and a 25–30 km round trip between Indira Nagar and Hazratganj costs a few paise of electricity instead of a weekly tank of petrol. For students shuttling between hostels and coaching centres, or professionals heading to Vibhuti Khand’s offices, it makes the commute the calmest part of the day.',
       'A morning cycling culture already exists here — groups riding the Shaheed Path service lanes and loops around Janeshwar Mishra Park — and an Eparv gives that habit a purpose. Charging needs only an ordinary wall socket in a Vikalp Khand flat or an old-city house, the battery lifts off so it can charge indoors, and upkeep is closer to a bicycle’s than a scooter’s. Whether you teach at Lucknow University, run a shop in Aminabad or work near the Vidhan Sabha, a test ride can be arranged at your own doorstep before you decide.',
@@ -39,26 +39,38 @@ export const CITIES: CityPageData[] = [
       {
         from: 'Gomti Nagar (Vibhuti Khand)',
         to: 'Hazratganj',
-        distance: '≈ 8 km one way',
-        note: 'A straight run down Vivekananda Marg; pedal assist keeps office clothes crease-free even in May humidity.',
+        distance: '≈ 8 km',
+        note: 'Straight office run; arrive fresh even in May heat.',
       },
       {
-        from: 'Indira Nagar',
-        to: 'HCL IT City campus',
-        distance: '≈ 6 km one way',
-        note: 'Short tech-corridor hops barely touch the battery — the ideal daily software commute.',
+        from: 'Charbagh Station',
+        to: 'Hazratganj',
+        distance: '≈ 4 km',
+        note: 'Short station trips without auto bargaining.',
+      },
+      {
+        from: 'Aliganj',
+        to: 'Lucknow University',
+        distance: '≈ 5 km',
+        note: 'Classic student route – barely touches the battery.',
       },
       {
         from: 'Alambagh',
         to: 'SGPGI',
-        distance: '≈ 12 km one way',
-        note: 'Longer hospital and campus runs stay affordable when they run on electricity instead of petrol.',
+        distance: '≈ 12 km',
+        note: 'Long hospital and campus run at a cost of paise.',
       },
       {
         from: 'Chinhat',
-        to: 'Hazratganj / Vidhan Sabha side',
-        distance: '≈ 11 km one way',
-        note: 'Cross-city trips that sting on fuel become routine on a charge cheaper than a plate of chaat.',
+        to: 'Hazratganj',
+        distance: '≈ 11 km',
+        note: 'Cross-city commute that is costly on petrol, cheap on charge.',
+      },
+      {
+        from: 'Jankipuram',
+        to: 'Kapoorthala',
+        distance: '≈ 5 km',
+        note: 'Coaching and market trips in the north Lucknow belt.',
       },
     ],
     localities: [
@@ -110,6 +122,7 @@ export const CITIES: CityPageData[] = [
     nearbySlugs: [
       'electric-cycle-in-uttar-pradesh',
       'electric-cycle-in-kanpur',
+      'electric-cycle-in-varanasi',
       'electric-cycle-in-ayodhya',
       'electric-cycle-in-prayagraj',
     ],

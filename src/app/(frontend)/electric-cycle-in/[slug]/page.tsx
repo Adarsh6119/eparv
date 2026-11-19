@@ -4,6 +4,7 @@ import React from 'react'
 
 import { CityPageView } from '@/components/location/CityPageView'
 import { StateHubView } from '@/components/location/StateHubView'
+import { LucknowPageView } from '@/components/location/LucknowPageView'
 import { VaranasiPageView } from '@/components/location/VaranasiPageView'
 import {
   CITIES,
@@ -41,6 +42,27 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     const isIndexable = isStateHubIndexable(slug as StateHubSlug)
     const title = `Electric Cycle in ${hub.displayName}: Prices, Cities & Showrooms | Eparv`
     const description = `Find Eparv electric cycle prices, dealer locations, free doorstep test rides, and fast 3-5 day delivery across ${hub.displayName}.`
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      robots: { index: true, follow: true },
+      openGraph: mergeOpenGraph({
+        title,
+        description,
+        url: canonicalUrl,
+      }),
+    }
+  }
+
+  // Custom metadata for Lucknow
+  if (slug === 'lucknow') {
+    const title = 'Electric Cycle in Lucknow | Price, EMI & Home Delivery'
+    const description =
+      'Buy electric cycle in Lucknow online from ₹18,999. Free test ride, home delivery to Gomti Nagar, Hazratganj, Aliganj & Alambagh, EMI options, 5-year warranty.'
 
     return {
       title,
@@ -114,6 +136,11 @@ export default async function LocationSlugPage({ params: paramsPromise }: Args) 
   if (slug in STATE_HUBS) {
     const hub = STATE_HUBS[slug as StateHubSlug]
     return <StateHubView hub={hub} />
+  }
+
+  // Custom Lucknow page with dedicated content
+  if (slug === 'lucknow') {
+    return <LucknowPageView />
   }
 
   // Custom Varanasi page with dedicated content

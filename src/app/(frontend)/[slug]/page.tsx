@@ -11,6 +11,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { CityLanding } from '@/components/CityLanding'
 import { StateLanding } from '@/components/StateLanding'
+import { LucknowPageView } from '@/components/location/LucknowPageView'
 import { VaranasiPageView } from '@/components/location/VaranasiPageView'
 import {
   getCityPageBySlug,
@@ -80,6 +81,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // Code-defined city and state/region pages (src/cities) take precedence
   // over CMS pages so the landing template is always what renders.
+  if (decodedSlug === 'electric-cycle-in-lucknow') {
+    return <LucknowPageView />
+  }
+
   if (decodedSlug === 'electric-cycle-in-varanasi') {
     return <VaranasiPageView />
   }
@@ -127,6 +132,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const { slug = 'home' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
+
+  if (decodedSlug === 'electric-cycle-in-lucknow') {
+    return registryMeta({
+      title: 'Electric Cycle in Lucknow | Price, EMI & Home Delivery',
+      description:
+        'Buy electric cycle in Lucknow online from ₹18,999. Free test ride, home delivery to Gomti Nagar, Hazratganj, Aliganj & Alambagh, EMI options, 5-year warranty.',
+      canonicalPath: '/electric-cycle-in-lucknow',
+      isIndexable: true,
+    })
+  }
 
   if (decodedSlug === 'electric-cycle-in-varanasi') {
     return registryMeta({
