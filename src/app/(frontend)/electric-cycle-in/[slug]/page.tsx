@@ -7,6 +7,7 @@ import { StateHubView } from '@/components/location/StateHubView'
 import { LucknowPageView } from '@/components/location/LucknowPageView'
 import { PrayagrajPageView } from '@/components/location/PrayagrajPageView'
 import { VaranasiPageView } from '@/components/location/VaranasiPageView'
+import { DelhiPageView } from '@/components/location/DelhiPageView'
 import {
   CITIES,
   STATE_HUBS,
@@ -59,6 +60,27 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     }
   }
 
+  // Custom metadata for Delhi
+  if (slug === 'delhi') {
+    const title = 'Electric Cycle in Delhi – From ₹18,999 – Eparv Motors'
+    const description =
+      'Buy an electric cycle in Delhi from ₹18,999. Home delivery, free test ride and 5-year frame warranty. Book with Eparv Motors, Dwarka.'
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      robots: { index: true, follow: true },
+      openGraph: mergeOpenGraph({
+        title,
+        description,
+        url: canonicalUrl,
+      }),
+    }
+  }
+
   // Custom metadata for Lucknow
   if (slug === 'lucknow') {
     const title = 'Electric Cycle in Lucknow | Price, EMI & Home Delivery'
@@ -82,9 +104,9 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   // Custom metadata for Prayagraj
   if (slug === 'prayagraj') {
-    const title = 'Electric Cycle in Prayagraj: Price ₹18,999 se | Eparv'
+    const title = 'Electric Cycle in Prayagraj: Price From ₹18,999 | Eparv'
     const description =
-      'Electric cycle in Prayagraj ₹18,999 se shuru. Civil Lines, Naini, Kareli, Katra mein home delivery, free test ride, EMI info aur 5 saal frame warranty.'
+      'Electric cycle in Prayagraj from ₹18,999. Home delivery in Civil Lines, Naini, Kareli, Katra, free test ride, EMI info and 5-year frame warranty.'
 
     return {
       title,
@@ -158,6 +180,11 @@ export default async function LocationSlugPage({ params: paramsPromise }: Args) 
   if (slug in STATE_HUBS) {
     const hub = STATE_HUBS[slug as StateHubSlug]
     return <StateHubView hub={hub} />
+  }
+
+  // Custom Delhi page with dedicated content
+  if (slug === 'delhi') {
+    return <DelhiPageView />
   }
 
   // Custom Lucknow page with dedicated content

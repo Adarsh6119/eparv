@@ -14,6 +14,7 @@ import { StateLanding } from '@/components/StateLanding'
 import { LucknowPageView } from '@/components/location/LucknowPageView'
 import { PrayagrajPageView } from '@/components/location/PrayagrajPageView'
 import { VaranasiPageView } from '@/components/location/VaranasiPageView'
+import { DelhiPageView } from '@/components/location/DelhiPageView'
 import {
   getCityPageBySlug,
   getStatePageBySlug,
@@ -82,6 +83,10 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   // Code-defined city and state/region pages (src/cities) take precedence
   // over CMS pages so the landing template is always what renders.
+  if (decodedSlug === 'electric-cycle-in-delhi') {
+    return <DelhiPageView />
+  }
+
   if (decodedSlug === 'electric-cycle-in-lucknow') {
     return <LucknowPageView />
   }
@@ -138,6 +143,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
 
+  if (decodedSlug === 'electric-cycle-in-delhi') {
+    return registryMeta({
+      title: 'Electric Cycle in Delhi – From ₹18,999 – Eparv Motors',
+      description:
+        'Buy an electric cycle in Delhi from ₹18,999. Home delivery, free test ride and 5-year frame warranty. Book with Eparv Motors, Dwarka.',
+      canonicalPath: '/electric-cycle-in-delhi',
+      isIndexable: true,
+    })
+  }
+
   if (decodedSlug === 'electric-cycle-in-lucknow') {
     return registryMeta({
       title: 'Electric Cycle in Lucknow | Price, EMI & Home Delivery',
@@ -150,9 +165,9 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
   if (decodedSlug === 'electric-cycle-in-prayagraj') {
     return registryMeta({
-      title: 'Electric Cycle in Prayagraj: Price ₹18,999 se | Eparv',
+      title: 'Electric Cycle in Prayagraj: Price From ₹18,999 | Eparv',
       description:
-        'Electric cycle in Prayagraj ₹18,999 se shuru. Civil Lines, Naini, Kareli, Katra mein home delivery, free test ride, EMI info aur 5 saal frame warranty.',
+        'Electric cycle in Prayagraj from ₹18,999. Home delivery in Civil Lines, Naini, Kareli, Katra, free test ride, EMI info and 5-year frame warranty.',
       canonicalPath: '/electric-cycle-in-prayagraj',
       isIndexable: true,
     })

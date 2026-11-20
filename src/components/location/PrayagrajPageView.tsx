@@ -51,7 +51,7 @@ const PRICE_TABLE = [
     battery: '36V, 10.4Ah',
     weight: '26 kg',
     payload: '140 kg',
-    chargeTime: '3 ghante',
+    chargeTime: '3 hours',
     bestFor: 'Ladies, seniors, shopkeepers, advocates',
   },
   {
@@ -64,7 +64,7 @@ const PRICE_TABLE = [
     battery: '36V, 7.8Ah',
     weight: '22 kg',
     payload: '110 kg',
-    chargeTime: '3 ghante',
+    chargeTime: '3 hours',
     bestFor: 'Students, coaching, office commute',
   },
   {
@@ -77,8 +77,8 @@ const PRICE_TABLE = [
     battery: '36V, 7.8Ah',
     weight: '25 kg',
     payload: '115 kg',
-    chargeTime: '2 se 3 ghante',
-    bestFor: 'Rough roads, outskirts, rugged daily riding',
+    chargeTime: '2–3 hours',
+    bestFor: 'Outskirts, rough roads, rugged daily riding',
   },
   {
     model: 'Eparv Lahari',
@@ -90,7 +90,7 @@ const PRICE_TABLE = [
     battery: '36V, 10.4Ah',
     weight: '25 kg',
     payload: '125 kg',
-    chargeTime: '4 ghante',
+    chargeTime: '4 hours',
     bestFor: 'Long distance, delivery, touring, cross-river',
   },
   {
@@ -103,7 +103,7 @@ const PRICE_TABLE = [
     battery: '36V, 10.4Ah',
     weight: '24 kg',
     payload: '120 kg',
-    chargeTime: '4 ghante',
+    chargeTime: '4 hours',
     bestFor: 'Potholes, speed breakers, suspension comfort',
   },
 ]
@@ -112,26 +112,26 @@ const POPULAR_ROUTES = [
   {
     from: 'Civil Lines',
     to: 'Allahabad University',
-    distance: '≈ 4 km',
-    why: 'Door se gate tak ka sabse chhota academic route, motorised vehicle se bhi tez',
+    distance: 'about 4 km',
+    why: 'The shortest academic route, door to gate, and quicker than even a motorised vehicle',
   },
   {
     from: 'Kareli',
     to: 'High Court / Civil Lines',
-    distance: '≈ 6 km',
-    why: 'Court ke paas parking ki tension nahi, file bundle & bag aaram se carry hota hai',
+    distance: 'about 6 km',
+    why: 'No parking tension near the court, file bundles and bags carry comfortably',
   },
   {
     from: 'Naini',
     to: 'Civil Lines',
-    distance: '≈ 9 km',
-    why: 'Yamuna ke bridge par assist, flat road par economy',
+    distance: 'about 9 km',
+    why: 'Assist on the Yamuna bridge, economy on the flat road',
   },
   {
     from: 'George Town',
     to: 'MNNIT / Jhunsi side',
-    distance: '≈ 7 km',
-    why: 'Shaant sadkein, pehli baar ride karne walon ke liye achha',
+    distance: 'about 7 km',
+    why: 'Quiet roads, good for first-time riders',
   },
 ]
 
@@ -163,17 +163,17 @@ const ON_REQUEST_AREAS = [
 
 const COST_COMPARISON = [
   { item: 'Cost per km', petrol: '₹2.5 – ₹3', eparv: '₹0.02 – ₹0.04' },
-  { item: 'Full tank / full charge', petrol: '₹500+', eparv: '₹2 – ₹3 (lagbhag 0.3 unit)' },
+  { item: 'Full tank / full charge', petrol: '₹500+', eparv: '₹2 – ₹3 (about 0.3 units)' },
   { item: 'Monthly cost (25 km/day)', petrol: '₹1,700 – ₹1,800', eparv: '₹15 – ₹30' },
   { item: 'Licence, RTO, road tax', petrol: 'Required', eparv: 'Not required' },
   { item: 'Insurance', petrol: 'Mandatory', eparv: 'Not mandatory' },
-  { item: 'Yearly saving', petrol: '–', eparv: 'Lagbhag ₹20,000' },
+  { item: 'Yearly saving', petrol: '–', eparv: 'Around ₹20,000' },
 ]
 
 const WARRANTY_TABLE = [
-  { component: 'Frame', warranty: '5 saal (60 mahine)' },
-  { component: 'BLDC Hub Motor', warranty: '24 mahine' },
-  { component: 'Lithium Battery', warranty: '12 mahine' },
+  { component: 'Frame', warranty: '5 years (60 months)' },
+  { component: 'BLDC Hub Motor', warranty: '24 months' },
+  { component: 'Lithium Battery', warranty: '12 months' },
 ]
 
 const COMPANY_TABLE = [
@@ -192,84 +192,84 @@ const COMPANY_TABLE = [
 
 const PRAYAGRAJ_FAQS = [
   {
-    question: 'Electric cycle in Prayagraj ki price kitni hai?',
+    question: 'How much does an electric cycle cost in Prayagraj?',
     answer:
-      'Eparv ki electric cycle ki price ₹18,999 (Savitri) se ₹24,999 (Visalka) tak hai. Panther ₹19,999, Satya ₹21,000 aur Lahari ₹21,999 mein listed hain. Price national hain, yaani Prayagraj mein koi alag charge nahi bataya gaya. Final amount aur offers order se pehle team se confirm karein.',
+      'Eparv’s electric cycles are priced from ₹18,999 (Savitri) to ₹24,999 (Visalka). The Panther is listed at ₹19,999, the Satya at ₹21,000 and the Lahari at ₹21,999. Prices are national, meaning no separate charge is stated for Prayagraj. Confirm the final amount and offers with the team before ordering.',
   },
   {
-    question: 'Kya electric cycle chalane ke liye licence ya registration chahiye?',
+    question: 'Do I need a licence or registration to ride an electric cycle?',
     answer:
-      'Nahi. Eparv ki cycles 250W motor aur 25 km/h top speed wali low-speed category mein aati hain, jiske liye company ke anusar driving licence, RTO registration, road tax aur insurance ki zaroorat nahi hoti. Latest niyam ek baar check kar lena achha rehta hai.',
+      'No. Eparv’s cycles fall in the low-speed category with a 250W motor and 25 km/h top speed, for which, according to the company, no driving licence, RTO registration, road tax or insurance is needed. It is a good idea to check the latest rules once.',
   },
   {
-    question: 'Electric cycle ek charge mein kitni chalti hai?',
+    question: 'How far does an electric cycle go on one charge?',
     answer:
-      'Model par depend karta hai. Panther aur Satya mein pedal assist par 55 km, Visalka mein 60 km, aur Savitri aur Lahari mein 110 km tak. Throttle mode mein range kam hoti hai, yaani 35 se 65 km. Ye figures flat road aur 70 kg rider ke test par based hain, isliye asli range thodi alag ho sakti hai.',
+      'It depends on the model. The Panther and Satya give 55 km on pedal assist, the Visalka 60 km, and the Savitri and Lahari up to 110 km. In throttle mode the range is lower, that is, 35 to 65 km. These figures are based on a test on a flat road with a 70 kg rider, so the actual range may differ slightly.',
   },
   {
-    question: 'Charging mein kitna time lagta hai aur bijli ka kharch kitna aata hai?',
+    question: 'How long does charging take and how much does the electricity cost?',
     answer:
-      'Model ke hisaab se 2 se 4 ghante lagte hain, aur ye normal 5A wall socket se hoti hai. Eparv ke anusar ek full charge par lagbhag 0.3 unit bijli lagti hai, yaani ₹7 per unit ke hisaab se ₹2 se ₹3 ke beech.',
+      'Depending on the model it takes 2 to 4 hours, and it is done from a normal 5A wall socket. According to Eparv, one full charge uses about 0.3 units of electricity, that is, between ₹2 and ₹3 at ₹7 per unit.',
   },
   {
-    question: 'Electric cycle home delivery Prayagraj mein milti hai kya?',
+    question: 'Is home delivery of electric cycles available in Prayagraj?',
     answer:
-      'Haan. Civil Lines, George Town, Kareli, Katra, Tagore Town, Naini, Jhunsi aur kai doosre areas mein home delivery aur test ride listed hai. Delivery aam taur par kuch working days mein hoti hai, aur exact time order confirm karte waqt bataya jaata hai.',
+      'Yes. Home delivery and test rides are listed for Civil Lines, George Town, Kareli, Katra, Tagore Town, Naini, Jhunsi and several other areas. Delivery generally takes a few working days, and the exact time is told when you confirm the order.',
   },
   {
-    question: 'Kya main kharidne se pehle electric cycle ki test ride le sakta hoon?',
+    question: 'Can I take a test ride on an electric cycle before buying?',
     answer:
-      'Haan. Eparv free doorstep test ride deta hai, jisme koi purchase karna zaroori nahi. Aap website ke Book a Test Ride page par Prayagraj chunkar request bhej sakte hain, ya +91 99689 84030 par WhatsApp kar sakte hain.',
+      'Yes. Eparv offers a free doorstep test ride with no obligation to purchase. You can send a request by choosing Prayagraj on the website’s Book a Test Ride page, or WhatsApp +91 99689 84030.',
   },
   {
-    question: 'Electric cycle EMI Prayagraj mein kaise milti hai?',
+    question: 'How is EMI available for an electric cycle in Prayagraj?',
     answer:
-      'Website ke anusar EMI ke vikalp order confirm karte waqt team ke saath discuss kiye jaate hain. Interest rate, tenure aur charges ki jaankari site par publish nahi hai, isliye total amount, processing fee aur sabhi shartein likhit mein lein.',
+      'According to the website, EMI options are discussed with the team when you confirm the order. Information on interest rate, tenure and charges is not published on the site, so get the total amount, processing fee and all terms in writing.',
   },
   {
-    question: 'Best electric cycle in Prayagraj kaun si hai?',
+    question: 'Which is the best electric cycle in Prayagraj?',
     answer:
-      'Ye aapki zaroorat par depend karta hai. Lambi range aur carrier ke liye Savitri, lightweight aur student commute ke liye Panther, kharab sadkon ke liye Visalka, lambe shift ya touring ke liye Lahari, aur budget rugged option ke liye Satya sahi rehti hai. Test ride se faisla karna sabse behtar hai.',
+      'It depends on your need. The Savitri suits long range and a carrier, the Panther suits lightweight and student commutes, the Visalka suits bad roads, the Lahari suits long shifts or touring, and the Satya suits a budget rugged option. It is best to decide through a test ride.',
   },
   {
-    question: 'Electric cycle for ladies Prayagraj ke liye kaun si model theek hai?',
+    question: 'Which model is suitable as an electric cycle for ladies in Prayagraj?',
     answer:
-      'Savitri ka upright posture, mudguards aur carrier ise ghar ke kaam ke liye practical banate hain, aur Panther sabse halki (22 kg) hai. Savitri ka frame step-through nahi hai, isliye test ride mein seat height aur chadhne-utarne ka aaram zaroor check karein.',
+      'The Savitri’s upright posture, mudguards and carrier make it practical for household work, and the Panther is the lightest (22 kg). The Savitri’s frame is not step-through, so be sure to check seat height and ease of getting on and off during the test ride.',
   },
   {
-    question: 'Electric cycle for students Prayagraj ke liye kya sahi rahegi?',
+    question: 'What is right as an electric cycle for students in Prayagraj?',
     answer:
-      'Panther (₹19,999, 22 kg) ya Savitri (₹18,999) ko Eparv students ke liye recommend karta hai. Key lock aur detachable battery hone se hostel ya classroom mein battery safe rakhi ja sakti hai.',
+      'Eparv recommends the Panther (₹19,999, 22 kg) or the Savitri (₹18,999) for students. With a key lock and a detachable battery, the battery can be kept safe in a hostel or classroom.',
   },
   {
-    question: 'Battery aur motor par kitni warranty milti hai?',
+    question: 'How much warranty is there on the battery and motor?',
     answer:
-      'Frame par 5 saal, BLDC motor par 24 mahine aur battery par 12 mahine ki warranty batayi gayi hai. Warranty ki detailed terms purchase se pehle likhit mein maang lein.',
+      'A warranty of 5 years on the frame, 24 months on the BLDC motor and 12 months on the battery is stated. Ask for the detailed warranty terms in writing before purchase.',
   },
   {
-    question: 'Barsaat mein electric cycle chala sakte hain kya?',
+    question: 'Can I ride an electric cycle in the rain?',
     answer:
-      'Eparv ke anusar wiring aur motor casing weather-sealed hain, aur brake lagate hi motor ki power cut ho jaati hai. Phir bhi gehre jal-bharav mein cycle na chalayein aur battery ko paani se bachayein.',
+      'According to Eparv, the wiring and motor casing are weather-sealed, and the motor’s power is cut as soon as you apply the brake. Even so, do not ride in deep waterlogging, and protect the battery from water.',
   },
   {
-    question: 'Cycle ka maximum weight capacity kitna hai?',
+    question: 'What is the maximum weight capacity of the cycle?',
     answer:
-      'Savitri 140 kg, Lahari 125 kg, Visalka 120 kg, Satya 115 kg aur Panther 110 kg tak ka payload sambhal sakti hai. Isme rider aur samaan dono ka weight shamil hota hai.',
+      'The Savitri can handle a payload of up to 140 kg, the Lahari 125 kg, the Visalka 120 kg, the Satya 115 kg and the Panther 110 kg. This includes the weight of both rider and luggage.',
   },
   {
-    question: 'Service ya repair kahan hoga?',
+    question: 'Where will service or repair be done?',
     answer:
-      'Brake, tyre aur chain jaise normal parts Prayagraj ke local cycle shops mein theek ho sakte hain. Battery, motor aur controller ke issues Eparv ki warranty process se handle hote hain, aur spare parts 24 se 48 ghante mein bheje jaate hain.',
+      'Normal parts like brakes, tyres and chain can be repaired at local cycle shops in Prayagraj. Battery, motor and controller issues are handled through Eparv’s warranty process, and spare parts are sent within 24 to 48 hours.',
   },
   {
-    question: 'Kya Mela ya Kumbh ke samay electric cycle kaam aati hai?',
+    question: 'Is an electric cycle useful during the Mela or Kumbh?',
     answer:
-      'Eparv ke anusar haan, kyunki restrictions ke samay petrol ki zaroorat nahi padti aur cycle restricted zone ke kinare tak pahunch jaati hai. Phir bhi police ya mela prashasan ke nirdesh ka palan karein.',
+      'According to Eparv, yes, because no petrol is needed during restrictions and the cycle can reach the edge of the restricted zone. Even so, follow the instructions of the police or the Mela administration.',
   },
   {
-    question: 'Electric cycle in Prayagraj ke liye koi showroom hai kya?',
+    question: 'Is there a showroom for electric cycles in Prayagraj?',
     answer:
-      'Website par Prayagraj ka alag showroom address listed nahi hai. Eparv ghar par test ride aur delivery deta hai. Agar aapko showroom visit karna hai to Dealers page dekhein ya team se authorised dealer ke baare mein poochhein.',
+      'No separate Prayagraj showroom address is listed on the website. Eparv provides test rides and delivery at your home. If you want to visit a showroom, see the Dealers page or ask the team about an authorised dealer.',
   },
 ]
 
@@ -336,24 +336,24 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-[1.15]">
-            Electric Cycle in Prayagraj – Price, Best Models, EMI aur Free Home Delivery
+            Electric Cycle in Prayagraj – Price, Best Models, EMI and Free Home Delivery
           </h1>
 
           <p className="text-xs text-muted-foreground italic">
-            Is page ki jaankari Eparv ki official website (eparvmotors.com) ke product aur city pages
-            par based hai. Last updated: 20 November 2026. Price aur offers badal sakte hain,
-            isliye order se pehle team se confirm zaroor karein.
+            The information on this page is based on the product and city pages of Eparv’s official
+            website (eparvmotors.com). Last updated: 20 November 2026. Prices and offers may change,
+            so please confirm with the team before ordering.
           </p>
 
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-            Agar aap Prayagraj mein roz Civil Lines se University, Kareli se High Court ya Naini se
-            shehar ki taraf jaate hain, to petrol ka kharcha, traffic aur parking ki pareshani aap
-            achhe se jaante honge.{' '}
-            <strong className="text-foreground">Electric cycle in Prayagraj</strong> ek aisa vikalp
-            hai jo 4 se 9 km ki in roz ki trips ko sasta, aasan aur bina licence wala bana deta hai.
-            Is page par Eparv ke 5 models ki price, specifications, EMI ke baare mein sahi jaankari,
-            home delivery wale areas aur free test ride ka poora process ek hi jagah diya gaya hai,
-            taaki aap bina confuse hue sahi cycle chun sakein.
+            If you travel around Prayagraj every day – from Civil Lines to the University, from
+            Kareli to the High Court, or from Naini into the city – you know the cost of petrol,
+            the traffic and the parking trouble well. An{' '}
+            <strong className="text-foreground">electric cycle in Prayagraj</strong> is an option
+            that makes these daily trips of 4 to 9 km cheaper, easier and licence-free. This page
+            puts everything in one place: price, specifications, accurate information about EMI, home
+            delivery areas and the complete free test ride process for Eparv’s 5 models, so you can
+            pick the right cycle without confusion.
           </p>
         </header>
 
@@ -379,52 +379,52 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
         </div>
 
-        {/* ─── Quick Answer: Ek Nazar Mein Jaankari ─── */}
+        {/* ─── Quick Answer: At a Glance ─── */}
         <section
           aria-label="Quick answer"
           className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 via-card to-energy/5 p-5 sm:p-6 shadow-sm my-8"
         >
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary mb-4">
             <Sparkles className="size-3.5 text-energy" />
-            <span>Electric Cycle in Prayagraj: Ek Nazar Mein Jaankari</span>
+            <span>Electric Cycle in Prayagraj: Information at a Glance</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               {
                 q: 'Price range',
-                a: '₹18,999 se ₹24,999 tak, model ke hisaab se',
+                a: '₹18,999 to ₹24,999, depending on the model (see price list below)',
               },
               {
-                q: 'Models',
-                a: 'Eparv Savitri, Panther, Satya, Lahari aur Visalka',
+                q: 'Models available',
+                a: 'Eparv Savitri, Panther, Satya, Lahari and Visalka',
               },
               {
                 q: 'Motor',
-                a: 'Sabhi models mein 250W BLDC hub motor, top speed 25 km/h',
+                a: '250W BLDC hub motor in all models, top speed 25 km/h',
               },
               {
                 q: 'Range',
-                a: '55 km se 110 km tak pedal assist mode mein (35–65 km throttle)',
+                a: '55 km to 110 km in pedal assist mode (35 km to 65 km on throttle)',
               },
               {
-                q: 'Licence aur registration',
-                a: 'Not required under CMVR (250W motor, 25 km/h top speed)',
+                q: 'Licence and registration',
+                a: 'No RTO registration, road tax or driving licence needed under CMVR',
               },
               {
                 q: 'Home delivery Prayagraj',
-                a: 'Civil Lines, Naini, Kareli, Katra, Jhunsi, George Town samet 12 areas listed',
+                a: 'Listed for 12 areas including Civil Lines, Naini, Kareli & Katra, and on request across city',
               },
               {
                 q: 'Test ride',
-                a: 'Free doorstep test ride, aapki apni daily route par',
+                a: 'Free doorstep test ride, on your own daily route',
               },
               {
                 q: 'Warranty',
-                a: 'Frame par 5 saal, motor par 24 mahine, battery par 12 mahine',
+                a: '5 years on frame, 24 months on motor, 12 months on battery',
               },
               {
                 q: 'Helpline',
-                a: '+91 99689 84030 (Mon–Sat, 9:30 AM se 7:00 PM)',
+                a: '+91 99689 84030 (Mon–Sat, 9:30 AM to 7:00 PM)',
               },
             ].map((item) => (
               <div
@@ -441,51 +441,51 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
         </section>
 
-        {/* ─── Prayagraj Mein Electric Cycle Kyun? ─── */}
+        {/* ─── Why an Electric Cycle in Prayagraj ─── */}
         <section className="my-12 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Prayagraj Mein Electric Cycle Kyun? Shehar Ki Zaroorat Ke Hisaab Se
+            Why an Electric Cycle in Prayagraj? According to the City’s Needs
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Prayagraj ek institutions wala shehar hai. High Court, Allahabad University, MNNIT,
-            board offices aur coaching centres yahan ki roz ki zindagi ka hissa hain. Inke beech ki
-            doori aksar 4 se 9 km hoti hai, yaani paidal chalne ke liye zyada aur car ya bike
-            nikaalne ke liye kam. Isi doori mein{' '}
-            <strong className="text-foreground">electric cycle in Prayagraj</strong> sabse sasti aur
-            practical machine ban jaati hai.
+            Prayagraj is a city of institutions. The High Court, Allahabad University, MNNIT,
+            board offices and coaching centres are part of everyday life here. The distance between
+            them is often 4 to 9 km – too far to walk, and too short to bother taking out a car or
+            bike. At exactly this distance, an{' '}
+            <strong className="text-foreground">electric cycle in Prayagraj</strong> becomes the
+            cheapest and most practical machine.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               {
                 icon: Store,
-                title: 'Institutions wala shehar',
-                text: 'High Court, Allahabad University, MNNIT, board offices aur Katra coaching ke beech 4–9 km ki doori na paidal hoti hai na car lene laayak — e-cycle isme bilkul fit baithti hai.',
+                title: 'City of institutions',
+                text: 'High Court, Allahabad University, MNNIT, board offices and Katra coaching are 4 to 9 km apart — too long to walk, too short for cars. An e-cycle fits this bracket perfectly.',
               },
               {
                 icon: Sun,
-                title: 'Garmi ke mahine (May & June)',
-                text: '44°C+ ki dhoop mein class ya chamber pahunchna thaka deta hai. Motor assist se bina paseene mein doobe aap easily time par pahunchte hain.',
+                title: 'Summer heat (May & June)',
+                text: 'Reaching class or chambers on a normal cycle can be exhausting in 44°C+ heat. Motor assist carries the load so you arrive with far less sweat.',
               },
               {
                 icon: Route,
                 title: 'Flat terrain & bridge assist',
-                text: 'Prayagraj ka terrain zyadatar flat hai jisse battery kam kharch hoti hai. Naini aur Jhunsi ke Yamuna-Ganga bridges ki halki chadhai par motor assist aasaani deta hai.',
+                text: 'Prayagraj’s terrain is mostly flat, using battery sparingly. On cross-Yamuna trips (Naini to Civil Lines), the assist handles the bridge incline with ease.',
               },
               {
                 icon: Navigation,
-                title: 'Magh Mela & Kumbh vehicle restrictions',
-                text: 'Bade aayojano mein jab four-wheelers aur autos par ban hota hai, ek charged electric cycle restricted zone ke kinare tak pahunchti hai aur bina parking tension nikal jaati hai.',
+                title: 'Mela & Kumbh vehicle restrictions',
+                text: 'During Magh Mela or Kumbh vehicle bans, a charged electric cycle reaches the edge of restricted zones, parks anywhere, and avoids petrol pump queues.',
               },
               {
                 icon: Fuel,
-                title: 'Roz ka petrol kharch khatam',
-                text: 'Roz 25 km chalane par scooter mahine ka ₹1,700+ petrol pita hai, jabki Eparv e-cycle sirf ₹15–₹30 ki bijli mein poora mahina chalti hai.',
+                title: 'Eliminates petrol expenses',
+                text: 'A 100cc scooter costs ₹1,700+ a month in petrol for a 25 km commute, whereas an Eparv e-cycle runs for just ₹15 to ₹30 of electricity a month.',
               },
               {
                 icon: Shield,
                 title: 'Zero licence & registration',
-                text: '250W aur 25 km/h low-speed rule ke tahat school students, university research scholars, ladies aur senior citizens sab bina licence legally chala sakte hain.',
+                text: '250W power and 25 km/h top speed place Eparv cycles in the non-motorised category — school students, lawyers, homemakers and seniors ride legally without paperwork.',
               },
             ].map((item) => (
               <div
@@ -500,8 +500,8 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
 
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Isi wajah se <strong className="text-foreground">electric cycle in Prayagraj</strong> ab
-            sirf shauk nahi, balki roz ki zaroorat banti ja rahi hai.
+            For this reason, an <strong className="text-foreground">electric cycle in Prayagraj</strong> is
+            becoming not just a hobby but a daily necessity.
           </p>
         </section>
 
@@ -515,9 +515,10 @@ export const PrayagrajPageView: React.FC = () => {
               Electric Cycle Price in Prayagraj
             </h2>
             <p className="text-sm text-muted-foreground mt-2 max-w-3xl">
-              Neeche diye gaye rate Eparv ki website par listed selling price hain. Ye price national
-              hain, yaani Prayagraj, Lucknow ya Noida mein ek hi model ki price same rehti hai. Final
-              on-road amount, offer aur delivery date order confirm karte waqt team batati hai.
+              The rates below are the selling prices listed on Eparv’s website. These prices are
+              national, meaning the same model costs the same in Prayagraj, Lucknow or Noida. The
+              team confirms the final on-road amount, offers and delivery date when you confirm the
+              order.
             </p>
           </div>
 
@@ -565,17 +566,16 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
           <div className="space-y-1 text-xs text-muted-foreground italic">
             <p>
-              <strong>Table padhne ka sahi tareeka:</strong> PAS ka matlab pedal assist mode hai,
-              jisme motor aapke pedal ko support deta hai. Throttle mode mein aap bina pedal maare
-              sirf twist grip se chalate hain, aur isme range kam milti hai. Isliye agar aapko lambi
-              range chahiye to PAS mode ke saath ride karna sabse behtar rehta hai.
+              <strong>How to read the table:</strong> PAS means pedal assist mode, in which the motor
+              supports your pedalling. In throttle mode you ride using only the twist grip without
+              pedalling, and the range is lower. So if you want a long range, riding in PAS mode is
+              the best choice.
             </p>
             <p>
-              <strong>Price ke saath kya milta hai:</strong> Har Eparv cycle mein 250W BLDC hub
-              motor, detachable lithium battery, dual disc brakes with motor cut-off aur 25 km/h ki
-              governed speed milti hai. Cycle lagbhag 95% pre-assembled aati hai aur toolkit ke
-              saath, yaani aapko sirf handlebar seedha karna aur pedal lagana hota hai (lagbhag 10
-              minute ka kaam).
+              <strong>What you get with the price:</strong> Every Eparv cycle comes with a 250W BLDC
+              hub motor, a detachable lithium battery, dual disc brakes with motor cut-off and a
+              governed speed of 25 km/h. The cycle arrives about 95% pre-assembled with a toolkit, so
+              you only need to straighten the handlebar and fit the pedals (about a 10-minute setup).
             </p>
           </div>
         </section>
@@ -583,51 +583,52 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── Best Electric Cycle in Prayagraj: Model Guide ─── */}
         <section className="my-12 space-y-8">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Best Electric Cycle in Prayagraj: Kaun Si Cycle Kiske Liye
+            Best Electric Cycle in Prayagraj: Which Cycle for Whom
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">Best electric cycle in Prayagraj</strong> ek hi
-            model nahi hoti, ye aapki daily zaroorat par depend karta hai. Neeche har tarah ke
-            Prayagraj rider ke liye model ka suggestion diya gaya hai:
+            The <strong className="text-foreground">best electric cycle in Prayagraj</strong> is not
+            a single model; it depends on your daily need. Below, a model is suggested for each type
+            of Prayagraj rider based on the &ldquo;who it&apos;s for&rdquo; points on Eparv&apos;s
+            product pages:
           </p>
 
           {/* Students */}
           <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
             <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Users className="size-5 text-primary" />
-              Electric Cycle for Students Prayagraj: University, Coaching aur Tuition
+              Electric Cycle for Students in Prayagraj: For University, Coaching and Tuition
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Agar aap Allahabad University, Katra ke coaching centres ya Civil Lines ke tuition
-              classes jaate hain, to{' '}
+              If you go to Allahabad University, the coaching centres in Katra or tuition classes in
+              Civil Lines, the{' '}
               <Link
                 href="/electric-cycles/eparv-panther"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Eparv Panther
               </Link>{' '}
-              ek achha vikalp hai. Ye lineup ki sabse halki cycle hai (22 kg), price ₹19,999 hai aur
-              55 km tak PAS range deti hai. Key ignition lock aur detachable battery hone se aap
-              battery ko hostel room ya classroom mein safe rakh sakte hain.{' '}
+              is a good option. It is the lightest cycle in the lineup (22 kg), priced at ₹19,999,
+              and gives up to 55 km of PAS range. With a key ignition lock and a detachable battery,
+              you can keep the battery safe in your hostel room or classroom. The{' '}
               <Link
                 href="/electric-cycles/eparv-savitri"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Eparv Savitri
               </Link>{' '}
-              bhi students ke liye recommended hai, kyunki ₹18,999 par ye sabse affordable cycle hai
-              aur 110 km tak PAS range deti hai.
+              is also among the models recommended for students, because at ₹18,999 it is the
+              lowest-priced cycle and gives up to 110 km of PAS range.
             </p>
             <div className="p-3 rounded-xl bg-primary/5 border border-primary/20 text-xs text-muted-foreground">
-              <strong className="text-foreground">Eparv ka apna hisaab:</strong> Shared auto par
-              roz ₹40 ke hisaab se mahine ke lagbhag ₹1,000 lagte hain, jabki cycle ki charging
-              mahine mein sirf ₹15–₹30 ka bill badhati hai. Isse students ki mahine ki bachat ₹980 ke
-              aas-paas hoti hai.{' '}
+              <strong className="text-foreground">Eparv’s own calculation:</strong> At ₹40 a day on
+              a shared auto, you spend about ₹1,000 a month, whereas charging the cycle adds only a
+              few rupees to your monthly bill. On this basis, the monthly saving for students is
+              stated to be around ₹980.{' '}
               <Link
                 href="/electric-cycle-for-students"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
-                Electric cycle for students page dekhein →
+                View electric cycles for students →
               </Link>
             </div>
           </div>
@@ -636,32 +637,32 @@ export const PrayagrajPageView: React.FC = () => {
           <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
             <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Users className="size-5 text-primary" />
-              Electric Cycle for Ladies Prayagraj: Aaram aur Control ko Pehle Rakhein
+              Electric Cycle for Ladies in Prayagraj: Put Comfort and Control First
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Ladies ke liye cycle chunte waqt teen cheezein zaroori hain: seat ki height, cycle ka
-              weight aur baithne ka posture.{' '}
+              When choosing a cycle for ladies, three things matter: seat height, the weight of the
+              cycle and the sitting posture. The{' '}
               <Link
                 href="/electric-cycles/eparv-savitri"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
-                Eparv Savitri
+                Eparv Savitri&apos;s
               </Link>{' '}
-              ka upright, relaxed riding posture, full mudguards aur rear carrier ise ghar ke kaam,
-              market trips, school ya office jaane wali mahilaon ke liye practical banata hai.{' '}
+              upright, relaxed riding posture, full mudguards and rear carrier make it practical for
+              women doing household errands, market trips, or going to school or office. The{' '}
               <Link
                 href="/electric-cycles/eparv-panther"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Panther
               </Link>{' '}
-              (22 kg) lightest hai, isliye ise sambhalna aur seedhiyon ya gate se nikaalna aasan hai.
+              (22 kg) is the lightest, so it is easy to handle and take up stairs or through a gate.
             </p>
             <p className="text-xs text-muted-foreground">
-              <strong className="text-foreground">Ek zaroori baat:</strong> Savitri ka frame
-              traditional 22 inch tubular steel frame hai, step-through nahi. Isliye cycle kharidne se
-              pehle free doorstep test ride mein seat height adjust karke dekh lein ki chadhna aur
-              utarna aapke liye comfortable hai ya nahi.
+              <strong className="text-foreground">One important point:</strong> The Savitri has a
+              traditional 22-inch tubular steel frame, not a step-through one. So, before buying,
+              adjust the seat height during the free doorstep test ride and check whether getting on
+              and off is comfortable for you.
             </p>
           </div>
 
@@ -669,15 +670,14 @@ export const PrayagrajPageView: React.FC = () => {
           <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
             <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Store className="size-5 text-primary" />
-              Advocates, Office Jaane Wale aur Kareli–High Court Commuters
+              For Advocates, Office-Goers and Kareli–High Court Commuters
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Kareli se High Court ya Civil Lines ka roz ka ~6 km ka route electric cycle ke liye
-              ideal hai. Court ke aas-paas parking ka tanaav bilkul khatam ho jaata hai, aur Savitri
-              ka rear carrier file bundle aur laptop bag aaraam se utha leta hai. Court visit karne
-              wale ek poore hafte ka cycle kharch ek auto ke kiraye se bhi kam rehta hai. Lambe
-              formal kapdon mein ride karne wale logon ke liye throttle mode kaam aata hai, jisme
-              bina pedal maare cycle chalti hai.
+              The daily ~6 km route from Kareli to the High Court or Civil Lines is ideal for an
+              electric cycle. Parking stress is low, and the Savitri&apos;s rear carrier comfortably
+              holds a file bundle and a laptop bag. According to Eparv, a full week of cycle costs for
+              court visits is even less than a single auto fare. For people who ride in long formal
+              clothes, throttle mode is handy, as the cycle moves without pedalling.
             </p>
           </div>
 
@@ -685,31 +685,30 @@ export const PrayagrajPageView: React.FC = () => {
           <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
             <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Truck className="size-5 text-primary" />
-              Dukaandaar, Delivery Rider aur Chhote Vyapari
+              Shopkeepers, Delivery Riders and Small Traders
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Agar aap Katra, Chowk ya Muthiganj jaise bazaar areas mein samaan lane-le jaane ka kaam
-              karte hain, to{' '}
+              If you carry goods around market areas like Katra, Chowk or Muthiganj, the{' '}
               <Link
                 href="/electric-cycles/eparv-savitri"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Eparv Savitri
               </Link>{' '}
-              (140 kg payload, heavy rear carrier) ya{' '}
+              (140 kg payload, heavy rear carrier) or the{' '}
               <Link
                 href="/electric-cycles/eparv-lahari"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Lahari
               </Link>{' '}
-              (110 km PAS range) behtar rahegi. Lahari ki bigger 36V 10.4Ah battery lambe shift ke
-              liye bani hai.{' '}
+              (110 km PAS range) will be better. The Lahari&apos;s bigger battery is built for long
+              shifts. Keep the company&apos;s payload limits in mind.{' '}
               <Link
                 href="/electric-cycle-for-delivery"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
-                Delivery electric cycles guide dekhein →
+                View delivery electric cycles →
               </Link>
             </p>
           </div>
@@ -718,52 +717,51 @@ export const PrayagrajPageView: React.FC = () => {
           <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
             <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Users className="size-5 text-primary" />
-              Bujurg aur Senior Citizens
+              Elders and Senior Citizens
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Senior citizens aur family riders ke liye{' '}
+              Eparv has suggested the{' '}
               <Link
                 href="/electric-cycles/eparv-savitri"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Savitri
               </Link>{' '}
-              best hai, kyunki ismein seedha baithne wala posture hota hai aur kamar par zor kam
-              padta hai. Purane mohalle jaise George Town, Tagore Town aur Ashok Nagar ki chhoti
-              sadkon par ye aaram se chalti hai.{' '}
+              for senior citizens and family riders, because it has an upright sitting posture that
+              puts less strain on the back. It runs comfortably on the small roads of older
+              neighbourhoods like George Town, Tagore Town and Ashok Nagar.{' '}
               <Link
                 href="/electric-cycle-for-senior-citizens"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
-                Senior citizens electric cycles dekhein →
+                View electric cycles for seniors →
               </Link>
             </p>
           </div>
 
-          {/* Rough roads & Weekend */}
+          {/* Broken roads & Weekend */}
           <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
             <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
               <Wrench className="size-5 text-primary" />
-              Toote-Phoote Raste aur Weekend Riding Ke Liye
+              For Broken Roads and Weekend Riding
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Agar aapke raaste mein gaddhe, speed breaker ya kachche patch zyada hain, to{' '}
+              If your route has many potholes, speed breakers or rough patches, the{' '}
               <Link
                 href="/electric-cycles/eparv-visalka"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Eparv Visalka
               </Link>{' '}
-              mein 80 mm travel wala front suspension fork hai aur 27.5 inch ke all-terrain tyres
-              hain.{' '}
+              has a front suspension fork with 80 mm of travel and 27.5-inch all-terrain tyres. The{' '}
               <Link
                 href="/electric-cycles/eparv-satya"
                 className="text-primary hover:underline underline-offset-2 font-medium"
               >
                 Eparv Satya
               </Link>{' '}
-              ka frame hi heavy-duty hai aur ye budget mein ek rugged vikalp hai. Dono mein anti-theft
-              key ignition lock bhi milta hai.
+              has a heavy-duty frame and is a rugged option on a budget. Both also come with a key
+              ignition lock.
             </p>
           </div>
         </section>
@@ -771,11 +769,11 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── Popular Routes Table ─── */}
         <section className="my-12 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Prayagraj Ke Mohallon Mein Electric Cycle: Roz Ke Asli Routes
+            Electric Cycle in Prayagraj’s Neighbourhoods: Real Everyday Routes
           </h2>
           <p className="text-sm text-muted-foreground">
-            Inhe dekhkar aap andaza laga sakte hain ki aapka route electric cycle ke liye kitna fit
-            hai:
+            Eparv’s Prayagraj city guide lists 4 popular commute routes. Looking at them, you can get
+            an idea of how well your own route suits an electric cycle:
           </p>
 
           <div className="overflow-x-auto rounded-xl border border-border">
@@ -783,15 +781,15 @@ export const PrayagrajPageView: React.FC = () => {
               <thead>
                 <tr className="bg-muted/50 text-left">
                   <th className="p-3 font-bold text-foreground">Route</th>
-                  <th className="p-3 font-bold text-foreground whitespace-nowrap">Doori (Ek Taraf)</th>
-                  <th className="p-3 font-bold text-foreground">Kyun Kaam Karta Hai</th>
+                  <th className="p-3 font-bold text-foreground whitespace-nowrap">Distance (One Way)</th>
+                  <th className="p-3 font-bold text-foreground">Why It Works</th>
                 </tr>
               </thead>
               <tbody>
                 {POPULAR_ROUTES.map((route) => (
                   <tr key={route.from + route.to} className="border-t border-border/50">
                     <td className="p-3 font-semibold text-foreground whitespace-nowrap">
-                      {route.from} se {route.to}
+                      {route.from} to {route.to}
                     </td>
                     <td className="p-3 text-primary font-bold whitespace-nowrap">
                       {route.distance}
@@ -807,11 +805,10 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── Delivery Areas ─── */}
         <section className="my-12 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Electric Cycle in Prayagraj Ke Liye Home Delivery Wale Areas
+            Home Delivery Areas for Electric Cycles in Prayagraj
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Eparv ki website par Prayagraj ke ye 12 areas home delivery aur test ride ke liye listed
-            hain:
+            Eparv’s website lists these 12 areas of Prayagraj for home delivery and test rides:
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -828,18 +825,18 @@ export const PrayagrajPageView: React.FC = () => {
 
           <div className="p-4 rounded-xl bg-muted/20 border border-border/60 space-y-2 text-xs text-muted-foreground">
             <p>
-              <strong className="text-foreground">Baaki areas request par:</strong> Agar aap{' '}
-              {ON_REQUEST_AREAS.join(', ')} jaisi kisi aur colony mein rehte hain, to order se pehle
-              team se apna pin code aur delivery timeline confirm kar lein. Delivery ka window payment
-              se pehle bataya jaata hai.
+              <strong className="text-foreground">Rest of the city on request:</strong> If you live
+              in another colony such as {ON_REQUEST_AREAS.join(', ')}, confirm your pin code and
+              delivery timeline with the team before ordering. The delivery window is confirmed before
+              payment.
             </p>
             <p>
-              <strong className="text-foreground">Mohalla-wise riding tips:</strong> Civil Lines aur
-              Allahabad University area mein chaudi sadkein hain jahan Panther jaisi halki cycle
-              achhi rehti hai. Katra, Chowk aur Muthiganj ki tang galiyon mein Savitri ki upright
-              seating kaam aati hai. Naini aur Jhunsi bridge crossing ke liye Lahari ya Savitri
-              sochhein. Kareli aur Bhardwaj Ashram ke ubad-khabad patches par Visalka ka suspension
-              best rehta hai.
+              <strong className="text-foreground">A neighbourhood-wise way of thinking:</strong> Civil
+              Lines and the Allahabad University area have wide, clean roads where a light cycle like
+              the Panther does well. In the narrow lanes of Katra, Chowk and Muthiganj, the Savitri’s
+              upright seating and mudguards come in handy. Riders heading towards Naini and Jhunsi
+              should consider the larger-battery Lahari or Savitri for the bridge crossing. On uneven
+              patches around Kareli and Bhardwaj Ashram, the Visalka’s suspension helps.
             </p>
           </div>
         </section>
@@ -847,33 +844,33 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── Buy Online 4 Steps ─── */}
         <section className="my-12 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Buy Electric Cycle Online in Prayagraj: Order Ka Poora Process
+            Buy an Electric Cycle Online in Prayagraj: The Complete Ordering Process
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Electric cycle in Prayagraj online kharidna aasan hai:
+            Buying an electric cycle in Prayagraj online is simple and convenient:
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               {
                 step: '01',
-                title: 'Model chunein',
-                text: 'Upar ki table se apni zaroorat ke hisaab se 1 ya 2 models shortlist karein ya Electric Cycles page dekhein.',
+                title: 'Choose a model',
+                text: 'Shortlist 1 or 2 models from the table above according to your needs, or see the Electric Cycles page on the website.',
               },
               {
                 step: '02',
-                title: 'Free test ride book karein',
-                text: 'Isi page ke form par apna naam, mobile number aur Prayagraj likhkar request daalein. Team aapke doorstep par test ride arrange karegi.',
+                title: 'Book a free test ride',
+                text: 'Submit a request on this page with your name, phone number and Prayagraj. The team comes to your address on your actual daily route.',
               },
               {
                 step: '03',
-                title: 'Order confirm karein',
-                text: 'Model, colour availability, delivery date aur EMI options team ke saath confirm karein.',
+                title: 'Confirm the order',
+                text: 'Confirm the model, colour availability, delivery date and EMI options with the team.',
               },
               {
                 step: '04',
-                title: 'Ghar par delivery',
-                text: 'Cycle lagbhag 95% assembled aati hai. Delivery team assembly, battery checks aur riding demo aapke ghar par deti hai.',
+                title: 'Delivery at home',
+                text: 'The cycle arrives about 95% assembled. The team completes assembly, battery check and gives a demo of charging and daily care.',
               },
             ].map((s) => (
               <div key={s.step} className="rounded-xl border border-border bg-card p-5 space-y-2">
@@ -887,15 +884,15 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            Prayagraj ke liye delivery ka samay &ldquo;kuch working days&rdquo; rehta hai. Direct
-            baat karne ke liye call ya WhatsApp karein:{' '}
+            For Prayagraj, the website gives the delivery time as &ldquo;a few working days&rdquo;.
+            Call or WhatsApp{' '}
             <a
               href="tel:+919968984030"
               className="text-primary font-semibold hover:underline underline-offset-2"
             >
               +91 99689 84030
-            </a>
-            .
+            </a>{' '}
+            for model advice and delivery timelines.
           </p>
         </section>
 
@@ -903,25 +900,25 @@ export const PrayagrajPageView: React.FC = () => {
         <section className="my-12 rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4">
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Store className="size-5 text-primary" />
-            Electric Cycle Shop in Prayagraj: Showroom Chahiye Ya Online?
+            Electric Cycle Shop in Prayagraj: Showroom or Online?
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Bahut se log pehle &ldquo;electric cycle shop in Prayagraj&rdquo; search karte hain taaki
-            ek baar cycle haath mein lekar dekh sakein. Eparv ka model alag hai — company showroom ke
-            chakkar lagane ke bajaye ghar par{' '}
-            <strong className="text-foreground">free doorstep test ride</strong> deti hai, yaani
-            &ldquo;shop&rdquo; aapke darwaze par aati hai.
+            Many people first search for &ldquo;electric cycle shop in Prayagraj&rdquo; so that they
+            can hold the cycle in their hands once. Eparv handles this differently: the company gives a{' '}
+            <strong className="text-foreground">free test ride at your home</strong> – in other
+            words, the &ldquo;shop&rdquo; comes to your doorstep.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Agar aap authorised dealer dekhna chahte hain, to{' '}
+            If you want to see it in a showroom, check Eparv’s{' '}
             <Link
               href="/dealers"
               className="text-primary hover:underline underline-offset-2 font-medium"
             >
-              Dealers page dekhein
+              Dealers page
             </Link>{' '}
-            ya +91 99689 84030 par call karein. Kisi bhi local shop se lene se pehle zaroor confirm
-            karein ki wo Eparv ka authorised dealer hai taaki factory warranty ka valid bill mile.
+            or call/WhatsApp +91 99689 84030 to ask whether there is an authorised dealer near you.
+            Always confirm the shop is an authorised dealer to ensure you get a valid factory warranty
+            bill.
           </p>
         </section>
 
@@ -932,10 +929,11 @@ export const PrayagrajPageView: React.FC = () => {
               Running Cost &amp; Savings
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-              Chalne Ka Kharcha: Electric Cycle in Prayagraj Kitni Bachat Karti Hai
+              Running Cost: How Much an Electric Cycle in Prayagraj Saves
             </h2>
             <p className="text-sm text-muted-foreground">
-              Formula: battery kWh × bijli rate (₹7 per unit) / range.
+              Eparv’s product pages give a running-cost formula: battery kWh × electricity rate (₹7 per
+              unit) ÷ range.
             </p>
           </div>
 
@@ -962,21 +960,22 @@ export const PrayagrajPageView: React.FC = () => {
 
           <div className="space-y-2 text-xs text-muted-foreground">
             <p>
-              • <strong>Eparv Savitri aur Lahari:</strong> lagbhag ₹0.02 per km. Ek full charge ka
-              kharch lagbhag ₹2.62.
+              • <strong>Eparv Savitri and Lahari:</strong> about ₹0.02 per km. One full charge costs
+              about ₹2.62.
             </p>
             <p>
-              • <strong>Eparv Panther, Satya aur Visalka:</strong> lagbhag ₹0.04 per km. Full charge
-              ka kharch ₹1.97 se ₹2.62 ke beech.
+              • <strong>Eparv Panther, Satya and Visalka:</strong> about ₹0.04 per km. A full charge
+              costs between ₹1.97 and ₹2.62.
             </p>
             <p>
-              • Roz 25 km chalane par mahine ka bijli kharch sirf ₹15 se ₹30 aata hai, jabki 100cc
-              scooter par ₹1,700–₹1,800. Mahine ki bachat lagbhag ₹1,745 se ₹1,760 (~₹20,000/saal).
+              • Riding 25 km a day, the monthly electricity cost is about ₹15 to ₹30. Website
+              estimate: a monthly saving of about ₹1,745 to ₹1,760 compared with a 100cc petrol scooter
+              (~₹20,000/year).
             </p>
             <p className="italic">
-              *Range note: 110 km range Savitri aur Lahari ke liye pedal assist level 1 mein, flat road
-              aur 68–70 kg rider par tested hai. Throttle mode mein Savitri mein 60 km aur Lahari mein
-              65 km milti hai.
+              *A clear word about range: 110 km range is tested at pedal assist level 1, on flat paved
+              road, with a rider of 68 to 70 kg. In throttle mode the range is lower – up to 60 km on
+              the Savitri and 65 km on the Lahari.
             </p>
           </div>
         </section>
@@ -985,42 +984,42 @@ export const PrayagrajPageView: React.FC = () => {
         <section className="my-12 rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-4">
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <IndianRupee className="size-5 text-primary" />
-            Electric Cycle EMI Prayagraj: Kya Jaankari Sahi Hai
+            Electric Cycle EMI in Prayagraj: What Information Is Reliable
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Electric cycle in Prayagraj ko kist par lene ka sochne wale students aur naye vakeelon ke
-            liye EMI suvidha available hai. EMI options order confirm karte waqt team ke saath
-            discuss hote hain.
+            This section is especially for students and new lawyers who are thinking of buying an
+            electric cycle in Prayagraj in instalments. EMI options are discussed with the team when
+            you confirm the order.
           </p>
           <div className="p-4 rounded-xl bg-muted/20 border border-border/60 space-y-2 text-xs text-muted-foreground">
-            <strong className="text-foreground">EMI lene se pehle ye 6 cheezein zaroor puchhein:</strong>
+            <strong className="text-foreground">Before taking EMI, be sure to ask these 6 things:</strong>
             <ul className="list-disc list-inside space-y-1">
-              <li>Down payment kitna lagega</li>
-              <li>Tenure kitne mahine ka hoga</li>
-              <li>Interest rate aur processing fee kitni hai</li>
-              <li>Total amount kya banega (price + interest + charges)</li>
-              <li>Kaun si bank ya finance company hai</li>
-              <li>Late payment ya foreclosure par kya charges lagte hain</li>
+              <li>How much the down payment will be</li>
+              <li>How many months the tenure will be</li>
+              <li>What the interest rate and processing fee are</li>
+              <li>What the total amount will be (price + interest + charges)</li>
+              <li>Which bank or finance company it is</li>
+              <li>What charges apply for late payment or foreclosure</li>
             </ul>
           </div>
         </section>
 
-        {/* ─── Licence and Rules ─── */}
+        {/* ─── Licence, Registration and Legal Matters ─── */}
         <section className="my-12 space-y-4">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Licence, Registration aur Kanooni Baatein
+            Licence, Registration and Legal Matters
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Eparv ki electric cycles 250W power aur 25 km/h top speed ki seema mein bani hain, jo
-            Central Motor Vehicles Rules (CMVR) ke non-motorised / low-speed e-cycle category ke
-            hisab se aati hain. Isliye:
+            Eparv’s electric cycles are built within the limits of 250W power and 25 km/h top speed,
+            in line with the low-speed e-cycle category under the Central Motor Vehicles Rules.
+            According to the company:
           </p>
           <ul className="text-sm text-muted-foreground space-y-2 ml-1">
             {[
-              'Driving licence ki koi zaroorat nahi',
-              'RTO registration ya number plate ki zaroorat nahi',
-              'Road tax bilkul nahi lagta',
-              'Insurance mandatory nahi hai (par safety ke liye recommended)',
+              'No driving licence is needed',
+              'No RTO registration or number plate is needed',
+              'No road tax is payable',
+              'Insurance is not mandatory (though recommended for personal safety)',
             ].map((rule) => (
               <li key={rule} className="flex items-start gap-2">
                 <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
@@ -1029,60 +1028,59 @@ export const PrayagrajPageView: React.FC = () => {
             ))}
           </ul>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            <strong className="text-foreground">Safety tip:</strong> Helmet pehanna kanoon se
-            mandatory nahi hai par hum strongly recommend karte hain, khaaskar Naini bridge, GT Road
-            aur fast stretches par.{' '}
+            <strong className="text-foreground">Safety tip:</strong> For safety, always wear a
+            helmet and pay attention to lights and reflectors at night, especially on fast stretches
+            like Naini bridge and GT Road.{' '}
             <Link
               href="/posts/electric-cycle-license-rto-rules-india"
               className="text-primary hover:underline underline-offset-2 font-medium"
             >
-              Licence aur CMVR rules ki poori guide dekhein →
+              Read the full licence &amp; CMVR rules guide →
             </Link>
           </p>
         </section>
 
-        {/* ─── Prayagraj Weather & Care ─── */}
+        {/* ─── Caring for Weather ─── */}
         <section className="my-12 rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Prayagraj Ke Mausam Mein Electric Cycle Ki Dekhbhaal
+            Caring for Your Electric Cycle in Prayagraj’s Weather
           </h2>
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div className="p-4 rounded-xl border border-border bg-card space-y-2">
               <Sun className="size-5 text-amber-500" />
-              <h3 className="font-bold text-sm text-foreground">Garmi (May–June)</h3>
+              <h3 className="font-bold text-sm text-foreground">Summer (May–June)</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Battery ko dhoop mein khada karke ya garm jagah charge na karein. Battery detachable
-                hai, isliye ise ghar ya office ke andar 5A socket se 2 se 4 ghante mein charge
-                karein.
+                Do not leave the battery standing in the sun or charge it in a hot place. The battery
+                is detachable, so take it to your home or office and charge indoors from a 5A socket
+                in 2 to 4 hours.
               </p>
             </div>
 
             <div className="p-4 rounded-xl border border-border bg-card space-y-2">
               <Droplets className="size-5 text-blue-500" />
-              <h3 className="font-bold text-sm text-foreground">Barsaat &amp; Waterlogging</h3>
+              <h3 className="font-bold text-sm text-foreground">Monsoon &amp; Waterlogging</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Wiring aur motor IP65 weather-sealed hain. Phir bhi gehre jal-bharav mein cycle na
-                utaarein aur motor hub tak paani na aane dein. Ride ke baad cycle sukha lein.
+                Wiring and motor casing are weather-sealed (IP65 claim). Even so, do not ride in deep
+                waterlogging where water can reach the motor hub or battery. Wipe dry after rain.
               </p>
             </div>
 
             <div className="p-4 rounded-xl border border-border bg-card space-y-2">
               <Navigation className="size-5 text-primary" />
-              <h3 className="font-bold text-sm text-foreground">Mela Ke Din</h3>
+              <h3 className="font-bold text-sm text-foreground">Mela Days</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Charge poori rakhein aur bheed-bhaad wali jagah par anti-theft key lock ke alawa apna
-                physical cable lock saath rakhein.
+                Keep the charge full and carry your own lock in crowded places. Electric cycles easily
+                reach the edge of vehicle-restricted festival zones.
               </p>
             </div>
 
             <div className="p-4 rounded-xl border border-border bg-card space-y-2">
               <Battery className="size-5 text-emerald-500" />
-              <h3 className="font-bold text-sm text-foreground">Battery Life Tips</h3>
+              <h3 className="font-bold text-sm text-foreground">Battery Life Care</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Battery 1,000+ charge cycles ke liye rated hai. Battery ko poora 0% na hone dein
-                (20% par charge karein) aur lambe samay tak na chalana ho to 50–60% charge par
-                rakhein.
+                The battery is rated for more than 1,000 charge cycles. Do not let the battery drain
+                completely (charge near 20%), and keep it at 50% charge if storing for a long time.
               </p>
             </div>
           </div>
@@ -1091,10 +1089,11 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── Warranty & Service ─── */}
         <section className="my-12 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Warranty, Service Aur Spare Parts
+            Warranty, Service and Spare Parts
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Every Eparv electric cycle in Prayagraj comes with direct factory warranty:
+            When buying an electric cycle in Prayagraj, trust in the warranty and service matters
+            most:
           </p>
 
           <div className="overflow-x-auto rounded-xl border border-border">
@@ -1116,27 +1115,27 @@ export const PrayagrajPageView: React.FC = () => {
             </table>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Mechanical parts jaise brake, tyre aur chain standard bicycle components hain jinhe
-            Prayagraj ke local cycle mistri aasani se theek kar sakte hain. Battery, motor aur
-            controller ke issues Eparv support handle karti hai aur spare parts 24 se 48 ghante mein
-            dispatch kiye jaate hain.
+            Mechanical parts like brakes, tyres and chains can be repaired at local cycle shops in
+            Prayagraj. Electrical issues (battery, motor, controller) go through Eparv’s warranty
+            process, with genuine spare parts dispatched within 24 to 48 hours and video assistance
+            provided for technicians.
           </p>
         </section>
 
         {/* ─── 7 Things Checklist ─── */}
         <section className="my-12 rounded-2xl border border-border bg-card p-6 sm:p-8 space-y-6">
           <h2 className="text-2xl font-bold text-foreground">
-            Kharidne Se Pehle Ye 7 Cheezein Check Karein
+            Check These 7 Things Before Buying
           </h2>
           <ul className="text-sm text-muted-foreground space-y-2.5">
             {[
-              'Apne roz ke route ka total distance napein aur uski range se 30 se 40% zyada range wala model chunein.',
-              'Sirf brochure range dekhkar nahi, free doorstep test ride mein apni actual route par cycle chala kar dekhein.',
-              'Seat height, handlebar posture aur weight aapke liye comfortable hai ya nahi.',
-              'Charging kahan hogi — battery nikaal kar ghar ya hostel room mein charge ho sakti hai ya nahi.',
-              'Warranty aur invoice mein company ka naam (EPARV INGENUITY PRIVATE LIMITED, GSTIN 07AAGCE4054K1ZJ) aur model sahi likha ho.',
-              'EMI ke saare charges (down payment, processing fee, total amount) likhit mein lein.',
-              'Seller ka helpline number (+91 99689 84030) aur technical support ka tareeka pehle hi save kar lein.',
+              'Measure the total distance of your daily route (round trip) and choose a model with 30 to 40% more range than that.',
+              'Do not go by website brochure range alone; ride the cycle on your own route during the free test ride.',
+              'Check that the seat height, handlebar posture and weight are comfortable for you.',
+              'Check where it will be charged — ensure the detachable battery can be taken indoors and charged safely.',
+              'Make sure the warranty and invoice carry the correct company name (EPARV INGENUITY PRIVATE LIMITED, GSTIN 07AAGCE4054K1ZJ) and model.',
+              'Get all EMI charges (down payment, interest, processing fee, total amount) in writing.',
+              'Take the seller’s helpline number (+91 99689 84030) and the support process in advance.',
             ].map((tip, idx) => (
               <li key={idx} className="flex items-start gap-2">
                 <CheckCircle2 className="size-4 text-emerald-500 shrink-0 mt-0.5" />
@@ -1149,12 +1148,12 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── Why Trust Eparv ─── */}
         <section className="my-12 space-y-6">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground">
-            Eparv Ke Baare Mein: Company Ki Jaankari
+            About Eparv: Company Information
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Eparv ek Indian brand hai jise EPARV INGENUITY PRIVATE LIMITED chalati hai. Company ki
-            sthapna 31 March 2021 ko Rajendra Kumar Mishra ne ki, jo Founder aur Managing Director
-            hain. Company ka registered office Dwarka, New Delhi mein hai.
+            Eparv is an Indian brand run by EPARV INGENUITY PRIVATE LIMITED. The company was founded
+            on 31 March 2021 by Rajendra Kumar Mishra, who is the Founder and Managing Director. The
+            company’s registered office is in Dwarka, New Delhi.
           </p>
 
           <div className="overflow-x-auto rounded-xl border border-border">
@@ -1183,22 +1182,22 @@ export const PrayagrajPageView: React.FC = () => {
               {
                 icon: ShieldCheck,
                 title: '40-Point Factory Inspection',
-                text: 'Har cycle dispatch hone se pehle 40-point inspection se guzarti hai: battery cell test, frame stress test, waterproofing aur brake cut-off check.',
+                text: 'Every cycle goes through a 40-point factory inspection: battery cell test, frame stress test, waterproofing test and brake cut-off check before dispatch.',
               },
               {
                 icon: Battery,
-                title: 'Smart BMS Lithium Battery',
-                text: 'Grade-A lithium cells with Smart BMS protection jo overcharge, short circuit, overvoltage aur deep discharge se bachata hai.',
+                title: 'Smart BMS Battery Management',
+                text: 'High-grade lithium cells with a Battery Management System (BMS) that protects against overvoltage, short circuit and deep discharge.',
               },
               {
                 icon: Route,
                 title: '25+ Cities Distribution Network',
-                text: 'Delhi NCR, Uttar Pradesh, Bihar aur Madhya Pradesh ke 25+ cities mein direct delivery network aur video technical assistance.',
+                text: 'Distribution and service network spans 25 cities across Delhi NCR, Uttar Pradesh, Bihar and Madhya Pradesh, with Prayagraj as an active hub.',
               },
               {
                 icon: Truck,
-                title: 'Try Before You Buy',
-                text: 'Prayagraj mein doorstep free test ride without any purchase obligation.',
+                title: 'Doorstep Free Test Ride',
+                text: 'Try before you buy with a doorstep test ride in Prayagraj with zero purchase obligation.',
               },
             ].map((item) => (
               <div
@@ -1213,29 +1212,30 @@ export const PrayagrajPageView: React.FC = () => {
           </div>
         </section>
 
-        {/* ─── Hindi Section ─── */}
+        {/* ─── Summary Section ─── */}
         <section className="my-12 rounded-2xl border border-border bg-muted/20 p-6 sm:p-8 space-y-4">
           <h2 className="text-2xl font-bold text-foreground">
-            Prayagraj में इलेक्ट्रिक साइकिल (प्रयागराज में इलेक्ट्रिक साइकिल): हिंदी में सार
+            Electric Cycle in Prayagraj: Summary
           </h2>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            अगर आप प्रयागराज में इलेक्ट्रिक साइकिल खरीदना चाहते हैं, तो Eparv के 5 मॉडल ₹18,999 से
-            ₹24,999 तक उपलब्ध हैं। सभी में 250W BLDC मोटर, 25 km/h की गति सीमा और निकाली जा सकने वाली
-            (detachable) लिथियम बैटरी मिलती है। सिविल लाइन्स, नैनी, करेली, कटरा, जॉर्ज टाउन और झूँसी
-            जैसे इलाकों में घर पर फ्री टेस्ट राइड और डिलीवरी की जा सकती है। चलाने के लिए लाइसेंस या
-            RTO रजिस्ट्रेशन की ज़रूरत नहीं बताई गई है। फ्रेम पर 5 साल, मोटर पर 24 महीने और बैटरी पर
-            12 महीने की वारंटी दी गई है। प्रयागराज में इलेक्ट्रिक साइकिल लेने से पहले टेस्ट राइड ज़रूर
-            लें और कीमत, EMI व डिलीवरी की तारीख टीम से पक्की कर लें।
+            If you want to buy an electric cycle in Prayagraj, Eparv’s 5 models are available from
+            ₹18,999 to ₹24,999. All come with a 250W BLDC motor, a speed limit of 25 km/h and a
+            detachable lithium battery. Free test rides and delivery at home are available in areas
+            such as Civil Lines, Naini, Kareli, Katra, George Town and Jhunsi. No licence or RTO
+            registration is stated to be needed to ride. A 5-year warranty is given on the frame, 24
+            months on the motor and 12 months on the battery. Before buying an electric cycle in
+            Prayagraj, be sure to take a test ride, and get the price, EMI and delivery date
+            confirmed by the team.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            ज़्यादा जानकारी या फ्री टेस्ट राइड बुक करने के लिए{' '}
+            Call or WhatsApp{' '}
             <a
               href="tel:+919968984030"
               className="text-primary font-semibold hover:underline underline-offset-2"
             >
               +91 99689 84030
             </a>{' '}
-            पर कॉल या WhatsApp करें।
+            to book your free test ride slot.
           </p>
         </section>
 
@@ -1317,7 +1317,7 @@ export const PrayagrajPageView: React.FC = () => {
         {/* ─── FAQ Block ─── */}
         <FaqBlock
           heading="Frequently Asked Questions – Electric Cycle in Prayagraj"
-          subheading="Prayagraj riders ke sabse aam sawal: price, models, test ride, RTO rules, Mela restrictions aur home delivery ke baare mein."
+          subheading="Common questions about buying, riding, charging, EMI, and servicing an electric cycle in Prayagraj."
           faqs={PRAYAGRAJ_FAQS}
           id="prayagraj-faq"
         />
@@ -1329,11 +1329,11 @@ export const PrayagrajPageView: React.FC = () => {
               Book Your Free Test Ride for an Electric Cycle in Prayagraj
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-              Ready to stop paying for petrol and autos? Fill in the form below with your name, phone
-              number and preferred time, and we will bring an Eparv electric cycle to your doorstep
-              anywhere in Prayagraj – Civil Lines, Naini, Kareli, Katra, George Town, Jhunsi, Ashok
-              Nagar or Chowk. Ride it on your own route, ask every question, and buy only if you are
-              happy.
+              If you have been looking for an electric cycle in Prayagraj and have not yet been able
+              to pick the right model, first book a free test ride. Riding the cycle for 20 minutes on
+              your daily route tells you more than any table or review can. We bring the cycle to your
+              doorstep anywhere in Prayagraj – Civil Lines, Naini, Kareli, Katra, George Town, Jhunsi,
+              Ashok Nagar or Chowk.
             </p>
           </div>
 

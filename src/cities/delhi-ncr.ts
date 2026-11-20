@@ -11,7 +11,7 @@ export const CITIES: CityPageData[] = [
     state: 'Delhi',
     stateHubSlug: null,
     metaDescription:
-      'Buy an electric cycle in Delhi for metro last-mile rides, colony commutes and zero-tailpipe daily travel, with test rides and delivery across the capital.',
+      'Buy an electric cycle in Delhi from ₹18,999. Home delivery, free test ride and 5-year frame warranty. Book with Eparv Motors, Dwarka.',
     intro: [
       'Delhi is really two cycling cities. Lutyens’ Delhi offers broad, leafy avenues where a thirty-minute ride barely raises a sweat, while the walled lanes around Chandni Chowk and Jama Masjid reward a machine that is narrow, light and easy to nudge through crowds. Between them lie the Ring Road and Outer Ring Road flyovers, feeder bus routes and the stretch that once carried the city’s bus rapid transit experiment — corridors an electric cycle handles without strain.',
       'Daily life here is defined by distance and cost. A metro ride covers the trunk of a journey but rarely the last three kilometres, and every litre of petrol stings more each year. An Eparv electric cycle closes that gap for about what a phone top-up costs in electricity, produces no tailpipe emissions on days when GRAP restrictions tighten, and slots into tight kerbside space at Connaught Place or Lajpat Nagar where a car would circle for twenty minutes. We deliver across the capital, locality by locality.',

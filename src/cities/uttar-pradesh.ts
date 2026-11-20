@@ -787,7 +787,7 @@ export const CITIES: CityPageData[] = [
     state: 'Uttar Pradesh',
     stateHubSlug: 'electric-cycle-in-uttar-pradesh',
     metaDescription:
-      'Electric cycle in Prayagraj ₹18,999 se shuru. Civil Lines, Naini, Kareli, Katra mein home delivery, free test ride, EMI info aur 5 saal frame warranty.',
+      'Electric cycle in Prayagraj from ₹18,999. Home delivery in Civil Lines, Naini, Kareli, Katra, free test ride, EMI info and 5-year frame warranty.',
     intro: [
       'Prayagraj runs on institutions — the High Court, Allahabad University, MNNIT, the board offices — and on distances that sit awkwardly between walking and driving. Civil Lines to the University campus, Kareli to the court, or the daily cross-Yamuna trip into Naini are each 4–9 km of flat, rideable road where an electric cycle is simply the most economical machine available. The motor assist makes the summer ride to class or chamber manageable, and the running cost of a full week often totals less than one auto fare.',
       'The city’s festival calendar changes everything for a few weeks at a time — Kumbh-scale gatherings bring crowd control, vehicle restrictions and walking distances that swallow half a day. Riders who already commute by e-cycle handle those weeks best: the cycle reaches the edge of every restricted zone, parks anywhere, and needs no fuel that might be hard to buy in the crush. Between festivals, it is the dependable daily — tuition runs, coaching, market trips and the office commute, all on one overnight charge.',
