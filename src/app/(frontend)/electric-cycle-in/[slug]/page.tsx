@@ -5,6 +5,7 @@ import React from 'react'
 import { CityPageView } from '@/components/location/CityPageView'
 import { StateHubView } from '@/components/location/StateHubView'
 import { LucknowPageView } from '@/components/location/LucknowPageView'
+import { PrayagrajPageView } from '@/components/location/PrayagrajPageView'
 import { VaranasiPageView } from '@/components/location/VaranasiPageView'
 import {
   CITIES,
@@ -63,6 +64,27 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
     const title = 'Electric Cycle in Lucknow | Price, EMI & Home Delivery'
     const description =
       'Buy electric cycle in Lucknow online from ₹18,999. Free test ride, home delivery to Gomti Nagar, Hazratganj, Aliganj & Alambagh, EMI options, 5-year warranty.'
+
+    return {
+      title,
+      description,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      robots: { index: true, follow: true },
+      openGraph: mergeOpenGraph({
+        title,
+        description,
+        url: canonicalUrl,
+      }),
+    }
+  }
+
+  // Custom metadata for Prayagraj
+  if (slug === 'prayagraj') {
+    const title = 'Electric Cycle in Prayagraj: Price ₹18,999 se | Eparv'
+    const description =
+      'Electric cycle in Prayagraj ₹18,999 se shuru. Civil Lines, Naini, Kareli, Katra mein home delivery, free test ride, EMI info aur 5 saal frame warranty.'
 
     return {
       title,
@@ -141,6 +163,11 @@ export default async function LocationSlugPage({ params: paramsPromise }: Args) 
   // Custom Lucknow page with dedicated content
   if (slug === 'lucknow') {
     return <LucknowPageView />
+  }
+
+  // Custom Prayagraj page with dedicated content
+  if (slug === 'prayagraj') {
+    return <PrayagrajPageView />
   }
 
   // Custom Varanasi page with dedicated content

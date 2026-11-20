@@ -12,6 +12,7 @@ import { Breadcrumbs } from '@/components/Breadcrumbs'
 import { CityLanding } from '@/components/CityLanding'
 import { StateLanding } from '@/components/StateLanding'
 import { LucknowPageView } from '@/components/location/LucknowPageView'
+import { PrayagrajPageView } from '@/components/location/PrayagrajPageView'
 import { VaranasiPageView } from '@/components/location/VaranasiPageView'
 import {
   getCityPageBySlug,
@@ -85,6 +86,10 @@ export default async function Page({ params: paramsPromise }: Args) {
     return <LucknowPageView />
   }
 
+  if (decodedSlug === 'electric-cycle-in-prayagraj') {
+    return <PrayagrajPageView />
+  }
+
   if (decodedSlug === 'electric-cycle-in-varanasi') {
     return <VaranasiPageView />
   }
@@ -139,6 +144,16 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
       description:
         'Buy electric cycle in Lucknow online from ₹18,999. Free test ride, home delivery to Gomti Nagar, Hazratganj, Aliganj & Alambagh, EMI options, 5-year warranty.',
       canonicalPath: '/electric-cycle-in-lucknow',
+      isIndexable: true,
+    })
+  }
+
+  if (decodedSlug === 'electric-cycle-in-prayagraj') {
+    return registryMeta({
+      title: 'Electric Cycle in Prayagraj: Price ₹18,999 se | Eparv',
+      description:
+        'Electric cycle in Prayagraj ₹18,999 se shuru. Civil Lines, Naini, Kareli, Katra mein home delivery, free test ride, EMI info aur 5 saal frame warranty.',
+      canonicalPath: '/electric-cycle-in-prayagraj',
       isIndexable: true,
     })
   }
