@@ -97,6 +97,7 @@ export const IntentHubView: React.FC<IntentHubViewProps> = ({ intent }) => {
         name: model.name,
         url: `${getServerSideURL()}/electric-cycles/${model.cleanSlug}`,
         description: model.tagline,
+        image: [`${getServerSideURL()}${model.image}`, `${getServerSideURL()}/eparv-og.png`],
         offers: {
           '@type': 'Offer',
           priceCurrency: 'INR',

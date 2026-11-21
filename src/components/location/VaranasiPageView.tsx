@@ -37,6 +37,7 @@ import { FaqBlock } from '@/components/seo'
 import { JsonLd } from '@/components/JsonLd'
 import { LeadForm } from '@/components/LeadForm'
 import { MODEL_LIST } from '@/data/models'
+import { getServerSideURL } from '@/utilities/getURL'
 
 /* ───────────────────────── static data ───────────────────────── */
 
@@ -44,6 +45,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Savitri',
     slug: 'eparv-savitri',
+    image: '/cycles/savitri.png',
     price: '18,999',
     mrp: '21,500',
     pasRange: '110 km',
@@ -54,6 +56,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Panther',
     slug: 'eparv-panther',
+    image: '/cycles/panther.png',
     price: '19,999',
     mrp: '21,000',
     pasRange: '55 km',
@@ -64,6 +67,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Satya',
     slug: 'eparv-satya',
+    image: '/cycles/satya.png',
     price: '21,000',
     mrp: '22,999',
     pasRange: '55 km',
@@ -74,6 +78,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Lahari',
     slug: 'eparv-lahari',
+    image: '/cycles/lahari.png',
     price: '21,999',
     mrp: '27,999',
     pasRange: '110 km',
@@ -84,6 +89,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Visalka',
     slug: 'eparv-visalka',
+    image: '/cycles/visakka.png',
     price: '24,999',
     mrp: '26,000',
     pasRange: '60 km',
@@ -267,29 +273,81 @@ const VARANASI_FAQS = [
 /* ───────────────────────── component ───────────────────────── */
 
 export const VaranasiPageView: React.FC = () => {
+  const siteUrl = getServerSideURL()
+
   /* Product JSON-LD schema for each model */
-  const productSchemas = PRICE_TABLE.map((m) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: m.model,
-    brand: { '@type': 'Brand', name: 'Eparv' },
-    description: `${m.model} electric cycle – ${m.pasRange} pedal-assist range, ${m.throttleRange} throttle range, ${m.battery} battery. Best for: ${m.bestFor}.`,
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'INR',
-      price: m.price.replace(/,/g, ''),
-      availability: 'https://schema.org/InStock',
-      url: `https://eparvmotors.com/electric-cycles/${m.slug}`,
-    },
-  }))
+  const productSchemas = PRICE_TABLE.map((m) => {
+    const modelData = MODEL_LIST.find((item) => item.cleanSlug === m.slug || item.slug === m.slug)
+    const imagePath = m.image || modelData?.image || `/cycles/${m.slug.replace('eparv-', '')}.png`
+    const skuCode = `EPARV-${m.slug.replace('eparv-', '').toUpperCase()}`
+    const priceNum = Number(m.price.replace(/,/g, ''))
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: m.model,
+      image: [`${siteUrl}${imagePath}`, `${siteUrl}/eparv-og.png`],
+      description: `${m.model} electric cycle – ${m.pasRange} pedal-assist range, ${m.throttleRange} throttle range, ${m.battery} battery. Best for: ${m.bestFor}.`,
+      sku: skuCode,
+      mpn: `EP-${m.slug.replace('eparv-', '').toUpperCase()}`,
+      brand: {
+        '@type': 'Brand',
+        name: 'Eparv',
+      },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'INR',
+        price: priceNum,
+        priceValidUntil: '2027-12-31',
+        itemCondition: 'https://schema.org/NewCondition',
+        availability: 'https://schema.org/InStock',
+        url: `${siteUrl}/electric-cycles/${m.slug}`,
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: '0',
+            currency: 'INR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'IN',
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 1,
+              maxValue: 2,
+              unitCode: 'DAY',
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 2,
+              maxValue: 4,
+              unitCode: 'DAY',
+            },
+          },
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'IN',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 7,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+        },
+      },
+    }
+  })
 
   /* Organization JSON-LD */
   const orgSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'EPARV INGENUITY PRIVATE LIMITED',
-    url: 'https://eparvmotors.com',
-    logo: 'https://eparvmotors.com/logo.png',
+    url: siteUrl,
+    logo: `${siteUrl}/eparv-logo.png`,
     founder: {
       '@type': 'Person',
       name: 'Rajendra Kumar Mishra',

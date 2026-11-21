@@ -39,6 +39,7 @@ import { FaqBlock } from '@/components/seo'
 import { JsonLd } from '@/components/JsonLd'
 import { LeadForm } from '@/components/LeadForm'
 import { MODEL_LIST } from '@/data/models'
+import { getServerSideURL } from '@/utilities/getURL'
 
 /* ───────────────────────── static data ───────────────────────── */
 
@@ -46,6 +47,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Savitri',
     slug: 'eparv-savitri',
+    image: '/cycles/savitri.png',
     offerPrice: '18,999',
     mrp: '21,500',
     maxRange: '40 km (up to 110 km PAS)',
@@ -56,6 +58,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Panther',
     slug: 'eparv-panther',
+    image: '/cycles/panther.png',
     offerPrice: '19,999',
     mrp: '21,000',
     maxRange: '55 km PAS (35 km throttle)',
@@ -66,6 +69,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Satya',
     slug: 'eparv-satya',
+    image: '/cycles/satya.png',
     offerPrice: '21,000',
     mrp: '22,999',
     maxRange: '55 km (highest single-pack range)',
@@ -76,6 +80,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Visalka',
     slug: 'eparv-visalka',
+    image: '/cycles/visakka.png',
     offerPrice: '24,999',
     mrp: '26,000',
     maxRange: '40–60 km',
@@ -86,6 +91,7 @@ const PRICE_TABLE = [
   {
     model: 'Eparv Lahari',
     slug: 'eparv-lahari',
+    image: '/cycles/lahari.png',
     offerPrice: '25,999',
     mrp: '27,999',
     maxRange: 'Up to 110 km (PAS mode)',
@@ -280,21 +286,73 @@ const DELHI_FAQS = [
 /* ───────────────────────── component ───────────────────────── */
 
 export const DelhiPageView: React.FC = () => {
+  const siteUrl = getServerSideURL()
+
   /* Product JSON-LD schema for models */
-  const productSchemas = PRICE_TABLE.map((m) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: m.model,
-    brand: { '@type': 'Brand', name: 'Eparv' },
-    description: `${m.model} electric cycle in Delhi – ${m.maxRange} range, ${m.motor} motor, ${m.battery}. Best for: ${m.bestFor}.`,
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'INR',
-      price: m.offerPrice.replace(/,/g, ''),
-      availability: 'https://schema.org/InStock',
-      url: `https://eparvmotors.com/electric-cycles/${m.slug}`,
-    },
-  }))
+  const productSchemas = PRICE_TABLE.map((m) => {
+    const modelData = MODEL_LIST.find((item) => item.cleanSlug === m.slug || item.slug === m.slug)
+    const imagePath = m.image || modelData?.image || `/cycles/${m.slug.replace('eparv-', '')}.png`
+    const skuCode = `EPARV-${m.slug.replace('eparv-', '').toUpperCase()}`
+    const priceNum = Number(m.offerPrice.replace(/,/g, ''))
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: m.model,
+      image: [`${siteUrl}${imagePath}`, `${siteUrl}/eparv-og.png`],
+      description: `${m.model} electric cycle in Delhi – ${m.maxRange} range, ${m.motor} motor, ${m.battery}. Best for: ${m.bestFor}.`,
+      sku: skuCode,
+      mpn: `EP-${m.slug.replace('eparv-', '').toUpperCase()}`,
+      brand: {
+        '@type': 'Brand',
+        name: 'Eparv',
+      },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'INR',
+        price: priceNum,
+        priceValidUntil: '2027-12-31',
+        itemCondition: 'https://schema.org/NewCondition',
+        availability: 'https://schema.org/InStock',
+        url: `${siteUrl}/electric-cycles/${m.slug}`,
+        shippingDetails: {
+          '@type': 'OfferShippingDetails',
+          shippingRate: {
+            '@type': 'MonetaryAmount',
+            value: '0',
+            currency: 'INR',
+          },
+          shippingDestination: {
+            '@type': 'DefinedRegion',
+            addressCountry: 'IN',
+          },
+          deliveryTime: {
+            '@type': 'ShippingDeliveryTime',
+            handlingTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 1,
+              maxValue: 2,
+              unitCode: 'DAY',
+            },
+            transitTime: {
+              '@type': 'QuantitativeValue',
+              minValue: 2,
+              maxValue: 4,
+              unitCode: 'DAY',
+            },
+          },
+        },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'IN',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 7,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+        },
+      },
+    }
+  })
 
   /* Organization / LocalBusiness JSON-LD */
   const localBusinessSchema = {
@@ -302,9 +360,9 @@ export const DelhiPageView: React.FC = () => {
     '@type': ['LocalBusiness', 'Store'],
     name: 'Eparv Motors - Electric Cycle in Delhi',
     legalName: 'EPARV INGENUITY PRIVATE LIMITED',
-    url: 'https://eparvmotors.com/electric-cycle-in-delhi',
-    logo: 'https://eparvmotors.com/logo.png',
-    image: 'https://eparvmotors.com/images/eparv-store-delhi.jpg',
+    url: `${siteUrl}/electric-cycle-in-delhi`,
+    logo: `${siteUrl}/eparv-logo.png`,
+    image: `${siteUrl}/eparv-og.png`,
     founder: {
       '@type': 'Person',
       name: 'Rajendra Kumar Mishra',
